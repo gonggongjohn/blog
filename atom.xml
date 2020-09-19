@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>GONGGONGJOHN&#39;s Blog</title>
+  
+  
+  <link href="http://gonggongjohn.github.io/blog/atom.xml" rel="self"/>
+  
+  <link href="http://gonggongjohn.github.io/blog/"/>
+  <updated>2020-08-27T02:39:10.000Z</updated>
+  <id>http://gonggongjohn.github.io/blog/</id>
+  
+  <author>
+    <name>GONGGONGJOHN</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>实数的严格定义</title>
+    <link href="http://gonggongjohn.github.io/blog/2020/08/26/analysis-real-number/"/>
+    <id>http://gonggongjohn.github.io/blog/2020/08/26/analysis-real-number/</id>
+    <published>2020-08-26T11:03:01.000Z</published>
+    <updated>2020-08-27T02:39:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>对于整数和有理数，我们可以很轻松的从直观上理解并将他们表示出来。对于整数 $1,2,3,4,…$，我们只需要通过写出各数位上的数字便可将他们精确的表出；对于有理数，我们也只需要写出构成分母和分子的两个整数便可以精确表示。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;对于整数和有理数，我们可以很轻松的从直观上理解并将他们表示出来。对于整数 $1,2,3,4,…$，我们只需要通过写出各数位上的数字便可将他们精确的表出；对于有理数，我们也只需要写出构成分母和分子的两个整数便可以精确表示。&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+    <category term="Mathematics" scheme="http://gonggongjohn.github.io/blog/tags/Mathematics/"/>
+    
+    <category term="Analysis" scheme="http://gonggongjohn.github.io/blog/tags/Analysis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代数概念整理：映射</title>
+    <link href="http://gonggongjohn.github.io/blog/2020/07/31/algebra-projection/"/>
+    <id>http://gonggongjohn.github.io/blog/2020/07/31/algebra-projection/</id>
+    <published>2020-07-31T07:00:00.000Z</published>
+    <updated>2020-09-19T04:14:53.866Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><ol><li>设 $X,Y$ 为两个集合，$f$ 为某种使得 $X$ 中的每一个元素都对应于 $Y$ 中某个元素的规则，则称 $f$ 为 $X$ 到 $Y$ 的一个<strong>映射</strong>，记为 $f:X \to Y$ ， $X$ 称为 $f$ 的<strong>定义域</strong>， $Y$ 称为 $f$ 的<strong>陪域</strong></li><li>设 $f:X \to Y$ 为一映射，则 $X$ 中的元素 $a$ 在 $f$ 下对应的 $Y$ 中的元素 $b$ 称为 $a$ 的<strong>象</strong>，记为 $f(a)$ ； $a$ 称为 $b$ 的<strong>原象</strong>，记为 $f^{-1}(b)$ ；集合 ${f(x) \big| x \in X}$ 称为 $f$ 的<strong>值域</strong>或 $f$ 的<strong>象</strong>，记为$f(X)$ 或 $Imf$</li><li>设 $f:X \to Y$ 为一映射，若 $\forall x_1 \neq x_2 \in X, f(x_1) \neq f(x_2)$ ，则称 $f$ 为一个<strong>单射</strong></li><li>设 $f:X \to Y$ 为一映射，若 $\forall y \in Y, \exists x \in X$ ，使得 $f(x)=y$ ，即 $Imf=Y$ ，则称 $f$ 为一个<strong>满射</strong></li><li>设 $f:X \to Y$ 为一映射，若 $f$ 即是<strong>单射</strong>又是<strong>满射</strong>，则称 $f$ 为一个<strong>双射</strong></li><li>设 $f: X \to Y$ 为一映射，若 $Y=X$ ，且 $\forall x \in X, f(x) = x$ ，则称 $f$ 为一个<strong>恒等映射</strong>，记为 $Id_X$ 或 $e_X$</li><li>设 $f: A \to C, g: B \to D$ 为两个映射，若 $A = B,C=D$ ，且 $\forall x \in A, f(x)=g(x)$ ，则称映射 $f$ 与 $g$ <strong>相等</strong></li><li>设 $f: X \to Y, g: Y \to Z$ 为两个映射，则由法则 $(g \circ f)(x) = g(f(x))$ 定义的映射称为 $f$ 与 $g$ 的<strong>合成</strong>，记为 $g \circ f: X \to Z$ 或 $gf: X \to Z$</li><li>设 $f:X \to Y,g: Y \to X$ 为两个映射，若 $g \circ f = e_X$ ，则称 $g$ 为 $f$ 的<strong>左逆</strong>， $f$ 为 $g$ 的<strong>右逆</strong>；若  $g \circ f = e_X,f \circ g = e_Y$ ,则称 $g$ 为 $f$ 的<strong>双边逆</strong>或<strong>逆</strong></li></ol><h1 id="基本性质"><a href="#基本性质" class="headerlink" title="基本性质"></a>基本性质</h1><p><strong>1、（映射的合成律）</strong> 设 $f: X \to Y, g: Y \to Z, h: Z \to W$ 为三个映射，则 $h(gf)=(hg)f$</p><p><strong>证明：</strong> 对于 $ h(gf) $ ，$(X \to Y \to Z) \to W=X \to W$ ；对于 $(hg)f$ ，$X \to (Y \to Z \to W)=X \to W$</p><p>$\therefore$ $h(gf)$ 与 $(hg)f$ 的定义域及陪域相同</p><p>$\forall x \in X$ ，由<strong>定义8</strong>可知</p><p>$(h(gf))(x)=h((gf)(x))=h(g(f(x)))=(hg)(f(x))=((hg)f)(x)$</p><p>$\therefore$ 由<strong>定义7</strong>可知，$h(gf)=(hg)f$</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;定义&quot;&gt;&lt;a href=&quot;#定义&quot; class=&quot;headerlink&quot; title=&quot;定义&quot;&gt;&lt;/a&gt;定义&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;设 $X,Y$ 为两个集合，$f$ 为某种使得 $X$ 中的每一个元素都对应于 $Y$ 中某个元素的规则，则称 $f$ 为 $X</summary>
+      
+    
+    
+    
+    
+    <category term="Mathematics" scheme="http://gonggongjohn.github.io/blog/tags/Mathematics/"/>
+    
+    <category term="Algebra" scheme="http://gonggongjohn.github.io/blog/tags/Algebra/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代数概念整理：集合</title>
+    <link href="http://gonggongjohn.github.io/blog/2020/07/30/algebra-set/"/>
+    <id>http://gonggongjohn.github.io/blog/2020/07/30/algebra-set/</id>
+    <published>2020-07-30T07:31:34.000Z</published>
+    <updated>2020-09-19T04:15:05.768Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><ol><li>若 $a$ 为 $S$ 中的一个元素，则称 $a$ <strong>包含于</strong> $S$ ，记为 $a \in S$ ；若 $a$ 不为 $S$ 中的任一元素，则称 $a$ <strong>不包含于</strong> $S$ ，记为 $a \notin S$</li><li>设 $S,T$ 为两个集合，若 $\forall a \in S$ ，成立 $a \in T$ ，则称 $S$ 是 $T$ 的一个<strong>子集</strong>，记为 $S \subset T$</li><li>设 $S,T$ 为两个集合，若 $S \subset T, T \subset S$ ，则称 $S$ 与 $T$ <strong>相等</strong>，记为 $S=T$</li><li>设 $S,T$ 为两个集合，将集合 ${ x \big| x \in S \land x \in T }$ 称为 $S$ 与 $T$ 的<strong>交集</strong>，记为 $S \cap T$ ；将集合 ${ x \big| x \in S \lor x \in T }$ 称为 $S$ 与 $T$ 的<strong>并集</strong>，记为 $S \cup T$</li><li>设 $S,T$ 为两个集合，将集合 ${ x \big| x \in S \land x \notin T }$ 称为 $S$ 与 $T$ 的<strong>差集</strong>，记为 $S \setminus T$</li><li>设 $S,T$ 为两个集合，若 $T \subset S$ ，则将集合 $S \setminus T$ 称为 $T$ 在 $S$ 中的的<strong>补集</strong>，记为 $\complement_S{T}$</li><li>设 $S,T$ 为两个集合，则将集合 ${(x,y) \big| x \in S, y \in T}$ 称为 $S$ 与 $T$ 的<strong>笛卡尔积</strong> ，记为 $S \times T$ ；将 $\underbrace{X \times X \times … \times X}_{k个}$ 简记为 $X^k$</li><li>设 $S$ 为一个集合，则将 $S$ 中元素的个数记为 $S$ 的<strong>基数</strong>，记为 $|S|$</li></ol><h1 id="基本性质"><a href="#基本性质" class="headerlink" title="基本性质"></a>基本性质</h1><p><strong>1、（集合分配律）</strong>设 $R,S,T$ 为三个集合，则</p><p><strong>①</strong> $R \cap (S \cup T)=(R \cap S) \cup (R \cap T)$</p><p><strong>②</strong> $R \cup (S \cap T) = (R \cup S) \cap (R \cup T)$</p><p><strong>证明：①</strong> $\forall x \in R \cap (S \cup T)$ </p><p>$\therefore x \in R$ 且 $x \in S \cup T$</p><p>$\therefore$ （ $x \in R$ 且 $x \in S$ ） 或 （ $x \in R 且 x \in T$ ）</p><p>$ \therefore x \in (R \cap S) \cup (R \cap T)$</p><p>$\therefore$ 由<strong>定义2</strong>可知， $R \cap (S \cup T)\subset (R \cap S) \cup (R \cap T)$</p><p>反之， $\forall x \in (R \cap S) \cup (R \cap T)$</p><p>$\therefore$ $x \in R \cap S$ 或 $x \in R \cap T$</p><p>$\therefore x \in R$ 且（ $x \in S$ 或 $x \in T$ ）</p><p>$\therefore$ 由<strong>定义2</strong>可知，$(R \cap S) \cup (R \cap T) \subset R \cap (S \cup T)$</p><p>$\therefore$ 由<strong>定义3</strong>可知， $R \cap (S \cup T)=(R \cap S) \cup (R \cap T)$</p><p><strong>② 同理即可证得结论</strong></p><p><strong>2、</strong> 设 $X,Y$ 为两个集合，且 $|X|=n,|Y|=m$ ，则</p><p><strong>①</strong> $|X \times Y|=n \cdot m$</p><p><strong>②</strong> $|X \cup Y|=n +m-|X \cap Y|$</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;定义&quot;&gt;&lt;a href=&quot;#定义&quot; class=&quot;headerlink&quot; title=&quot;定义&quot;&gt;&lt;/a&gt;定义&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;若 $a$ 为 $S$ 中的一个元素，则称 $a$ &lt;strong&gt;包含于&lt;/strong&gt; $S$ ，记为 $a \in S$</summary>
+      
+    
+    
+    
+    
+    <category term="Mathematics" scheme="http://gonggongjohn.github.io/blog/tags/Mathematics/"/>
+    
+    <category term="Algebra" scheme="http://gonggongjohn.github.io/blog/tags/Algebra/"/>
+    
+  </entry>
+  
+</feed>
