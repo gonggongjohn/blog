@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://gonggongjohn.github.io/blog/2020/09/19/gdb-guide/</loc>
+    <loc>http://gonggongjohn.github.io/blog/2020/07/31/algebra-projection/</loc>
     
-    <lastmod>2020-09-22</lastmod>
+    <lastmod>2020-09-23</lastmod>
     
   </url>
   
   <url>
     <loc>http://gonggongjohn.github.io/blog/2020/07/30/algebra-set/</loc>
     
-    <lastmod>2020-09-19</lastmod>
+    <lastmod>2020-09-23</lastmod>
     
   </url>
   
   <url>
-    <loc>http://gonggongjohn.github.io/blog/2020/07/31/algebra-projection/</loc>
+    <loc>http://gonggongjohn.github.io/blog/2020/09/19/gdb-guide/</loc>
     
-    <lastmod>2020-09-19</lastmod>
+    <lastmod>2020-09-23</lastmod>
     
   </url>
   
@@ -32,7 +32,7 @@
 
   <url>
     <loc>http://gonggongjohn.github.io/blog</loc>
-    <lastmod>2020-09-22</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -40,35 +40,35 @@
   
   <url>
     <loc>http://gonggongjohn.github.io/blog/tags/Mathematics/</loc>
-    <lastmod>2020-09-22</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://gonggongjohn.github.io/blog/tags/Algebra/</loc>
-    <lastmod>2020-09-22</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://gonggongjohn.github.io/blog/tags/Analysis/</loc>
-    <lastmod>2020-09-22</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://gonggongjohn.github.io/blog/tags/Computer-Science/</loc>
-    <lastmod>2020-09-22</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://gonggongjohn.github.io/blog/tags/Language/</loc>
-    <lastmod>2020-09-22</lastmod>
+    <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
