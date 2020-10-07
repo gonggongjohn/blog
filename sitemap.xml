@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://gonggongjohn.github.io/blog/2020/10/07/csapp-01/</loc>
+    
+    <lastmod>2020-10-07</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://gonggongjohn.github.io/blog/2020/09/19/gdb-guide/</loc>
     
     <lastmod>2020-09-28</lastmod>
@@ -46,13 +53,6 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.github.io/blog/tags/Algebra/</loc>
-    <lastmod>2020-10-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://gonggongjohn.github.io/blog/tags/Analysis/</loc>
     <lastmod>2020-10-07</lastmod>
     <changefreq>daily</changefreq>
@@ -68,6 +68,20 @@
   
   <url>
     <loc>http://gonggongjohn.github.io/blog/tags/Language/</loc>
+    <lastmod>2020-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.github.io/blog/tags/Algebra/</loc>
+    <lastmod>2020-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.github.io/blog/tags/CSAPP/</loc>
     <lastmod>2020-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
