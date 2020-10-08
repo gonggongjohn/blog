@@ -179,7 +179,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-08 00:37:24" itemprop="dateModified" datetime="2020-10-08T00:37:24+08:00">2020-10-08</time>
+                <time title="修改时间：2020-10-08 14:19:47" itemprop="dateModified" datetime="2020-10-08T14:19:47+08:00">2020-10-08</time>
               </span>
 
           
@@ -193,41 +193,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Chapter-2：信息的表示和处理"><a href="#Chapter-2：信息的表示和处理" class="headerlink" title="Chapter 2：信息的表示和处理"></a>Chapter 2：信息的表示和处理</h1><h3 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h3><h4 id="进位计数制"><a href="#进位计数制" class="headerlink" title="进位计数制"></a>进位计数制</h4><p><strong>定义：</strong>设一个 $m$ 进制下$w$ 位的位向量表示为 <script type="math/tex">[a_{w-1}, a_{w-2}, ..., a_0]</script>，则其表示的数为 $\sum_\limits{i=0}^{w-1} a_im^i$</p>
+          <h1 id="Chapter-2：信息的表示和处理"><a href="#Chapter-2：信息的表示和处理" class="headerlink" title="Chapter 2：信息的表示和处理"></a>Chapter 2：信息的表示和处理</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h3><h4 id="进位计数制"><a href="#进位计数制" class="headerlink" title="进位计数制"></a>进位计数制</h4><p><strong>定义：</strong>设一个 $m$ 进制下$w$ 位的位向量表示为 <script type="math/tex">[a_{w-1}, a_{w-2}, ..., a_0]</script>，则其表示的数为 $\sum_\limits{i=0}^{w-1} a_im^i$</p>
 <h4 id="m-进制-rightarrow-十进制"><a href="#m-进制-rightarrow-十进制" class="headerlink" title="$m$ 进制 $\rightarrow$ 十进制"></a>$m$ 进制 $\rightarrow$ 十进制</h4><p>设一个 $w$ 位 $m$ 进制整数的位相量表示为 <script type="math/tex">\vec{x} = [ x_{w-1}, x_{w-2}, ..., x_0 ]</script> ，定义函数 $M2D(\vec{x}) = \sum_\limits{i=0}^{w-1} x_i m^i$，则其对应的十进制数 $n = M2D(\vec{x})$</p>
-<p><strong>证明：</strong>由进位计数制的定义可直接得到结论</p>
-<blockquote>
-<p>Example:</p>
-<p>将 $3$ 进制数 $12011$ 转为十进制数</p>
-<p>解： 令 $\vec{x} = [1,2,0,1,1], m = 3$</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\therefore n = M2D(\vec{x}) &= 1 \cdot 3^4 + 2 \cdot 3^3 + 1 \cdot 3^1 +1 \cdot 3^0 \\ 
-&= 81+54+3+1 \\ 
-&= 139 
-\end{align}</script></blockquote>
-<h4 id="十进制-rightarrow-m-进制"><a href="#十进制-rightarrow-m-进制" class="headerlink" title="十进制 $\rightarrow$ $m$ 进制"></a>十进制 $\rightarrow$ $m$ 进制</h4><p>设一个十进制整数为 $n$，定义序列 </p>
-<script type="math/tex; mode=display">
-\begin{align}
-&p_0 = \lfloor \frac{n}{m} \rfloor, \ r_0 = n \ \ mod \ \ m \\
-&p_1 = \lfloor \frac{p_0}{m}\rfloor, \ r_1 = p_0 \ \ mod \ \ m \\
-&... \\
-&p_{s-1} = \lfloor \frac{p_{s-2}}{m}\rfloor = 0, \ r_{s-1} = p_{s-2} \ \ mod \ \ m \\
-\end{align}</script><p>则其对应的 $m$ 进制数的位向量表示为 <script type="math/tex">\vec{x} = [r_{s-1}, r_{s-2}, ..., r_0]</script></p>
-<p><strong>证明：</strong>设 $n$ 在 $m$ 进制下的位相量表示为 <script type="math/tex">[r_{s-1}, r_{s-2}, ..., r_0]</script></p>
-<p>则由定义可知，<script type="math/tex">n = r_{s-1} \cdot m^{s-1} + r_{s-2} \cdot m^{s-2} + ...+ r_0</script></p>
-<p>故 <script type="math/tex">n = m \cdot \left( r_{s-1} \cdot m^{s-2} + r_{s-2} \cdot m^{s-3} + ... + r_1 \right) + r_0</script></p>
-<p>$\therefore$ 由余数的定义可知，$r_0 = n \ \ mod \ \ m$</p>
-<p>又由</p>
-<script type="math/tex; mode=display">
-\begin{align}
-p_0 = \lfloor \frac{n}{m} \rfloor &= r_{s-1} \cdot m^{s-2} + r_{s-2} \cdot m^{s-3} + ... + r_1 \\
-&= m \cdot \left( r_{s-1} \cdot m^{s-3} + r_{s-2} \cdot m^{s-4} + ... + r_2 \right) + r_1
-\end{align}</script><p>故 $r_1 = p_0 \ \ mod \ \ m$</p>
-<p>以此类推，<script type="math/tex">r_{i} = p_{i-1} \ \ mod \ \ m \ (i=s-2, ..., 1)</script></p>
-<p>故结论成立</p>
-<h3 id="二进制无符号整数"><a href="#二进制无符号整数" class="headerlink" title="二进制无符号整数"></a>二进制无符号整数</h3><p>设一个数的二进制向量表示为 <script type="math/tex">\vec{x} = [x_{w-1}, x_{w-2},..., x_0]</script>，则它的十进制表示为 <script type="math/tex">B2U_w(x) = \sum_\limits{i = 0}^{w-1} x_i 2^i</script></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blog/2020/10/07/csapp-01/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
