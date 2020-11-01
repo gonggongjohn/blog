@@ -389,10 +389,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-10-10 15:46:07 / 修改时间：15:52:36" itemprop="dateCreated datePublished" datetime="2020-10-10T15:46:07+08:00">2020-10-10</time>
+              <time title="创建时间：2020-10-10 15:46:07" itemprop="dateCreated datePublished" datetime="2020-10-10T15:46:07+08:00">2020-10-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-01 14:35:13" itemprop="dateModified" datetime="2020-11-01T14:35:13+08:00">2020-11-01</time>
+              </span>
 
           
 
@@ -405,14 +411,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>快速排序的平均比较次数满足以下递归表达式：</p>
-<script type="math/tex; mode=display">
-\left\{
-\begin{aligned}
-&C_0 = 0 \\
-&C_n = n + 1 + \frac{2}{n}\sum_\limits{k = 0}^{n-1} C_k \ \ (n > 0)
-\end{aligned}
-\right.</script><p>下面我们来尝试推导该递归式的封闭解</p>
+          <h2 id="随机化快速排序"><a href="#随机化快速排序" class="headerlink" title="随机化快速排序"></a>随机化快速排序</h2><p>随机化快速排序在快速排序的基础上，通过随机数选择一个数作为pivot，使得没有特定的输入数据可以使得该算法达到最坏情况。</p>
+<p>下面我们来分析其平均时间复杂度。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/2020/10/10/qsort-analyze/#more" rel="contents">
