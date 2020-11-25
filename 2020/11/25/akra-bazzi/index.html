@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gonggongjohn.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="主方法在算法分析中，当我们使用分治法求解问题时，通常会遇到以递归式定义的算法运行时间函数。要得到此类算法的时间复杂度，就必须求出该递归式的渐近表达式。通常情况下，我们可以通过如下公式直接得到大部分不太复杂的递归式的渐近解。《算法导论》一书中将该方法称为“主方法”。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从主方法到Akra-Bazzi定理">
+<meta property="og:url" content="http://gonggongjohn.github.io/blog/2020/11/25/akra-bazzi/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="主方法在算法分析中，当我们使用分治法求解问题时，通常会遇到以递归式定义的算法运行时间函数。要得到此类算法的时间复杂度，就必须求出该递归式的渐近表达式。通常情况下，我们可以通过如下公式直接得到大部分不太复杂的递归式的渐近解。《算法导论》一书中将该方法称为“主方法”。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-25T03:34:14.000Z">
+<meta property="article:modified_time" content="2020-11-25T03:35:52.850Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://gonggongjohn.github.io/blog/2020/11/25/akra-bazzi/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>从主方法到Akra-Bazzi定理 | GONGGONGJOHN's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/blog/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">GONGGONGJOHN's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.github.io/blog/2020/11/25/akra-bazzi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.png">
+      <meta itemprop="name" content="GONGGONGJOHN">
+      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GONGGONGJOHN's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从主方法到Akra-Bazzi定理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-25 11:34:14 / 修改时间：11:35:52" itemprop="dateCreated datePublished" datetime="2020-11-25T11:34:14+08:00">2020-11-25</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="主方法"><a href="#主方法" class="headerlink" title="主方法"></a>主方法</h2><p>在算法分析中，当我们使用分治法求解问题时，通常会遇到以递归式定义的算法运行时间函数。要得到此类算法的时间复杂度，就必须求出该递归式的渐近表达式。通常情况下，我们可以通过如下公式直接得到大部分不太复杂的递归式的渐近解。<strong>《算法导论》</strong>一书中将该方法称为<strong>“主方法”</strong>。</p>
+<a id="more"></a>
+<p><strong>Theorem: </strong>设<script type="math/tex">a\geq 1, b >1</script>，<script type="math/tex">f(n)</script>为一定义在非负整数上的函数， <script type="math/tex">T(n)=aT\left(\frac{n}{b}\right) + f(n)</script>（当 <script type="math/tex">\frac{n}{b}</script> 不为整数时代表 <script type="math/tex">\lfloor{\frac{n}{b}\rfloor}</script> 或 <script type="math/tex">\lceil{\frac{n}{b}\rceil}</script>），则</p>
+<ol>
+<li><p>若存在 <script type="math/tex">\varepsilon > 0</script>，使得 <script type="math/tex">f(n) = \mathcal{O}\left(n^{\log_b a - \varepsilon}\right)</script>，则 <script type="math/tex">T(n) = \Theta\left(n^{\log_b a}\right)</script></p>
+</li>
+<li><p>若存在 <script type="math/tex">k \geq 0</script>，使得 <script type="math/tex">f(n) = \Theta\left(n^{\log_b a} \lg^k n\right)</script>，则 <script type="math/tex">T(n) = \Theta\left(n^{\log_b a} \lg^{k+1} n\right)</script></p>
+</li>
+<li><p>若存在 <script type="math/tex">\varepsilon > 0</script>，使得 <script type="math/tex">f(n) = \Omega\left(n^{\log_b a + \varepsilon}\right)</script>，且存在 <script type="math/tex">0<c<1</script>及正整数 <script type="math/tex">N</script>，使得当 <script type="math/tex">n>N</script> 时，有 <script type="math/tex">af\left(\frac{n}{b}\right) \leq cf(n)</script>，则 <script type="math/tex">T(n) = \Theta(f(n))</script></p>
+</li>
+</ol>
+<p>通过该定理，我们可以快速得到一些算法的时间复杂度。</p>
+<blockquote>
+<p><strong>Example1:</strong> Strassen矩阵算法的运行时间函数 <script type="math/tex">T(n)=7T\left(\frac{n}{2}\right) + \Theta(n^2)</script>，求Strassen矩阵算法的时间复杂度</p>
+<p><strong>解：</strong>由 <script type="math/tex">\log_2 7 > \log_2 4 = 2</script> 可知，存在 <script type="math/tex">\varepsilon > 0</script>，使得 <script type="math/tex">f(n) = \Theta(n^2) = \mathcal{O}(n^{\log_2 7 - \varepsilon})</script></p>
+<p>故由主定理可知，<script type="math/tex">T(n) = \Theta(n^{\log_2 7})</script></p>
+<p><strong>Example2:</strong> 归并排序算法的运行时间函数 <script type="math/tex">T(n) = 2T\left(\frac{n}{2}\right) + \Theta(n)</script>，求归并排序算法的时间复杂度</p>
+<p><strong>解：</strong>由 <script type="math/tex">\log_2 2 = 1</script> 可知，存在 <script type="math/tex">k=0</script>，使得 <script type="math/tex">f(n) = \Theta(n) = \Theta(n^{\log_2 2} \lg^k n)</script></p>
+<p>故由主定理可知，<script type="math/tex">T(n) = \Theta(n \lg n)</script></p>
+<p><strong>Example3:</strong> 若一个算法的运行时间函数 <script type="math/tex">T(n)=2T\left(\frac{n}{2}\right) + \Theta(n^2)</script>，求该算法的时间复杂度</p>
+<p><strong>解：</strong>由 <script type="math/tex">\log_2 2 = 1</script> 可知，存在 <script type="math/tex">\varepsilon > 0</script>，使得 <script type="math/tex">f(n) = \Theta(n^2) = \Omega(n^{\log_2 2 + \varepsilon})</script></p>
+<p>又由于 <script type="math/tex">af\left(\frac{n}{b}\right) = 2 \left(\frac{n}{2}\right)^2 = \frac{n^2}{2}</script></p>
+<p>因此仅需取 <script type="math/tex">\frac{1}{2} \leq c < 1</script>，则有 <script type="math/tex">af\left(\frac{n}{b}\right) \leq cf(n)</script></p>
+<p>故由主定理可知，<script type="math/tex">T(n) = \Theta(n^2)</script></p>
+</blockquote>
+<h2 id="主定理的证明"><a href="#主定理的证明" class="headerlink" title="主定理的证明"></a>主定理的证明</h2><p>下面我们来尝试证明主定理。</p>
+<p>首先我们考虑当 <script type="math/tex">n</script> 为 <script type="math/tex">b</script> 的 <script type="math/tex">k</script> 次幂时的情况。此时原递归式可写为</p>
+<script type="math/tex; mode=display">
+T(n)=\left\{
+\begin{aligned}
+&\Theta(1) &, &n = 1 \\
+&aT\left(\frac{n}{b}\right)+f(n) &, &n=b^i(i=1,2,...,k)
+\end{aligned}
+\right.</script><p>作递推，可得</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T(n)&=aT\left(\frac{n}{b}\right) + f(n) \\
+&=a^2T\left(\frac{n}{b^2}\right) + af\left(\frac{n}{b}\right) + f(n) \\
+&=a^3T\left(\frac{n}{b^3}\right) + a^2f\left(\frac{n}{b^2}\right) + af\left(\frac{n}{b}\right) + f(n) \\
+&=... \\
+&=a^{\log_b n} T(1) + \sum_\limits{i = 0}^{\log_b n - 1} a^i f\left(\frac{n}{b^i}\right) \\
+&=n^{\log_b a} \Theta(1) + \sum_\limits{i = 0}^{\log_b n - 1} a^i f\left(\frac{n}{b^i}\right) \\
+&=\Theta \left(n^{\log_b a} \right) + \sum_\limits{i = 0}^{\log_b n - 1} a^i f\left(\frac{n}{b^i}\right)
+\end{aligned}</script><p>因此我们只需要考察 <script type="math/tex">\sum_\limits{i = 0}^{\log_b n - 1} a^i f\left(\frac{n}{b^i}\right)</script> 的渐近表达式即可得到 <script type="math/tex">T(n)</script> 的渐近解。</p>
+<p>现在我们来证明如下的的引理成立</p>
+<blockquote>
+<p><strong>Lemma:</strong> 设 <script type="math/tex">g(n) = \sum_\limits{i = 0}^{\log_b n - 1} a^i f\left(\frac{n}{b^i}\right)</script> （其中 <script type="math/tex">a \geq 1, b > 1</script>，<script type="math/tex">n=b^k</script>），则</p>
+<ol>
+<li><p>若存在 <script type="math/tex">\varepsilon > 0</script>，使得 <script type="math/tex">f(n) = \mathcal{O} \left(n^{\log_b a - \varepsilon} \right)</script>，则 <script type="math/tex">g(n) = \mathcal{O}\left(n^{\log_b a}\right)</script></p>
+</li>
+<li><p>若存在 <script type="math/tex">k \geq 0</script>，使得 <script type="math/tex">f(n) = \Theta\left(n^{\log_b a} \lg^k n\right)</script>，则 <script type="math/tex">g(n) = \Theta\left(n^{\log_b a} \lg^{k+1} n\right)</script></p>
+</li>
+<li><p>若存在 <script type="math/tex">0<c<1</script>及正整数 <script type="math/tex">N</script>，使得当 <script type="math/tex">n>N</script> 时，有 <script type="math/tex">af\left(\frac{n}{b}\right) \leq cf(n)</script>，则 <script type="math/tex">g(n) = \Theta(f(n))</script></p>
+</li>
+</ol>
+<p><strong>证明：</strong> 1. 当 <script type="math/tex">f(n) = \mathcal{O} \left(n^{\log_b a - \varepsilon} \right)</script> 时，<script type="math/tex">f\left(\frac{n}{b^i}\right) = \mathcal{O}\left(\left(\frac{n}{b^i}\right)^{\log_b a - \varepsilon}\right)</script></p>
+<p>此时</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+g(n) &= \sum_\limits{i = 0}^{\log_b n - 1} a^i \cdot \mathcal{O}\left(\left(\frac{n}{b^i}\right)^{\log_b a - \varepsilon}\right) \\
+&=\mathcal{O} \left(\sum_\limits{i = 0}^{\log_b n - 1} a^i \cdot \left(\frac{n}{b^i}\right)^{\log_b a - \varepsilon}\right) \\
+&=\mathcal{O} \left(n^{\log_b a - \varepsilon} \cdot \sum_\limits{i = 0}^{\log_b n - 1} \left(\frac{a}{b^{\log_b a - \varepsilon}}\right)^i\right) \\
+&=\mathcal{O} \left(n^{\log_b a - \varepsilon} \cdot \sum_\limits{i = 0}^{\log_b n - 1} b^{i\varepsilon}\right) \\
+&=\mathcal{O} \left(n^{\log_b a - \varepsilon} \cdot \frac{n^\varepsilon - 1}{b^\varepsilon - 1}\right) \\
+&=\mathcal{O} \left(\frac{n^{\log_b a}}{b^\varepsilon - 1} - \frac{n^{\log_b a - \varepsilon}}{b^\varepsilon - 1}\right) \\
+&=\mathcal{O} \left(n^{\log_b a} \right)
+\end{aligned}</script><ol>
+<li>当 <script type="math/tex">f(n) = \Theta\left(n^{\log_b a} \lg^k n\right)</script> 时，<script type="math/tex">f\left(\frac{n}{b^i}\right) = \Theta \left( \left(\frac{n}{b^i}\right)^{\log_b a} \lg^k \left(\frac{n}{b^i}\right)\right)</script></li>
+</ol>
+<p>此时</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+g(n) &= \sum_\limits{i = 0}^{\log_b n - 1} a^i \cdot \Theta\left(\left(\frac{n}{b^i}\right)^{\log_b a} \lg^k \left(\frac{n}{b^i}\right)\right) \\
+&= \Theta \left(\sum_\limits{i = 0}^{\log_b n - 1} a^i\left(\frac{n}{b^i}\right)^{\log_b a} \lg^k \left(\frac{n}{b^i}\right)\right) \\
+&=\Theta \left(n^{\log_b a} \cdot \sum_\limits{i = 0}^{\log_b n - 1} \lg^k \left(\frac{n}{b^i}\right)\right) \\
+&=\Theta \left(n^{\log_b a} \cdot \sum_\limits{i = 0}^{\log_b n - 1} \left(\lg n - i \lg b \right)^k\right)
+\end{aligned}</script><p>由二项式定理可知，<script type="math/tex">\left(\lg n - i \lg b \right)^k = \lg^k n + \mathcal{O}\left(\lg^k n\right)</script></p>
+<p>故</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+g(n) &= \Theta \left(n^{\log_b a} \cdot \sum_\limits{i = 0}^{\log_b n - 1} \left(\lg^k n + \mathcal{O} \left(\lg^k n \right)\right)\right) \\
+&= \Theta \left(n^{\log_b a} \cdot \left(\log_b n \cdot \lg^k n + \log_b n \cdot \mathcal{O} \left(\lg^k n \right)\right)\right) \\
+&=\Theta \left( n^{\log_b a} \cdot \log_b n \cdot \lg^k n\right) \\
+&=\Theta \left(n^{\log_b a} \lg^{k+1} n\right)
+\end{aligned}</script><ol>
+<li>由 <script type="math/tex">g(n) = f(n) + \sum_\limits{i = 1}^{\log_b n - 1} a^i f\left(\frac{n}{b^i}\right)</script> 可知 <script type="math/tex">g(n) = \Omega(f(n))</script></li>
+</ol>
+<p>由条件存在 <script type="math/tex">c<1</script>及正整数 <script type="math/tex">N</script>，使得当 <script type="math/tex">n>N</script> 时，有 <script type="math/tex">af\left(\frac{n}{b}\right) \leq cf(n)</script></p>
+<p>作递推可知，当 <script type="math/tex">\frac{n}{b^{i-1}}>N</script> 时，有 <script type="math/tex">a^i f\left(\frac{n}{b^i}\right) \leq c^if(n)</script></p>
+<p>故</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+g(n) &= \sum_\limits{i = 0}^{\log_b n - \log_b N} a^i f \left( \frac{n}{b^i} \right) + \sum_\limits{i = \log_b n - \log_b N + 1}^{\log_b n - 1} a^i f \left( \frac{n}{b^i} \right) \\
+&\leq \sum_\limits{i = 0}^{\log_b n - \log_b N}c^if(n) + \Theta(1) \\
+&=f(n) \sum_\limits{i = 0}^{\log_b n - \log_b N}c^i + \Theta(1) \\
+&\leq f(n) \sum_\limits{i = 0}^{\infty}c^i + \Theta(1) \\
+&=\frac{1}{1-c} \cdot f(n) + \Theta(1) \\
+&=\mathcal{O}(f(n))
+\end{aligned}</script><p>由此可得 <script type="math/tex">g(n) = \Theta(f(n))</script></p>
+</blockquote>
+<p>由于 <script type="math/tex">T(n)=\Theta \left(n^{\log_b a} \right) + \sum_\limits{i = 0}^{\log_b n - 1} a^i f\left(\frac{n}{b^i}\right)</script>，故根据引理我们就能快速得到 <script type="math/tex">n</script> 为 <script type="math/tex">b</script> 的 <script type="math/tex">k</script> 次幂时的主定理。</p>
+<p>下面我们需要将 <script type="math/tex">n</script> 为 <script type="math/tex">b</script> 的 <script type="math/tex">k</script> 次幂时的主定理推广到 <script type="math/tex">n</script> 为一切整数时的情况以证明完整的主定理成立。</p>
+<p>首先由于</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T(n)&=aT\left(\lceil{\frac{n}{b}\rceil}\right) + f(n) \\
+&\geq aT\left(\frac{n}{b}\right) + f(n)
+\end{aligned}</script><p>故根据 <script type="math/tex">n</script> 为 <script type="math/tex">b</script> 的幂次时的主定理可知当 <script type="math/tex">T(n)=aT\left(\lceil{\frac{n}{b}\rceil}\right) + f(n)</script> 时，<script type="math/tex">T(n)=\Omega(A)</script> （根据不同情况 <script type="math/tex">A</script> 取 <script type="math/tex">n^{\log_b a}</script>、<script type="math/tex">n^{\log_b a} \lg^{k+1} n</script> 或 <script type="math/tex">f(n)</script>）</p>
+<p>同理可得当 <script type="math/tex">T(n)=aT\left(\lfloor{\frac{n}{b}\rfloor}\right) + f(n)</script> 时，<script type="math/tex">T(n)=\mathcal{O}(A)</script> </p>
+<p>下面我们来证明当 <script type="math/tex">T(n)=aT\left(\lceil{\frac{n}{b}\rceil}\right) + f(n)</script> 时，<script type="math/tex">T(n)=\mathcal{O}(A)</script> </p>
+<p>令 <script type="math/tex">t_0 = n, t_1 = \lceil{\frac{t_0}{b} \rceil}, t_2 = \lceil{\frac{t_1}{b} \rceil}, ..., t_k = \lceil{\frac{t_{k - 1}}{b} \rceil}=\Theta(1)</script></p>
+<p>由于</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+t_1 &\leq \frac{n}{b} + 1 \\
+t_2 &\leq \frac{t_1}{b} + 1 \leq \frac{n}{b^2} + \frac{1}{b} + 1 \\
+... \\
+t_k &\leq \frac{t_{k-1}}{b} + 1 \leq \frac{n}{b^k} + \sum_\limits{i = 0}^{k-1} \frac{1}{b^i}
+\end{aligned}</script><p>故</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+t_k &\leq \frac{n}{b^k} + \sum_\limits{i = 0}^{\infty} \frac{1}{b^i} \\
+&=\frac{n}{b^k} + \frac{b}{b-1}
+\end{aligned}</script><p>由于当 <script type="math/tex">k = \lfloor{\log_b n\rfloor}</script> 时有</p>
+<script type="math/tex; mode=display">
+\frac{n}{b^k} + \frac{b}{b-1} \leq \frac{n}{b^{\log_b n - 1}} + \frac{b}{b-1} = \frac{b^2}{b-1} = \Theta(1)</script><p>故 <script type="math/tex">k \leq \lfloor{\log_b n\rfloor}</script></p>
+<p>故对原式作递推，可得</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T(n) &= aT\left(t_1\right) + f(t_0) \\
+&= a^2T(t_2) + af(t_1) + f(t_0) \\
+&... \\
+&\leq \Theta \left(n^{\log_b a} \right) + \sum_\limits{i = 0}^{\lfloor{\log_b n \rfloor} - 1} a^i f\left(t_i\right)
+\end{aligned}</script><p>因此由上面 <script type="math/tex">n</script> 为 <script type="math/tex">b</script> 的幂次时主定理得推导过程同理可得，<script type="math/tex">T(n) \leq \Theta(A)</script>，即 <script type="math/tex">T(n) = \mathcal{O}(A)</script></p>
+<p>类似的我们同样可以得到当 <script type="math/tex">T(n)=aT\left(\lfloor{\frac{n}{b}\rfloor}\right) + f(n)</script> 时，<script type="math/tex">T(n)=\Omega(A)</script> </p>
+<p>于是综上所述，<script type="math/tex">T(n) = \Theta(A)</script> 可推广到一切正整数，即主定理成立</p>
+<h2 id="主方法的局限性"><a href="#主方法的局限性" class="headerlink" title="主方法的局限性"></a>主方法的局限性</h2><h2 id="Akra-Bazzi定理"><a href="#Akra-Bazzi定理" class="headerlink" title="Akra-Bazzi定理"></a>Akra-Bazzi定理</h2><h2 id="Akra-Bazzi定理的证明"><a href="#Akra-Bazzi定理的证明" class="headerlink" title="Akra-Bazzi定理的证明"></a>Akra-Bazzi定理的证明</h2>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>GONGGONGJOHN
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://gonggongjohn.github.io/blog/2020/11/25/akra-bazzi/" title="从主方法到Akra-Bazzi定理">http://gonggongjohn.github.io/blog/2020/11/25/akra-bazzi/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Computer-Science/" rel="tag"># Computer-Science</a>
+              <a href="/blog/tags/Algorithm/" rel="tag"># Algorithm</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blog/2020/10/30/fibonacci/" rel="prev" title="斐波那契数的相关算法">
+      <i class="fa fa-chevron-left"></i> 斐波那契数的相关算法
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">主方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">主定理的证明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%96%B9%E6%B3%95%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">主方法的局限性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Akra-Bazzi%E5%AE%9A%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">Akra-Bazzi定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Akra-Bazzi%E5%AE%9A%E7%90%86%E7%9A%84%E8%AF%81%E6%98%8E"><span class="nav-number">5.</span> <span class="nav-text">Akra-Bazzi定理的证明</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GONGGONGJOHN"
+      src="/blog/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GONGGONGJOHN</p>
+  <div class="site-description" itemprop="description">This is the private blog site of gonggongjohn</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/blog/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gonggongjohn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gonggongjohn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/blog/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GONGGONGJOHN</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/blog/lib/anime.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.min.js"></script>
+  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/blog/js/utils.js"></script>
+
+<script src="/blog/js/motion.js"></script>
+
+
+<script src="/blog/js/schemes/pisces.js"></script>
+
+
+<script src="/blog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
