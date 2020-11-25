@@ -28,7 +28,7 @@
 <meta property="og:description" content="主方法在算法分析中，当我们使用分治法求解问题时，通常会遇到以递归式定义的算法运行时间函数。要得到此类算法的时间复杂度，就必须求出该递归式的渐近表达式。通常情况下，我们可以通过如下公式直接得到大部分不太复杂的递归式的渐近解。《算法导论》一书中将该方法称为“主方法”。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-25T03:34:14.000Z">
-<meta property="article:modified_time" content="2020-11-25T03:35:52.850Z">
+<meta property="article:modified_time" content="2020-11-25T08:25:58.549Z">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta property="article:tag" content="Computer-Science">
 <meta property="article:tag" content="Algorithm">
@@ -182,7 +182,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-25 11:34:14 / 修改时间：11:35:52" itemprop="dateCreated datePublished" datetime="2020-11-25T11:34:14+08:00">2020-11-25</time>
+              <time title="创建时间：2020-11-25 11:34:14 / 修改时间：16:25:58" itemprop="dateCreated datePublished" datetime="2020-11-25T11:34:14+08:00">2020-11-25</time>
             </span>
 
           
@@ -205,6 +205,7 @@
       
         <h2 id="主方法"><a href="#主方法" class="headerlink" title="主方法"></a>主方法</h2><p>在算法分析中，当我们使用分治法求解问题时，通常会遇到以递归式定义的算法运行时间函数。要得到此类算法的时间复杂度，就必须求出该递归式的渐近表达式。通常情况下，我们可以通过如下公式直接得到大部分不太复杂的递归式的渐近解。<strong>《算法导论》</strong>一书中将该方法称为<strong>“主方法”</strong>。</p>
 <a id="more"></a>
+<blockquote>
 <p><strong>Theorem: </strong>设<script type="math/tex">a\geq 1, b >1</script>，<script type="math/tex">f(n)</script>为一定义在非负整数上的函数， <script type="math/tex">T(n)=aT\left(\frac{n}{b}\right) + f(n)</script>（当 <script type="math/tex">\frac{n}{b}</script> 不为整数时代表 <script type="math/tex">\lfloor{\frac{n}{b}\rfloor}</script> 或 <script type="math/tex">\lceil{\frac{n}{b}\rceil}</script>），则</p>
 <ol>
 <li><p>若存在 <script type="math/tex">\varepsilon > 0</script>，使得 <script type="math/tex">f(n) = \mathcal{O}\left(n^{\log_b a - \varepsilon}\right)</script>，则 <script type="math/tex">T(n) = \Theta\left(n^{\log_b a}\right)</script></p>
@@ -214,6 +215,7 @@
 <li><p>若存在 <script type="math/tex">\varepsilon > 0</script>，使得 <script type="math/tex">f(n) = \Omega\left(n^{\log_b a + \varepsilon}\right)</script>，且存在 <script type="math/tex">0<c<1</script>及正整数 <script type="math/tex">N</script>，使得当 <script type="math/tex">n>N</script> 时，有 <script type="math/tex">af\left(\frac{n}{b}\right) \leq cf(n)</script>，则 <script type="math/tex">T(n) = \Theta(f(n))</script></p>
 </li>
 </ol>
+</blockquote>
 <p>通过该定理，我们可以快速得到一些算法的时间复杂度。</p>
 <blockquote>
 <p><strong>Example1:</strong> Strassen矩阵算法的运行时间函数 <script type="math/tex">T(n)=7T\left(\frac{n}{2}\right) + \Theta(n^2)</script>，求Strassen矩阵算法的时间复杂度</p>
@@ -229,6 +231,7 @@
 <p>故由主定理可知，<script type="math/tex">T(n) = \Theta(n^2)</script></p>
 </blockquote>
 <h2 id="主定理的证明"><a href="#主定理的证明" class="headerlink" title="主定理的证明"></a>主定理的证明</h2><p>下面我们来尝试证明主定理。</p>
+<p>主定理的证明思路如下：首先我们考虑当 <script type="math/tex">n</script> 为 <script type="math/tex">b</script> 的某个幂次时的情况，此时可以保证 <script type="math/tex">\frac{n}{b}</script> 是一个整数。随后，通过放缩，我们可以将其推广到一切正整数的情况上去。</p>
 <p>首先我们考虑当 <script type="math/tex">n</script> 为 <script type="math/tex">b</script> 的 <script type="math/tex">k</script> 次幂时的情况。此时原递归式可写为</p>
 <script type="math/tex; mode=display">
 T(n)=\left\{
@@ -258,7 +261,7 @@ T(n)&=aT\left(\frac{n}{b}\right) + f(n) \\
 <li><p>若存在 <script type="math/tex">0<c<1</script>及正整数 <script type="math/tex">N</script>，使得当 <script type="math/tex">n>N</script> 时，有 <script type="math/tex">af\left(\frac{n}{b}\right) \leq cf(n)</script>，则 <script type="math/tex">g(n) = \Theta(f(n))</script></p>
 </li>
 </ol>
-<p><strong>证明：</strong> 1. 当 <script type="math/tex">f(n) = \mathcal{O} \left(n^{\log_b a - \varepsilon} \right)</script> 时，<script type="math/tex">f\left(\frac{n}{b^i}\right) = \mathcal{O}\left(\left(\frac{n}{b^i}\right)^{\log_b a - \varepsilon}\right)</script></p>
+<p><strong>证明：①</strong> 当 <script type="math/tex">f(n) = \mathcal{O} \left(n^{\log_b a - \varepsilon} \right)</script> 时，<script type="math/tex">f\left(\frac{n}{b^i}\right) = \mathcal{O}\left(\left(\frac{n}{b^i}\right)^{\log_b a - \varepsilon}\right)</script></p>
 <p>此时</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
@@ -269,9 +272,7 @@ g(n) &= \sum_\limits{i = 0}^{\log_b n - 1} a^i \cdot \mathcal{O}\left(\left(\fra
 &=\mathcal{O} \left(n^{\log_b a - \varepsilon} \cdot \frac{n^\varepsilon - 1}{b^\varepsilon - 1}\right) \\
 &=\mathcal{O} \left(\frac{n^{\log_b a}}{b^\varepsilon - 1} - \frac{n^{\log_b a - \varepsilon}}{b^\varepsilon - 1}\right) \\
 &=\mathcal{O} \left(n^{\log_b a} \right)
-\end{aligned}</script><ol>
-<li>当 <script type="math/tex">f(n) = \Theta\left(n^{\log_b a} \lg^k n\right)</script> 时，<script type="math/tex">f\left(\frac{n}{b^i}\right) = \Theta \left( \left(\frac{n}{b^i}\right)^{\log_b a} \lg^k \left(\frac{n}{b^i}\right)\right)</script></li>
-</ol>
+\end{aligned}</script><p><strong>②</strong> 当 <script type="math/tex">f(n) = \Theta\left(n^{\log_b a} \lg^k n\right)</script> 时，<script type="math/tex">f\left(\frac{n}{b^i}\right) = \Theta \left( \left(\frac{n}{b^i}\right)^{\log_b a} \lg^k \left(\frac{n}{b^i}\right)\right)</script></p>
 <p>此时</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
@@ -287,9 +288,7 @@ g(n) &= \Theta \left(n^{\log_b a} \cdot \sum_\limits{i = 0}^{\log_b n - 1} \left
 &= \Theta \left(n^{\log_b a} \cdot \left(\log_b n \cdot \lg^k n + \log_b n \cdot \mathcal{O} \left(\lg^k n \right)\right)\right) \\
 &=\Theta \left( n^{\log_b a} \cdot \log_b n \cdot \lg^k n\right) \\
 &=\Theta \left(n^{\log_b a} \lg^{k+1} n\right)
-\end{aligned}</script><ol>
-<li>由 <script type="math/tex">g(n) = f(n) + \sum_\limits{i = 1}^{\log_b n - 1} a^i f\left(\frac{n}{b^i}\right)</script> 可知 <script type="math/tex">g(n) = \Omega(f(n))</script></li>
-</ol>
+\end{aligned}</script><p><strong>③</strong> 由 <script type="math/tex">g(n) = f(n) + \sum_\limits{i = 1}^{\log_b n - 1} a^i f\left(\frac{n}{b^i}\right)</script> 可知 <script type="math/tex">g(n) = \Omega(f(n))</script></p>
 <p>由条件存在 <script type="math/tex">c<1</script>及正整数 <script type="math/tex">N</script>，使得当 <script type="math/tex">n>N</script> 时，有 <script type="math/tex">af\left(\frac{n}{b}\right) \leq cf(n)</script></p>
 <p>作递推可知，当 <script type="math/tex">\frac{n}{b^{i-1}}>N</script> 时，有 <script type="math/tex">a^i f\left(\frac{n}{b^i}\right) \leq c^if(n)</script></p>
 <p>故</p>
@@ -339,7 +338,86 @@ T(n) &= aT\left(t_1\right) + f(t_0) \\
 \end{aligned}</script><p>因此由上面 <script type="math/tex">n</script> 为 <script type="math/tex">b</script> 的幂次时主定理得推导过程同理可得，<script type="math/tex">T(n) \leq \Theta(A)</script>，即 <script type="math/tex">T(n) = \mathcal{O}(A)</script></p>
 <p>类似的我们同样可以得到当 <script type="math/tex">T(n)=aT\left(\lfloor{\frac{n}{b}\rfloor}\right) + f(n)</script> 时，<script type="math/tex">T(n)=\Omega(A)</script> </p>
 <p>于是综上所述，<script type="math/tex">T(n) = \Theta(A)</script> 可推广到一切正整数，即主定理成立</p>
-<h2 id="主方法的局限性"><a href="#主方法的局限性" class="headerlink" title="主方法的局限性"></a>主方法的局限性</h2><h2 id="Akra-Bazzi定理"><a href="#Akra-Bazzi定理" class="headerlink" title="Akra-Bazzi定理"></a>Akra-Bazzi定理</h2><h2 id="Akra-Bazzi定理的证明"><a href="#Akra-Bazzi定理的证明" class="headerlink" title="Akra-Bazzi定理的证明"></a>Akra-Bazzi定理的证明</h2>
+<h2 id="主方法的局限性"><a href="#主方法的局限性" class="headerlink" title="主方法的局限性"></a>主方法的局限性</h2><p>通俗来说，若要使用主方法，<script type="math/tex">f(n)</script> 必须多项式意义上的小于或大于 <script type="math/tex">n^{\log_b a}</script>（即 <script type="math/tex">f(n)</script> 与 <script type="math/tex">n^{\log_b a}</script> 的阶数差能够被某个 <script type="math/tex">n^\varepsilon</script> 控制住），或者 <script type="math/tex">f(n)</script> 仅比 <script type="math/tex">n^{\log_b a}</script> 大 <script type="math/tex">\log</script> 阶。而这三种情况并不能覆盖 <script type="math/tex">f(n)</script> 所有可能的函数特征，若 <script type="math/tex">f(n)</script> 的阶数在这三种情况之间，主方法就失效了。</p>
+<p>例如当 <script type="math/tex">T(n) = 3T \left(\frac{n}{3}\right) + \frac{n}{\lg n}</script> 时，对于 <script type="math/tex">f(n) = \frac{n}{\lg n}</script>，无法找到某个 <script type="math/tex">\varepsilon > 0</script> 使得 <script type="math/tex">f(n) = \mathcal{O}(n)</script>，即 <script type="math/tex">f(n)</script> 不是多项式意义上的小于 <script type="math/tex">\log_b a</script>，此时便无法使用主定理得到该递归式的渐近解。</p>
+<p>此外，主方法要求递归式必须由平均划分的子式定义，而对于如 <script type="math/tex">T(n) = T\left(\frac{n}{2} \right) + T\left(\frac{n}{4} \right) + T\left(\frac{n}{8} \right) + n</script> 这样非平均划分子式定义的递归式，同样无法使用主方法求解。</p>
+<p>遇到此类问题，<strong>《算法导论》</strong>中推荐使用<strong>画递归树+数学归纳证明</strong>的方法解决。然而对于一些子问题情况较为复杂的递归式，这种方法的效率十分低下且容易出错，并不能作为一种普适的办法使用。</p>
+<h2 id="Akra-Bazzi定理"><a href="#Akra-Bazzi定理" class="headerlink" title="Akra-Bazzi定理"></a>Akra-Bazzi定理</h2><p>Akra-Bazzi定理是由两位黎巴嫩数学家<strong>Mohamad Akra</strong>和<strong>Louay Bazzi</strong>于1998年提出的一种用于求解线性递归式的渐近解的定理。Akra-Bazzi定理相比主定理对递归式的要求更弱，其适用范围也远广于主定理。</p>
+<p>为了引出Akra-Bazzi定理，我们需要定义一个<strong>多项式增长条件</strong></p>
+<blockquote>
+<p><strong>Definition:</strong> 设 <script type="math/tex">g(x)</script> 为一定义在非负实数上的函数，<script type="math/tex">\{b_k\}</script> 为一个含有 <script type="math/tex">k</script> 项的数列且满足 <script type="math/tex">0 < b_i< 1</script>，若存在正常数 <script type="math/tex">c_1, c_2</script> 使得对任意 <script type="math/tex">x \geq 1, 1 \leq i \leq k, u \in [b_i x , x]</script>，均有 <script type="math/tex">c_1 g(x) \leq g(u) \leq c_2 g(x)</script> ，则称 <script type="math/tex">g(x)</script> 满足多项式增长条件</p>
+</blockquote>
+<p>由定义可知，若存在 <script type="math/tex">c > 0</script> ，使得 <script type="math/tex">|g'(x)| \in \mathcal{O}(x^c)</script>，则 <script type="math/tex">g(x)</script> 满足多项式增长条件。例如，对任意 <script type="math/tex">\alpha, \beta \in \mathbb{R}</script>，<script type="math/tex">g(x) = x^{\alpha} \lg^{\beta} x</script> 均满足多项式增长条件。</p>
+<p>下面我们来叙述Akra-Bazzi定理：</p>
+<blockquote>
+<p><strong>Theorem:</strong> 设 <script type="math/tex">g(x)</script> 为一非负函数， <script type="math/tex">T(x) = \left\{ \begin{aligned} &\Theta(1)&, &1 \leq x \leq X_0 \\ &\sum_\limits{i = 1}^k a_i T(b_i x) +g(x)&, &n > X_0 \end{aligned}\right.</script>（其中 <script type="math/tex">k \geq 1, a_i > 0, 0 < b_i < 1</script>，<script type="math/tex">X_0</script> 满足对任意 <script type="math/tex">1 \leq i \leq k</script> 有 <script type="math/tex">X_0 > \frac{1}{b_i}</script> 且 <script type="math/tex">X_0> \frac{1}{1-b_i}</script>），若 <script type="math/tex">g(x)</script> 满足多项式增长条件，<script type="math/tex">p</script> 为方程 <script type="math/tex">\sum_\limits{i = 1}^k a_i b_i^p = 1</script> 的实数解，则</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T(x) &= \Theta \left(x^p \left( 1 + \int_1^x \frac{g(u)}{u^{p+1}} du\right)\right)
+\end{aligned}</script></blockquote>
+<p>通过该定理，我们可以快速求解许多主方法无法处理的递归式。</p>
+<blockquote>
+<p><strong>Example1:</strong> 设 <script type="math/tex">T(n) = 2T \left( \frac{n}{4}\right) + 3T \left(\frac{n}{6} \right) + n \lg n</script>，求 <script type="math/tex">T(n)</script> 的渐近解</p>
+<p><strong>解：</strong>由 <script type="math/tex">\frac{2}{4^p} + \frac{3}{6^p} = 1</script> 可知 <script type="math/tex">p = 1</script></p>
+<p>故由Akra-Bazzi定理可知</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T(n) &= \Theta \left(n \left(1 + \int_1^n \frac{x \lg x}{x^2} dx\right)\right) \\
+&=\Theta \left(n \left(1 + \frac{1}{2}\lg^2 n \right)\right) \\
+&=\Theta \left(n \lg^2 n \right)
+\end{aligned}</script><p><strong>Example2:</strong> 设 <script type="math/tex">T(n) = 3T \left( \frac{n}{3}\right) + \frac{n}{\lg n}</script>（<script type="math/tex">n \geq 2</script>），求 <script type="math/tex">T(n)</script> 的渐近解</p>
+<p><strong>解：</strong>由 <script type="math/tex">\left(\frac{3}{3}\right)^p = 1</script> 可知 <script type="math/tex">p = 1</script></p>
+<p>故由Akra-Bazzi定理可知</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T(n) &= \Theta \left(n \left( 1 + \int_2^n \frac{\frac{x}{\lg x}}{x^2} dx\right)\right) \\
+&=\Theta \left(n \left( 1 + \int_2^n \frac{1}{x \lg x} dx\right)\right) \\
+&=\Theta \left(n \left( 1 + \lg \lg n \right) \right) \\
+&=\Theta(n \lg \lg n)
+\end{aligned}</script><p><strong>注：</strong>本题中 <script type="math/tex">n=1</script> 时函数无定义，故将积分下限改为了从2开始。由于常数项不影响渐近分析的结果，故这样的修改是可行的。</p>
+<p><strong>Example3:</strong> 设 <script type="math/tex">T(n) = \frac{1}{2} T \left( \frac{n}{2} \right) + \frac{1}{n}</script>，求 <script type="math/tex">T(n)</script> 的渐近解</p>
+<p>解：由 <script type="math/tex">\frac{1}{2} \cdot \left(\frac{1}{2}\right)^p = 1</script> 可知 <script type="math/tex">p = -1</script></p>
+<p>故由Akra-Bazzi定理可知</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T(n) &= \Theta \left(n^{-1} \left( 1 + \int_1^n \frac{\frac{1}{x}}{x^0} dx \right)\right) \\
+&= \Theta(\left(n^{-1} \left(1 + \ln n \right) \right) \\
+&= \Theta \left(\frac{\ln n}{n}\right)
+\end{aligned}</script></blockquote>
+<h2 id="Akra-Bazzi定理的证明"><a href="#Akra-Bazzi定理的证明" class="headerlink" title="Akra-Bazzi定理的证明"></a>Akra-Bazzi定理的证明</h2><p>我们可以使用数学归纳法来证明Akra-Bazzi定理。<strong>（Akra-Bazzi的原始论文中并不是使用这种方法得到该结论的，但在已经知道结论的情况下使用数学归纳法同样能够证明其正确性，且更容易理解）</strong></p>
+<p>首先我们证明一个引理</p>
+<blockquote>
+<p><strong>Lemma:</strong> 若 <script type="math/tex">g(x)</script> 为一非负函数且满足多项式增长条件，则存在 <script type="math/tex">c_3, c_4 > 0</script>，使得对任意 <script type="math/tex">x \geq 1, 1 \leq i \leq k</script>，有</p>
+<script type="math/tex; mode=display">
+c_3 g(x) \leq x^p \int_{b_i x}^x \frac{g(u)}{u^{p + 1}} du \leq c_4 g(x)</script><p><strong>证明：</strong> <script type="math/tex">g(x)</script> 满足多项式增长条件，即存在正常数 <script type="math/tex">c_1, c_2</script> 使得对任意 <script type="math/tex">x \geq 1, 1 \leq i \leq k, u \in [b_i x , x]</script>，均有 <script type="math/tex">c_1 g(x) \leq g(u) \leq c_2 g(x)</script> </p>
+<p>故</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+x^p \int_{b_i x}^x \frac{g(u)}{u^{p + 1}} du &\leq c_2 x^p g(x) \cdot \int_{b_i x}^x \frac{1}{u^{p + 1}} du \\
+&\leq c_2 x^p g(x) \cdot (x - b_i x) \cdot \max \{ \frac{1}{(b_i x)^{p+1}}, \frac{1}{x^{p+1}}\} \\
+&=c_2 \cdot (1-b_i) \cdot \max \{\frac{1}{b_i^{p+1}}, 1 \} \cdot g(x)
+\end{aligned}</script><p>因此仅需令 <script type="math/tex">c_4 \geq c_2 \cdot (1-b_i) \cdot \max \{\frac{1}{b_i^{p+1}}, 1 \}</script>，就有 <script type="math/tex">x^p \int_{b_i x}^x \frac{g(u)}{u^{p + 1}} du \leq c_4 g(x)</script></p>
+<p>同理，令 <script type="math/tex">c_3 \leq c_2 \cdot (1-b_i) \cdot \min \{\frac{1}{b_i^{p+1}}, 1 \}</script>，就有 <script type="math/tex">x^p \int_{b_i x}^x \frac{g(u)}{u^{p + 1}} du \geq c_3 g(x)</script></p>
+<p>故原命题成立</p>
+</blockquote>
+<p>下面我们使用数学归纳法证明存在 <script type="math/tex">c_5>0, x_1 > 1</script>，使得对任意 <script type="math/tex">x > x_1</script>，有 <script type="math/tex">T(x) \geq c_5 \cdot x^p \left( 1 + \int_1^x \frac{g(u)}{u^{p+1}} du\right)</script></p>
+<p>由于 <script type="math/tex">T(x)</script> 为一个连续函数，我们不能直接对 <script type="math/tex">x</script> 进行归纳。</p>
+<p>为了使用数学归纳法，我们令 <script type="math/tex">I_0 = [1, X_0], I_1 = (X_0+1, X_0+2], ..., I_j = (X_0 + j -1, X_0 + j]</script>。易见 <script type="math/tex">x</script> 必然落在某一个区间 <script type="math/tex">j_0</script> 内，且 <script type="math/tex">b_i x</script> 必然落在 <script type="math/tex">j_0</script> 前面的某一区间内，因此我们可以对 <script type="math/tex">I_j</script> 进行归纳。</p>
+<p>当 <script type="math/tex">j=0</script> 时，由定义可知 <script type="math/tex">T(x) = \Theta(1)</script>，结论显然成立</p>
+<p>若结论对任意 <script type="math/tex">j < j_0</script> 均成立，则当 <script type="math/tex">j=j_0</script> 时，有</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+T(x) &= \sum_\limits{i = 1}^k a_i T(b_i x) +g(x) \\
+&\geq \sum_\limits{i = 1}^k a_i \cdot c_5 \cdot (b_i x)^p \left( 1 + \int_1^{b_i x} \frac{g(u)}{u^{p+1}} du\right) +g(x) \\
+&=c_5 x ^p \sum_\limits{i = 1}^k a_i \cdot b_i^p \left( 1 + \int_1^{x} \frac{g(u)}{u^{p+1}} du - \int_{b_i x}^{x} \frac{g(u)}{u^{p+1}} du\right) +g(x) \\
+&\geq c_5 x ^p \cdot \left( 1 + \int_1^{x} \frac{g(u)}{u^{p+1}} du - \frac{c_4}{x_p}g(x)\right) \cdot \sum_\limits{i = 1}^k a_i b_i^p +g(x) \\
+&=c_5 x ^p \cdot \left( 1 + \int_1^{x} \frac{g(u)}{u^{p+1}} du - \frac{c_4}{x_p}g(x)\right) +g(x) \\
+&=c_5 x ^p \cdot \left( 1 + \int_1^{x} \frac{g(u)}{u^{p+1}} du \right) - (c_4c_5 - 1) g(x)
+\end{aligned}</script><p>因此，只需令 <script type="math/tex">c_5 \leq \frac{1}{c_4}</script>，就有 <script type="math/tex">T(x) \geq c_5 \cdot x^p \left( 1 + \int_1^x \frac{g(u)}{u^{p+1}} du\right)</script> 成立</p>
+<p>即 <script type="math/tex">T(x) = \Omega \left( x^p \left( 1 + \int_1^x \frac{g(u)}{u^{p+1}} du\right) \right)</script></p>
+<p>同理可得  <script type="math/tex">T(x) = \mathcal{O} \left( x^p \left( 1 + \int_1^x \frac{g(u)}{u^{p+1}} du\right) \right)</script></p>
+<p>因此 <script type="math/tex">T(x) = \Theta \left(x^p \left( 1 + \int_1^x \frac{g(u)}{u^{p+1}} du\right)\right)</script></p>
+
     </div>
 
     
