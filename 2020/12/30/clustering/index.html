@@ -20,21 +20,21 @@
     var CONFIG = {"hostname":"gonggongjohn.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="随机化快速排序随机化快速排序在快速排序的基础上，通过随机数选择一个数作为pivot，使得没有特定的输入数据可以使得该算法达到最坏情况。 下面我们来分析其平均时间复杂度。">
+  <meta name="description" content="K-Means聚类与层次聚类Cluster AnalysisCluster analysis or clustering is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other g">
 <meta property="og:type" content="article">
-<meta property="og:title" content="快速排序时间复杂度分析">
-<meta property="og:url" content="http://gonggongjohn.github.io/blog/2020/10/10/qsort-analyze/index.html">
+<meta property="og:title" content="clustering">
+<meta property="og:url" content="http://gonggongjohn.github.io/blog/2020/12/30/clustering/index.html">
 <meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
-<meta property="og:description" content="随机化快速排序随机化快速排序在快速排序的基础上，通过随机数选择一个数作为pivot，使得没有特定的输入数据可以使得该算法达到最坏情况。 下面我们来分析其平均时间复杂度。">
+<meta property="og:description" content="K-Means聚类与层次聚类Cluster AnalysisCluster analysis or clustering is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other g">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-10-10T07:46:07.000Z">
-<meta property="article:modified_time" content="2020-11-01T06:42:51.498Z">
+<meta property="article:published_time" content="2020-12-30T13:22:44.000Z">
+<meta property="article:modified_time" content="2020-12-30T13:24:06.754Z">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta property="article:tag" content="Computer-Science">
-<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Machine-Learning">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://gonggongjohn.github.io/blog/2020/10/10/qsort-analyze/">
+<link rel="canonical" href="http://gonggongjohn.github.io/blog/2020/12/30/clustering/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>快速排序时间复杂度分析 | GONGGONGJOHN's Blog</title>
+  <title>clustering | GONGGONGJOHN's Blog</title>
   
 
 
@@ -158,7 +158,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.github.io/blog/2020/10/10/qsort-analyze/">
+    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.github.io/blog/2020/12/30/clustering/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
@@ -171,7 +171,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          快速排序时间复杂度分析
+          clustering
         </h1>
 
         <div class="post-meta">
@@ -180,16 +180,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-10-10 15:46:07" itemprop="dateCreated datePublished" datetime="2020-10-10T15:46:07+08:00">2020-10-10</time>
+              <time title="创建时间：2020-12-30 21:22:44 / 修改时间：21:24:06" itemprop="dateCreated datePublished" datetime="2020-12-30T21:22:44+08:00">2020-12-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-01 14:42:51" itemprop="dateModified" datetime="2020-11-01T14:42:51+08:00">2020-11-01</time>
-              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -209,124 +203,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="随机化快速排序"><a href="#随机化快速排序" class="headerlink" title="随机化快速排序"></a>随机化快速排序</h2><p>随机化快速排序在快速排序的基础上，通过随机数选择一个数作为pivot，使得没有特定的输入数据可以使得该算法达到最坏情况。</p>
-<p>下面我们来分析其平均时间复杂度。</p>
+        <h1 id="K-Means聚类与层次聚类"><a href="#K-Means聚类与层次聚类" class="headerlink" title="K-Means聚类与层次聚类"></a>K-Means聚类与层次聚类</h1><h2 id="Cluster-Analysis"><a href="#Cluster-Analysis" class="headerlink" title="Cluster Analysis"></a>Cluster Analysis</h2><p><strong>Cluster analysis</strong> or <strong>clustering</strong> is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is a main task of exploratory data mining, and a common technique for statistical data analysis which used in many fields including pattern recognition, image analysis, information retrieval, bioinformatics, data compression, computer graphics and machine learning. </p>
 <a id="more"></a>
-<p>设 <script type="math/tex">X_k</script> 为一个随机变量，使得对任意 <script type="math/tex">k=0,1,...,n-1</script>，有</p>
-<script type="math/tex; mode=display">
-X_k = \left\{
-\begin{aligned}
-1 &, &if \ Partition \ generates \ (k:n-k-1) \ split \\
-0 &, &otherwise
-\end{aligned}
-\right.</script><p>若随机数生成每个数的概率相同，则</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-E[X_k] &= 0 \cdot \Pr \{X_k = 0\} + 1 \cdot \Pr \{X_k = 1\} \\
-&=\Pr\{X_k = 1\} \\
-&=\frac{1}{n}
-\end{aligned}</script><p>设 <script type="math/tex">T(n)</script> 为一个代表总运行时间的随机变量（假设所有的情况均为独立的）</p>
-<p>即</p>
-<script type="math/tex; mode=display">
-T(n) = \left\{
-\begin{aligned}
-T(0) + T(n-1) + \Theta(n) &, &if \ Partition \ generates \ (0:n-1) \ split \\
-T(1) + T(n-2) + \Theta(n) &, &if \ Partition \ generates \ (1:n-2) \ split \\
-...... \\
-T(n-1) + T(0) + \Theta(n) &, &if \ Partition \ generates \ (n-1:0) \ split
-\end{aligned}
-\right.</script><p>通过引入 <script type="math/tex">X_k</script>，我们可以把 <script type="math/tex">T(n)</script> 改写为一个和式</p>
-<script type="math/tex; mode=display">
-T(n) = \sum_\limits{k=0}^{n-1} X_k \left( T(k) + T(n-k-1) + \Theta(n) \right)</script><p>故</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-E[T(n)] &= E \left[\sum_\limits{k=0}^{n-1} X_k \left( T(k) + T(n-k-1) + \Theta(n) \right) \right] \\
-&=\sum_\limits{k=0}^{n-1} E \left[ X_k \left( T(k) + T(n-k-1) + \Theta(n) \right) \right] \\
-&=\sum_\limits{k=0}^{n-1} E \left[ X_k \right] \cdot E\left[ \left( T(k) + T(n-k-1) + \Theta(n)\right) \right] \\
-&=\frac{1}{n} \sum_\limits{k=0}^{n-1} E[T(k)] + \frac{1}{n} \sum_\limits{k=0}^{n-1} E[T(n-k-1)] + \frac{1}{n} \sum_\limits{k=0}^{n-1} E[\Theta(n)] \\
-&=\frac{2}{n} \sum_\limits{k=0}^{n-1} E[T(k)] + \Theta(n)
-\end{aligned}</script><p>由此我们得到了一个关于 <script type="math/tex">E[T(n)]</script> 的递推式。下面我们使用<strong>第二数学归纳法</strong>证明：当 <script type="math/tex">n \geq 3</script> 时，存在 <script type="math/tex">a>0</script>，使得 <script type="math/tex">E[T(n)] \leq an \lg n</script></p>
-<p>为了方便起见，我们首先对原式进行适当变形</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-E[T(n)] &=\frac{2}{n} \sum_\limits{k=0}^{n-1} E[T(k)] + \Theta(n) \\
-&=\frac{2}{n}E[T(0)] + \frac{2}{n}E[T(1)] + \frac{2}{n} \sum_\limits{k=2}^{n-1} E[T(k)] + \Theta(n) \\
-&=\frac{2}{n} \sum_\limits{k=2}^{n-1} E[T(k)] + \Theta(n)
-\end{aligned}</script><p>随后，我们需要一个引理</p>
-<blockquote>
-<p>Lemma:</p>
-<script type="math/tex; mode=display">
-\sum_\limits{k=2}^{n-1} k \lg k \leq \frac{1}{2}n^2 \lg n - \frac{1}{8} n^2</script><p>证明：令 <script type="math/tex">f(x) = x \lg x</script></p>
-<p>则 <script type="math/tex">f'(x) = \lg k + \frac{1}{\ln 2}</script></p>
-<p>故当 <script type="math/tex">x \geq 2</script> 时 <script type="math/tex">f(x)>0</script> 且 <script type="math/tex">f(x)</script> 单调递增</p>
-<p>因此</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\sum_\limits{k=2}^{n-1} k \lg k &\leq \int_2^n x \lg x dx \\
-&=\frac{1}{2} \int_2^n \lg x d(x^2) \\
-&=\frac{1}{2} \left(\left[x^2 \lg x\right]\Big|_2^n - \int_2^n x^2 \cdot \frac{1}{x \ln 2} dx\right) \\
-&=\frac{1}{2} \left( n^2 \lg n - 4 - \frac{1}{2 \ln 2} \cdot \left[x^2\right]\Big|_2^n\right) \\
-&=\frac{1}{2}n^2 \lg n - \frac{1}{4 \ln 2}n^2 -2 + \frac{1}{\ln 2} \\
-&\leq \frac{1}{2}n^2 \lg n -\frac{1}{4\ln2}n^2 \\
-&\leq \frac{1}{2}n^2 \lg n - \frac{1}{8}n^2
-\end{aligned}</script></blockquote>
-<p>现在就可以对 <script type="math/tex">n</script> 进行归纳了</p>
-<p>当 <script type="math/tex">n=3</script> 时，<script type="math/tex">E[T(3)]=\Theta(1)</script>，仅需取一足够大的 <script type="math/tex">a</script>，则结论显然成立</p>
-<p>若对 <script type="math/tex">\forall k < n</script>，存在 <script type="math/tex">a>0</script> 使得 <script type="math/tex">E[T(n)] \leq ak \lg k</script> 成立</p>
-<p>则</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-E[T(n)] &\leq \frac{2}{n} \sum_\limits{k=2}^{n-1} ak \lg k + \Theta(n) \\
-&\leq \frac{2a}{n} \cdot \left( \frac{1}{2}n^2 \lg n - \frac{1}{8}n^2\right) + \Theta(n) \\
-&=an \lg n - \frac{an}{4} + \Theta(n)
-\end{aligned}</script><p>故仅需取一足够大的 <script type="math/tex">a</script> 使得 <script type="math/tex">\frac{an}{4}> \Theta(n)</script>，即可使得 <script type="math/tex">E[T(n)] \leq an \lg n</script></p>
-<p>因此 <script type="math/tex">E[T(n)] \leq an \lg n</script> 对 <script type="math/tex">\forall n \geq 3</script> 均成立</p>
-<p>由此可知 <script type="math/tex">E[T(n)] = \mathcal{O}(n \lg n)</script></p>
-<p>同理可得 <script type="math/tex">E[T(n)] = \Omega(n\lg n)</script></p>
-<p>故 <script type="math/tex">E[T(n)] = \Theta(n \lg n)</script></p>
-<p>事实上，原始的快速排序中Partition的操作次数为 <script type="math/tex">n+1</script> 次，故总运行时间的期望还可以进一步写成以下递推式</p>
-<script type="math/tex; mode=display">
-\left\{
-\begin{aligned}
-&E[T(0)] = 0 \\
-&E[T(n)] = \frac{2}{n}\sum_\limits{k = 0}^{n-1} E[T(k)] + n+1 \ \ (n \geq 1)
-\end{aligned}
-\right.</script><p>下面我们来尝试推导该递推式的封闭解</p>
-<p>首先将原式化简为整式，得到 <script type="math/tex">n \cdot E[T(n)] = 2 \sum_\limits{k=0}^{n-1} E[T(k)] + n^2+n</script></p>
-<p>注意到等式右边有一个连续的求和式（即从 <script type="math/tex">E[T(0)]</script> 到 <script type="math/tex">E[T(n-1)]</script> 中没有缺项），故考虑做<strong>差项</strong>消去该求和式。</p>
-<script type="math/tex; mode=display">
-\left\{
-\begin{aligned}
-&n \cdot E[T(n)] = 2 \sum_\limits{k=0}^{n-1} E[T(k)] + n^2+n \\
-&(n-1) \cdot E[T(n-1)] = 2 \sum_\limits{k=0}^{n-2} E[T(k)] + (n-1)^2+(n-1)
-\end{aligned}
-\right.</script><p>两式相减，得到 $n \cdot E[T(n)] - (n-1) \cdot E[T(n-1)] = 2n + 2 \cdot E[T(n-1)]$</p>
-<p>化简得到 <script type="math/tex">n \cdot E[T(n)] = (n+1) \cdot E[T(n-1)] + 2n</script></p>
-<p>接下来我们考虑将 <script type="math/tex">E[T(n)]</script> 和 <script type="math/tex">E[T(n-1)]</script> 前的系数消去以找出通项公式。</p>
-<p>两边同时乘以 <script type="math/tex">\frac{2}{n(n+1)}</script> ，得到 <script type="math/tex">\frac{2}{n+1} \cdot E[T(n)] = \frac{2}{n} \cdot E[T(n-1)] + \frac{4}{n+1}</script></p>
-<p>令 <script type="math/tex">S_n = \frac{2}{n+1} \cdot E[T(n)]</script>，于是原递归式化简为</p>
-<script type="math/tex; mode=display">
-\left\{
-\begin{aligned}
-& S_0 = 0 \\
-& S_n = S_{n-1} + \frac{4}{n+1}
-\end{aligned}
-\right.</script><p>我们可以快速写出该递归式的通项公式 <script type="math/tex">S_n = 4\sum_\limits{k=2}^{n+1} \frac{1}{k}</script></p>
-<p>即 $\frac{2}{n+1} \cdot E[T(n)] =  4\sum_\limits{k=2}^{n+1} \frac{1}{k}$</p>
-<p>化简即得 $E[T(n)] = 2(n+1)\sum_\limits{k=2}^{n+1} \frac{1}{k}$</p>
-<p>引入调和级数符号 $H_n = 1 + \frac{1}{2} + \frac{1}{3} + … + \frac{1}{n}$</p>
-<p>注意到 $\sum_\limits{k=2}^{n+1} \frac{1}{k} = H_n - 1 + \frac{1}{n+1}$</p>
-<p>故我们得到了原递推式的封闭解 <script type="math/tex">E[T(n)] = 2(n+1)H_n - 2n</script></p>
-<p>又由 $H_n = \ln n + \gamma + \mathcal{O}\left(\frac{1}{n} \right)$</p>
-<p>故可得</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-E[T(n)] &= 2(n+1)\left(\ln n + \gamma + \mathcal{O} \left(\frac{1}{n} \right)\right) - 2n \\
-&= 2n \ln n + 2(\gamma - 1)n + 2\ln n + 2\gamma + \mathcal{O}(1) + \mathcal{O}\left(\frac{1}{n}\right) \\
-&= \Theta \left( n \ln n \right) \\
-&= \Theta \left( n \lg n\right)
-\end{aligned}</script><p>由此我们得到了快速排序的平均时间复杂度为 $\Theta (n \lg n)$</p>
-
+<h2 id="K-means-Clustering"><a href="#K-means-Clustering" class="headerlink" title="K-means Clustering"></a>K-means Clustering</h2><h3 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h3><p>K-means clustering is a partition-based method that can be used to partition a dataset into a fixed number of clusters. We can use the famous <strong>priest-villager model</strong> to illustrate the main idea of K-means algorithm.</p>
+<p>There are four priests preaching in the countryside. At first, they chose four preaching points arbitrarily, and told villagers to take the preaching course that is nearest to their own house. After the first class, some villagers complained that the preaching points was still too far from their home, so each of the priests collected the home addresses of all the villagers that came to his class and move the preaching point to the center of all the addresses. Since the update of preaching points, some villagers found that another preaching points became closer to their house than the previous one, so they chose to take the course at the new preaching point. In this way, the priests updated their preaching points every week, and villagers decided which course to take according to the distance of each preaching points. After several weeks, the preaching points became stable and both the villagers and the priests got satisfied.</p>
+<p>In formal words, K-means algorithm can be described as follows:</p>
+<ol>
+<li>Choose a set of <script type="math/tex">K</script> initial points <script type="math/tex">\{c_1, c_2, ..., c_K\}</script> that denotes the centroid of each cluster</li>
+<li>Iteratively execute the following steps until all the centroid points stop to change (or hit some global restriction):<ul>
+<li>For each sample points in the dataset, compute the distances from it to every centroids and assign it to the centroid with the smallest distance</li>
+<li>Recompute the position of each centroid according to the positions of all the samples assigned to it</li>
+</ul>
+</li>
+</ol>
+<h3 id="Mathematical-Details"><a href="#Mathematical-Details" class="headerlink" title="Mathematical Details"></a>Mathematical Details</h3><h3 id="Complexity-Analysis"><a href="#Complexity-Analysis" class="headerlink" title="Complexity Analysis"></a>Complexity Analysis</h3><p>We can implement K-means algorithm in pseudo-code:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">K-MEANS(K, t, d): &#x2F;&#x2F;The paramaters denote the number of clusters, the iteration times and the dataset respectively</span><br><span class="line">Initialize c[K] &#x2F;&#x2F;Denote the centroid set</span><br><span class="line">While t</span><br><span class="line">	For i in d</span><br><span class="line">		min_dist &#x3D; INF</span><br><span class="line">		For j &#x3D; 1 to K</span><br><span class="line">			d &#x3D; Distance between i and c[j]</span><br><span class="line">			If d &lt; min_dist</span><br><span class="line">				min_dist &#x3D; d</span><br><span class="line">				min_index &#x3D; j</span><br><span class="line">			Append i into the cluster set of c[min_index]</span><br><span class="line">	For i &#x3D; 1 to K</span><br><span class="line">		c[i].pos &#x3D; Mean position of all the points in the cluster set of c[i]</span><br><span class="line">return c</span><br></pre></td></tr></table></figure>
+<p>If we use the standard Euclidean distance (<script type="math/tex">L_2</script> norm) as the distance metrics, than the time complexity of K-means algorithm is <script type="math/tex">\mathcal{O}(tknm)</script> where <script type="math/tex">t</script> is the iteration times, <script type="math/tex">k</script> is the number of clusters, <script type="math/tex">n</script> is the size of the dataset and <script type="math/tex">m</script> is the dimension of each sample in the dataset.</p>
+<p>Similarly, if the samples of the dataset and the centroids are all in <script type="math/tex">m</script>-dimensional Euclidean space, than the space complexity of K-means algorithm is <script type="math/tex">\mathcal{O}((n+k) \cdot m)</script> where <script type="math/tex">n</script> is the size of the dataset, <script type="math/tex">k</script> is the number of clusters.</p>
+<h3 id="Applications"><a href="#Applications" class="headerlink" title="Applications"></a>Applications</h3><p>Due to its simplicity, K-means clustering algorithm has been successfully used in many domains such as market segmentation, computer vision and astronomy. It is also used as a preprocessing step before many other alogirithms to find a starting configuration.</p>
+<p>For example, in computer graphics, there is a task called <strong>color quantization</strong> which is to reduce the color palette of a picture into a fixed number. K-means algorithm can easily been used for this task and often produces a competitive result.</p>
+<p>As an unsupervised learning algorithm, K-means algorithm is also widely used to explore the implicit features of a dataset before applying subsequent learning algorithms in data mining area, which can be very useful in some NLP(Natural Language Processing) and computer vision tasks.</p>
+<h3 id="Pros-And-Cons"><a href="#Pros-And-Cons" class="headerlink" title="Pros And Cons"></a>Pros And Cons</h3><p>The advantage of K-means algorithm is that it <strong>has a relatively low time and space complexity</strong>, and <strong>has a good flexibility even when applying to a large dataset</strong>. However, there are also some drawbacks of it:</p>
+<ol>
+<li>The algorithm may converges to a local minimum, which is counterintuitive in some situation.</li>
+<li>Unable to get a correct partition when the clusters is not spherical or non-convex.</li>
+<li>The algorithm is sensitive to the cluster number K and the initial point of the centroids.</li>
+</ol>
+<h2 id="Hierarchical-Clustering"><a href="#Hierarchical-Clustering" class="headerlink" title="Hierarchical Clustering"></a>Hierarchical Clustering</h2>
     </div>
 
     
@@ -341,7 +244,7 @@ E[T(n)] &= 2(n+1)\left(\ln n + \gamma + \mathcal{O} \left(\frac{1}{n} \right)\ri
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://gonggongjohn.github.io/blog/2020/10/10/qsort-analyze/" title="快速排序时间复杂度分析">http://gonggongjohn.github.io/blog/2020/10/10/qsort-analyze/</a>
+    <a href="http://gonggongjohn.github.io/blog/2020/12/30/clustering/" title="clustering">http://gonggongjohn.github.io/blog/2020/12/30/clustering/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -353,7 +256,7 @@ E[T(n)] &= 2(n+1)\left(\ln n + \gamma + \mathcal{O} \left(\frac{1}{n} \right)\ri
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/blog/tags/Computer-Science/" rel="tag"># Computer-Science</a>
-              <a href="/blog/tags/Algorithm/" rel="tag"># Algorithm</a>
+              <a href="/blog/tags/Machine-Learning/" rel="tag"># Machine-Learning</a>
           </div>
 
         
@@ -362,13 +265,10 @@ E[T(n)] &= 2(n+1)\left(\ln n + \gamma + \mathcal{O} \left(\frac{1}{n} \right)\ri
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/2020/10/07/csapp-01/" rel="prev" title="《深入理解计算机系统》笔记整理（一）">
-      <i class="fa fa-chevron-left"></i> 《深入理解计算机系统》笔记整理（一）
+    <a href="/blog/2020/11/25/akra-bazzi/" rel="prev" title="从主方法到Akra-Bazzi定理">
+      <i class="fa fa-chevron-left"></i> 从主方法到Akra-Bazzi定理
     </a></div>
-      <div class="post-nav-item">
-    <a href="/blog/2020/10/11/recursion-solve/" rel="next" title="递归式的解法">
-      递归式的解法 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -427,7 +327,7 @@ E[T(n)] &= 2(n+1)\left(\ln n + \gamma + \mathcal{O} \left(\frac{1}{n} \right)\ri
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%8C%96%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-number">1.</span> <span class="nav-text">随机化快速排序</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#K-Means%E8%81%9A%E7%B1%BB%E4%B8%8E%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">K-Means聚类与层次聚类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cluster-Analysis"><span class="nav-number">1.1.</span> <span class="nav-text">Cluster Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-means-Clustering"><span class="nav-number">1.2.</span> <span class="nav-text">K-means Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Concept"><span class="nav-number">1.2.1.</span> <span class="nav-text">Concept</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mathematical-Details"><span class="nav-number">1.2.2.</span> <span class="nav-text">Mathematical Details</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Complexity-Analysis"><span class="nav-number">1.2.3.</span> <span class="nav-text">Complexity Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Applications"><span class="nav-number">1.2.4.</span> <span class="nav-text">Applications</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pros-And-Cons"><span class="nav-number">1.2.5.</span> <span class="nav-text">Pros And Cons</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hierarchical-Clustering"><span class="nav-number">1.3.</span> <span class="nav-text">Hierarchical Clustering</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
