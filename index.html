@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"gonggongjohn.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="This is the private blog site of gonggongjohn">
+  <meta name="description" content="A sophomore student major in Data Science.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="GONGGONGJOHN&#39;s Blog">
 <meta property="og:url" content="http://gonggongjohn.github.io/blog/index.html">
 <meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
-<meta property="og:description" content="This is the private blog site of gonggongjohn">
+<meta property="og:description" content="A sophomore student major in Data Science.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta name="twitter:card" content="summary">
@@ -77,6 +77,12 @@
 <link rel="alternate" href="/blog/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
 </head>
 
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
     <div class="headband"></div>
@@ -116,9 +122,14 @@
     <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
-        <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-about">
 
-    <a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">9</span></a>
+    <a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -158,7 +169,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -167,7 +178,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/blog/2020/12/30/clustering/" class="post-title-link" itemprop="url">clustering</a>
+            <a href="/blog/2020/12/30/clustering/" class="post-title-link" itemprop="url">K-Means聚类与层次聚类</a>
         </h2>
 
         <div class="post-meta">
@@ -176,10 +187,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-12-30 21:22:44 / 修改时间：21:24:06" itemprop="dateCreated datePublished" datetime="2020-12-30T21:22:44+08:00">2020-12-30</time>
+              <time title="创建时间：2020-12-30 21:22:44" itemprop="dateCreated datePublished" datetime="2020-12-30T21:22:44+08:00">2020-12-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-21 14:27:04" itemprop="dateModified" datetime="2021-01-21T14:27:04+08:00">2021-01-21</time>
+              </span>
 
           
 
@@ -192,7 +209,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="K-Means聚类与层次聚类"><a href="#K-Means聚类与层次聚类" class="headerlink" title="K-Means聚类与层次聚类"></a>K-Means聚类与层次聚类</h1><h2 id="Cluster-Analysis"><a href="#Cluster-Analysis" class="headerlink" title="Cluster Analysis"></a>Cluster Analysis</h2><p><strong>Cluster analysis</strong> or <strong>clustering</strong> is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is a main task of exploratory data mining, and a common technique for statistical data analysis which used in many fields including pattern recognition, image analysis, information retrieval, bioinformatics, data compression, computer graphics and machine learning. </p>
+          <h2 id="Cluster-Analysis"><a href="#Cluster-Analysis" class="headerlink" title="Cluster Analysis"></a>Cluster Analysis</h2><p><strong>Cluster analysis</strong> or <strong>clustering</strong> is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is a main task of exploratory data mining, and a common technique for statistical data analysis which used in many fields including pattern recognition, image analysis, information retrieval, bioinformatics, data compression, computer graphics and machine learning. </p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/blog/2020/12/30/clustering/#more" rel="contents">
@@ -224,7 +241,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -250,8 +267,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-26 18:34:49" itemprop="dateModified" datetime="2020-11-26T18:34:49+08:00">2020-11-26</time>
+                <time title="修改时间：2021-01-21 15:09:55" itemprop="dateModified" datetime="2021-01-21T15:09:55+08:00">2021-01-21</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
 
           
 
@@ -296,7 +322,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -322,8 +348,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-31 14:12:06" itemprop="dateModified" datetime="2020-10-31T14:12:06+08:00">2020-10-31</time>
+                <time title="修改时间：2021-01-21 15:10:05" itemprop="dateModified" datetime="2021-01-21T15:10:05+08:00">2021-01-21</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
 
           
 
@@ -376,7 +411,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -442,7 +477,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -509,7 +544,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -535,8 +570,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-01 14:42:51" itemprop="dateModified" datetime="2020-11-01T14:42:51+08:00">2020-11-01</time>
+                <time title="修改时间：2021-01-21 15:09:44" itemprop="dateModified" datetime="2021-01-21T15:09:44+08:00">2021-01-21</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
 
           
 
@@ -582,7 +626,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -657,7 +701,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -730,7 +774,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -756,8 +800,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-27 10:39:10" itemprop="dateModified" datetime="2020-08-27T10:39:10+08:00">2020-08-27</time>
+                <time title="修改时间：2021-01-21 15:09:14" itemprop="dateModified" datetime="2021-01-21T15:09:14+08:00">2021-01-21</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/%E5%88%86%E6%9E%90%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">分析学</span></a>
+                </span>
+            </span>
 
           
 
@@ -795,7 +848,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -821,8 +874,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-23 10:33:28" itemprop="dateModified" datetime="2020-09-23T10:33:28+08:00">2020-09-23</time>
+                <time title="修改时间：2021-01-21 15:09:04" itemprop="dateModified" datetime="2021-01-21T15:09:04+08:00">2021-01-21</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/%E4%BB%A3%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">代数学</span></a>
+                </span>
+            </span>
 
           
 
@@ -929,7 +991,7 @@
     <img class="site-author-image" itemprop="image" alt="GONGGONGJOHN"
       src="/blog/images/avatar.png">
   <p class="site-author-name" itemprop="name">GONGGONGJOHN</p>
-  <div class="site-description" itemprop="description">This is the private blog site of gonggongjohn</div>
+  <div class="site-description" itemprop="description">A sophomore student major in Data Science.</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -939,6 +1001,12 @@
           <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/blog/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
         <span class="site-state-item-count">9</span>
@@ -975,8 +1043,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

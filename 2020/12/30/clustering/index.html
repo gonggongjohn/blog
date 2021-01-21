@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"gonggongjohn.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="K-Means聚类与层次聚类Cluster AnalysisCluster analysis or clustering is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other g">
+  <meta name="description" content="Cluster AnalysisCluster analysis or clustering is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is a">
 <meta property="og:type" content="article">
-<meta property="og:title" content="clustering">
+<meta property="og:title" content="K-Means聚类与层次聚类">
 <meta property="og:url" content="http://gonggongjohn.github.io/blog/2020/12/30/clustering/index.html">
 <meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
-<meta property="og:description" content="K-Means聚类与层次聚类Cluster AnalysisCluster analysis or clustering is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other g">
+<meta property="og:description" content="Cluster AnalysisCluster analysis or clustering is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is a">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-30T13:22:44.000Z">
-<meta property="article:modified_time" content="2020-12-30T13:24:06.754Z">
+<meta property="article:modified_time" content="2021-01-21T06:27:04.878Z">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta property="article:tag" content="Computer-Science">
 <meta property="article:tag" content="Machine-Learning">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>clustering | GONGGONGJOHN's Blog</title>
+  <title>K-Means聚类与层次聚类 | GONGGONGJOHN's Blog</title>
   
 
 
@@ -80,6 +80,12 @@
 
 <link rel="alternate" href="/blog/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
 </head>
+
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -120,9 +126,14 @@
     <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
-        <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-about">
 
-    <a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">9</span></a>
+    <a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -163,7 +174,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/blog/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="This is the private blog site of gonggongjohn">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -171,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          clustering
+          K-Means聚类与层次聚类
         </h1>
 
         <div class="post-meta">
@@ -180,10 +191,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-12-30 21:22:44 / 修改时间：21:24:06" itemprop="dateCreated datePublished" datetime="2020-12-30T21:22:44+08:00">2020-12-30</time>
+              <time title="创建时间：2020-12-30 21:22:44" itemprop="dateCreated datePublished" datetime="2020-12-30T21:22:44+08:00">2020-12-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-21 14:27:04" itemprop="dateModified" datetime="2021-01-21T14:27:04+08:00">2021-01-21</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -203,7 +220,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="K-Means聚类与层次聚类"><a href="#K-Means聚类与层次聚类" class="headerlink" title="K-Means聚类与层次聚类"></a>K-Means聚类与层次聚类</h1><h2 id="Cluster-Analysis"><a href="#Cluster-Analysis" class="headerlink" title="Cluster Analysis"></a>Cluster Analysis</h2><p><strong>Cluster analysis</strong> or <strong>clustering</strong> is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is a main task of exploratory data mining, and a common technique for statistical data analysis which used in many fields including pattern recognition, image analysis, information retrieval, bioinformatics, data compression, computer graphics and machine learning. </p>
+        <h2 id="Cluster-Analysis"><a href="#Cluster-Analysis" class="headerlink" title="Cluster Analysis"></a>Cluster Analysis</h2><p><strong>Cluster analysis</strong> or <strong>clustering</strong> is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is a main task of exploratory data mining, and a common technique for statistical data analysis which used in many fields including pattern recognition, image analysis, information retrieval, bioinformatics, data compression, computer graphics and machine learning. </p>
 <a id="more"></a>
 <h2 id="K-means-Clustering"><a href="#K-means-Clustering" class="headerlink" title="K-means Clustering"></a>K-means Clustering</h2><h3 id="Concept"><a href="#Concept" class="headerlink" title="Concept"></a>Concept</h3><p>K-means clustering is a partition-based method that can be used to partition a dataset into a fixed number of clusters. We can use the famous <strong>priest-villager model</strong> to illustrate the main idea of K-means algorithm.</p>
 <p>There are four priests preaching in the countryside. At first, they chose four preaching points arbitrarily, and told villagers to take the preaching course that is nearest to their own house. After the first class, some villagers complained that the preaching points was still too far from their home, so each of the priests collected the home addresses of all the villagers that came to his class and move the preaching point to the center of all the addresses. Since the update of preaching points, some villagers found that another preaching points became closer to their house than the previous one, so they chose to take the course at the new preaching point. In this way, the priests updated their preaching points every week, and villagers decided which course to take according to the distance of each preaching points. After several weeks, the preaching points became stable and both the villagers and the priests got satisfied.</p>
@@ -229,7 +246,18 @@
 <li>Unable to get a correct partition when the clusters is not spherical or non-convex.</li>
 <li>The algorithm is sensitive to the cluster number K and the initial point of the centroids.</li>
 </ol>
-<h2 id="Hierarchical-Clustering"><a href="#Hierarchical-Clustering" class="headerlink" title="Hierarchical Clustering"></a>Hierarchical Clustering</h2>
+<h2 id="Hierarchical-Clustering"><a href="#Hierarchical-Clustering" class="headerlink" title="Hierarchical Clustering"></a>Hierarchical Clustering</h2><h3 id="Concept-1"><a href="#Concept-1" class="headerlink" title="Concept"></a>Concept</h3><p>As its name suggests, hierarchical clustering is a hierarchical-based method to group similar objects into clusters. Its main idea is to build a <strong>hierarchical tree</strong> (or <strong>dendrogram</strong>) to represent the nested group relations. In general, there are two different strategies to achieve this goal: <strong>Agglomerative Hierarchical Clustering</strong> and <strong>Divisive Hierarchical Clustering</strong>. Agglomative method is a <strong>bottom-up</strong> method, which is to regard each of the instances as a single cluster at first and then keep merging the most similar clusters until there is only one cluster left. In comparison, divisive method is a <strong>top-down</strong> method, which consider the whole dataset as a big cluster and keep splitting down until each of the clusters have only one instance in it. </p>
+<h3 id="Complexity-Analysis-1"><a href="#Complexity-Analysis-1" class="headerlink" title="Complexity Analysis"></a>Complexity Analysis</h3><p>Agglomerative hierarchical clustering algorithm can be implemented as follow:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">AHC(s): &#x2F;&#x2F;s denotes the dataset</span><br><span class="line">Initialize c &#x2F;&#x2F;Denote the clusters at the current level</span><br><span class="line">Append every instance from s to c</span><br><span class="line">While c.length !&#x3D; 1</span><br><span class="line">	min_dist &#x3D; INF</span><br><span class="line">	For i in c</span><br><span class="line">		For j in c</span><br><span class="line">			If i !&#x3D; j</span><br><span class="line">				d &#x3D; Distance between i and j</span><br><span class="line">				If d &lt; min_dist</span><br><span class="line">					min_dist &#x3D; d</span><br><span class="line">					min_cp &#x3D; i, j</span><br><span class="line">	cm &#x3D; merge(min_cp)</span><br><span class="line">	Remove min_cp from c</span><br><span class="line">	Append cm to c</span><br></pre></td></tr></table></figure>
+<p>The basic structure of Divisive hierarchical clustering algorithm is the same as the agglomerative one, except the divisive one needs to split the farthest sub-clusters from the larger cluster in every loop.</p>
+<p>If we use the Euclidean distance as the distance metrics, then the <strong>time complexity</strong> of hierarchical clustering is <script type="math/tex">\mathcal{O}(mn^3)</script> where <script type="math/tex">m</script> is the dimension of each sample in the dataset and <script type="math/tex">n</script> is the size of the dataset.</p>
+<p>Since every cluster needs to record its member and its sub-clusters, the <strong>space complexity</strong> of hierarchical clustering is <script type="math/tex">\mathcal{O}(n^2)</script></p>
+<h3 id="Applications-1"><a href="#Applications-1" class="headerlink" title="Applications"></a>Applications</h3><p>Hierarchical clustering is an ideal methods to find the hierarchical relations between instances. These instances often differ from each other in some aspects, but not to the extent that we should put them into two mutual exclusive groups.</p>
+<p>For instance, we can use hierarchical clustering to find the members of each party in America senate. To achieve this, we can define how much one senator agrees with another’s words as a metrics, and implement hierarchical clustering algorithm on all senator’s twitter accounts. </p>
+<h3 id="Pros-And-Cons-1"><a href="#Pros-And-Cons-1" class="headerlink" title="Pros And Cons"></a>Pros And Cons</h3><p>A conspicuous benefit for hierarchical clustering is that it can get the whole cluster information once-and-for-all. Once we get the hierarchical relation tree of a dataset, we can probe the cluster information in different granularity and get the fittest cluster results we want to get. </p>
+<p>However, the defects of it is equally distinct. The huge cost of computing distance between every two clusters and storing hierarchical information makes it unsuitable to handle large dataset. Once a cluster partition or congregation is determined, it is not easy to change since every subsequent judgement is based on clusters existed, which gives the algorithm a poor flexibility. Moreover, the strategy for merging or splitting the clusters is a greedy strategy, which may leads to an local-optimum result.</p>
+<h3 id="K-means-V-S-Hierarchical-Clustering"><a href="#K-means-V-S-Hierarchical-Clustering" class="headerlink" title="K-means V.S. Hierarchical Clustering"></a>K-means V.S. Hierarchical Clustering</h3><p>In view of their different features, K-means and hierarchical clustering are often used in different scenarios. K-means can be easily adapted to a large or dense dataset thanks to its simplity and low computational cost. When it is uneasy to determine how many clusters in the dataset or the instance relations are unambiguous, hierarchical clustering proves to be a better choice. In practice, we often perform K-means clustering first to get a rough understanding of a dataset and reduce the data size. Then we perform hierarchical clustering to explore the deeper interrelationships among the dataset. </p>
+
     </div>
 
     
@@ -244,7 +272,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://gonggongjohn.github.io/blog/2020/12/30/clustering/" title="clustering">http://gonggongjohn.github.io/blog/2020/12/30/clustering/</a>
+    <a href="http://gonggongjohn.github.io/blog/2020/12/30/clustering/" title="K-Means聚类与层次聚类">http://gonggongjohn.github.io/blog/2020/12/30/clustering/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -327,7 +355,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#K-Means%E8%81%9A%E7%B1%BB%E4%B8%8E%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">K-Means聚类与层次聚类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cluster-Analysis"><span class="nav-number">1.1.</span> <span class="nav-text">Cluster Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-means-Clustering"><span class="nav-number">1.2.</span> <span class="nav-text">K-means Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Concept"><span class="nav-number">1.2.1.</span> <span class="nav-text">Concept</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mathematical-Details"><span class="nav-number">1.2.2.</span> <span class="nav-text">Mathematical Details</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Complexity-Analysis"><span class="nav-number">1.2.3.</span> <span class="nav-text">Complexity Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Applications"><span class="nav-number">1.2.4.</span> <span class="nav-text">Applications</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pros-And-Cons"><span class="nav-number">1.2.5.</span> <span class="nav-text">Pros And Cons</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hierarchical-Clustering"><span class="nav-number">1.3.</span> <span class="nav-text">Hierarchical Clustering</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cluster-Analysis"><span class="nav-number">1.</span> <span class="nav-text">Cluster Analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K-means-Clustering"><span class="nav-number">2.</span> <span class="nav-text">K-means Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Concept"><span class="nav-number">2.1.</span> <span class="nav-text">Concept</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mathematical-Details"><span class="nav-number">2.2.</span> <span class="nav-text">Mathematical Details</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Complexity-Analysis"><span class="nav-number">2.3.</span> <span class="nav-text">Complexity Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Applications"><span class="nav-number">2.4.</span> <span class="nav-text">Applications</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pros-And-Cons"><span class="nav-number">2.5.</span> <span class="nav-text">Pros And Cons</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hierarchical-Clustering"><span class="nav-number">3.</span> <span class="nav-text">Hierarchical Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Concept-1"><span class="nav-number">3.1.</span> <span class="nav-text">Concept</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Complexity-Analysis-1"><span class="nav-number">3.2.</span> <span class="nav-text">Complexity Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Applications-1"><span class="nav-number">3.3.</span> <span class="nav-text">Applications</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pros-And-Cons-1"><span class="nav-number">3.4.</span> <span class="nav-text">Pros And Cons</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-means-V-S-Hierarchical-Clustering"><span class="nav-number">3.5.</span> <span class="nav-text">K-means V.S. Hierarchical Clustering</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -336,7 +364,7 @@
     <img class="site-author-image" itemprop="image" alt="GONGGONGJOHN"
       src="/blog/images/avatar.png">
   <p class="site-author-name" itemprop="name">GONGGONGJOHN</p>
-  <div class="site-description" itemprop="description">This is the private blog site of gonggongjohn</div>
+  <div class="site-description" itemprop="description">A sophomore student major in Data Science.</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -346,6 +374,12 @@
           <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/blog/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
         <span class="site-state-item-count">9</span>
@@ -382,8 +416,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

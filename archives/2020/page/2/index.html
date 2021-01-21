@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"gonggongjohn.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="This is the private blog site of gonggongjohn">
+  <meta name="description" content="A sophomore student major in Data Science.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="GONGGONGJOHN&#39;s Blog">
 <meta property="og:url" content="http://gonggongjohn.github.io/blog/archives/2020/page/2/index.html">
 <meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
-<meta property="og:description" content="This is the private blog site of gonggongjohn">
+<meta property="og:description" content="A sophomore student major in Data Science.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta name="twitter:card" content="summary">
@@ -77,6 +77,12 @@
 <link rel="alternate" href="/blog/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
 </head>
 
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
     <div class="headband"></div>
@@ -116,9 +122,14 @@
     <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
-        <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-about">
 
-    <a href="/blog/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">9</span></a>
+    <a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -254,7 +265,7 @@
     <img class="site-author-image" itemprop="image" alt="GONGGONGJOHN"
       src="/blog/images/avatar.png">
   <p class="site-author-name" itemprop="name">GONGGONGJOHN</p>
-  <div class="site-description" itemprop="description">This is the private blog site of gonggongjohn</div>
+  <div class="site-description" itemprop="description">A sophomore student major in Data Science.</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -264,6 +275,12 @@
           <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/blog/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
         <span class="site-state-item-count">9</span>
@@ -300,8 +317,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
