@@ -5,25 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="/blog/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"gonggongjohn.github.io","root":"/blog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="定义 设 $X,Y$ 为两个集合，$f$ 为某种使得 $X$ 中的每一个元素都对应于 $Y$ 中某个元素的规则，则称 $f$ 为 $X$ 到 $Y$ 的一个映射，记为 $f:X \to Y$ ， $X$ 称为 $f$ 的定义域， $Y$ 称为 $f$ 的陪域  设 $f:X \to Y$ 为一映射，则 $X$ 中的元素 $a$ 在 $f$ 下对应的 $Y$ 中的元素 $b$ 称为 $a$ 的象，记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="代数概念整理：映射">
-<meta property="og:url" content="http://gonggongjohn.github.io/blog/2020/07/31/algebra-projection/index.html">
+<meta property="og:url" content="http://gonggongjohn.me/2020/07/31/algebra-projection/index.html">
 <meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
 <meta property="og:description" content="定义 设 $X,Y$ 为两个集合，$f$ 为某种使得 $X$ 中的每一个元素都对应于 $Y$ 中某个元素的规则，则称 $f$ 为 $X$ 到 $Y$ 的一个映射，记为 $f:X \to Y$ ， $X$ 称为 $f$ 的定义域， $Y$ 称为 $f$ 的陪域  设 $f:X \to Y$ 为一映射，则 $X$ 中的元素 $a$ 在 $f$ 下对应的 $Y$ 中的元素 $b$ 称为 $a$ 的象，记">
 <meta property="og:locale" content="zh_CN">
@@ -34,7 +34,7 @@
 <meta property="article:tag" content="Algebra">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://gonggongjohn.github.io/blog/2020/07/31/algebra-projection/">
+<link rel="canonical" href="http://gonggongjohn.me/2020/07/31/algebra-projection/">
 
 
 <script id="page-configurations">
@@ -78,7 +78,7 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/blog/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
 </head>
 
 
@@ -103,7 +103,7 @@
 
   <div class="site-meta">
 
-    <a href="/blog/" class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">GONGGONGJOHN's Blog</h1>
       <span class="logo-line-after"><i></i></span>
@@ -123,22 +123,22 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">12</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">12</span></a>
 
   </li>
   </ul>
@@ -169,10 +169,10 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.github.io/blog/2020/07/31/algebra-projection/">
+    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/07/31/algebra-projection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/avatar.png">
+      <meta itemprop="image" content="/images/avatar.png">
       <meta itemprop="name" content="GONGGONGJOHN">
       <meta itemprop="description" content="A sophomore student major in Data Science.">
     </span>
@@ -207,7 +207,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/%E4%BB%A3%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">代数学</span></a>
+                  <a href="/categories/%E4%BB%A3%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">代数学</span></a>
                 </span>
             </span>
 
@@ -271,7 +271,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://gonggongjohn.github.io/blog/2020/07/31/algebra-projection/" title="代数概念整理：映射">http://gonggongjohn.github.io/blog/2020/07/31/algebra-projection/</a>
+    <a href="http://gonggongjohn.me/2020/07/31/algebra-projection/" title="代数概念整理：映射">http://gonggongjohn.me/2020/07/31/algebra-projection/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -282,8 +282,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/blog/tags/Mathematics/" rel="tag"># Mathematics</a>
-              <a href="/blog/tags/Algebra/" rel="tag"># Algebra</a>
+              <a href="/tags/Mathematics/" rel="tag"># Mathematics</a>
+              <a href="/tags/Algebra/" rel="tag"># Algebra</a>
           </div>
 
         
@@ -292,11 +292,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/2020/07/30/algebra-set/" rel="prev" title="代数概念整理：集合">
+    <a href="/2020/07/30/algebra-set/" rel="prev" title="代数概念整理：集合">
       <i class="fa fa-chevron-left"></i> 代数概念整理：集合
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/2020/08/26/analysis-real-number/" rel="next" title="实数的严格定义">
+    <a href="/2020/08/26/analysis-real-number/" rel="next" title="实数的严格定义">
       实数的严格定义 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -364,21 +364,21 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="GONGGONGJOHN"
-      src="/blog/images/avatar.png">
+      src="/images/avatar.png">
   <p class="site-author-name" itemprop="name">GONGGONGJOHN</p>
   <div class="site-description" itemprop="description">A sophomore student major in Data Science.</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/blog/archives/">
+          <a href="/archives/">
         
           <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/blog/categories/">
+            <a href="/categories/">
           
         <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
@@ -395,7 +395,7 @@
       </span>
   </div>
   <div class="cc-license motion-element" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/blog/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -460,19 +460,19 @@
   </div>
 
   
-  <script src="/blog/lib/anime.min.js"></script>
-  <script src="/blog/lib/velocity/velocity.min.js"></script>
-  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-<script src="/blog/js/utils.js"></script>
+<script src="/js/utils.js"></script>
 
-<script src="/blog/js/motion.js"></script>
-
-
-<script src="/blog/js/schemes/pisces.js"></script>
+<script src="/js/motion.js"></script>
 
 
-<script src="/blog/js/next-boot.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
 
 
 
