@@ -158,13 +158,6 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/Computer-System/</loc>
-    <lastmod>2021-01-31</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://gonggongjohn.me/tags/CSAPP/</loc>
     <lastmod>2021-01-31</lastmod>
     <changefreq>daily</changefreq>
@@ -172,7 +165,7 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/Language/</loc>
+    <loc>http://gonggongjohn.me/tags/Computer-System/</loc>
     <lastmod>2021-01-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -180,6 +173,13 @@
   
   <url>
     <loc>http://gonggongjohn.me/tags/Algorithm/</loc>
+    <lastmod>2021-01-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/tags/Language/</loc>
     <lastmod>2021-01-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
