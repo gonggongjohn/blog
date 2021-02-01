@@ -28,7 +28,7 @@
 <meta property="og:description" content="Data Lab要求我们在有一系列运算限制的情况下实现某些运算操作，从而尽可能的开发位运算的作用。这个Lab中的绝大部分内容的技巧性都比较强，可以阅读《算法心得：高效算法的奥秘》一书作为参考。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-30T14:15:21.000Z">
-<meta property="article:modified_time" content="2021-02-01T05:42:39.351Z">
+<meta property="article:modified_time" content="2021-02-01T06:30:16.415Z">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta property="article:tag" content="Computer-Science">
 <meta property="article:tag" content="Computer-System">
@@ -199,7 +199,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-01 13:42:39" itemprop="dateModified" datetime="2021-02-01T13:42:39+08:00">2021-02-01</time>
+                <time title="修改时间：2021-02-01 14:30:16" itemprop="dateModified" datetime="2021-02-01T14:30:16+08:00">2021-02-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -285,7 +285,7 @@
 <blockquote>
 <p>对于整数 <script type="math/tex">x</script> 和 <script type="math/tex">y(y>0)</script>，有 <script type="math/tex">\lceil \frac{x}{y} \rceil = \lfloor \frac{x+y-1}{y} \rfloor</script></p>
 </blockquote>
-<p>由此可知对于负数，我们只需将其加上一个偏置 <script type="math/tex">2^n -1</script>，即可将结果变为向上取整。因此当 <script type="math/tex">x<0</script> 时的操作为(x+(1&lt;<n)-1)>&gt;n。</p>
+<p>由此可知对于负数，我们只需将其加上一个偏置 <script type="math/tex">2^n -1</script>，即可将结果变为向上取整。因此当 <script type="math/tex">x<0</script> 时的操作为 <script type="math/tex">(x+(1<<n)-1)>>n</script>。</p>
 <p>现在我们要通过位运算将这两种情况整合到一起。通过观察可以发现，我们只需要让某个运算在 <script type="math/tex">x \geq 0</script> 时的结果为0，在 <script type="math/tex">x < 0</script> 时的结果为(1&lt;&lt;n)-1即可。同样的，我们可以使用掩码的思想来做到这一点。结合补码的性质及算数右移的性质，我们可以发现只需要将x右移31位即可得到掩码。由此最终的运算操作也迎刃而解。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">divpwr2</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tn = ~((~<span class="number">0</span>)&lt;&lt;n);</span><br><span class="line">    <span class="keyword">int</span> tx = (~((x&gt;&gt;<span class="number">31</span>) &amp; <span class="number">0x01</span>)) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> (x + (tx &amp; tn)) &gt;&gt; n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="isPositive"><a href="#isPositive" class="headerlink" title="isPositive"></a>isPositive</h3><p>根据题意，我们要让大于0的数运算结果等于1，0和小于0的数运算结果等于0。根据补码的性质，对于除0以外的其他数，我们只需判断最高位是否为1即可；而对于0，我们可以将其单独讨论。</p>
