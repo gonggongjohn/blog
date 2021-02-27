@@ -20,21 +20,21 @@
     var CONFIG = {"hostname":"gonggongjohn.me","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="对于整数和有理数，我们可以很轻松的从直观上理解并将他们表示出来。对于整数 $1,2,3,4,…$，我们只需要通过写出各数位上的数字便可将他们精确的表出；对于有理数，我们也只需要写出构成分母和分子的两个整数便可以精确表示。">
+  <meta name="description" content="实数集是不可数集这一结论的证明是近代集合论研究的一大重要标志。随着近代分析学的发展，这一结论可以从许多不同的角度推导而出。这些方法融合了许多重要的分析思想及数学技巧，在此进行一个简单的整理和总结。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="实数的严格定义">
-<meta property="og:url" content="http://gonggongjohn.me/2020/08/26/analysis-real-number/index.html">
+<meta property="og:title" content="实数集不可数的证明">
+<meta property="og:url" content="http://gonggongjohn.me/2021/02/27/real-number-uncountability/index.html">
 <meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
-<meta property="og:description" content="对于整数和有理数，我们可以很轻松的从直观上理解并将他们表示出来。对于整数 $1,2,3,4,…$，我们只需要通过写出各数位上的数字便可将他们精确的表出；对于有理数，我们也只需要写出构成分母和分子的两个整数便可以精确表示。">
+<meta property="og:description" content="实数集是不可数集这一结论的证明是近代集合论研究的一大重要标志。随着近代分析学的发展，这一结论可以从许多不同的角度推导而出。这些方法融合了许多重要的分析思想及数学技巧，在此进行一个简单的整理和总结。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-08-26T11:03:01.000Z">
-<meta property="article:modified_time" content="2021-01-21T07:09:14.876Z">
+<meta property="article:published_time" content="2021-02-27T14:37:37.000Z">
+<meta property="article:modified_time" content="2021-02-27T14:38:48.142Z">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta property="article:tag" content="Mathematics">
 <meta property="article:tag" content="Analysis">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://gonggongjohn.me/2020/08/26/analysis-real-number/">
+<link rel="canonical" href="http://gonggongjohn.me/2021/02/27/real-number-uncountability/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>实数的严格定义 | GONGGONGJOHN's Blog</title>
+  <title>实数集不可数的证明 | GONGGONGJOHN's Blog</title>
   
 
 
@@ -169,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/08/26/analysis-real-number/">
+    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2021/02/27/real-number-uncountability/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -182,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          实数的严格定义
+          实数集不可数的证明
         </h1>
 
         <div class="post-meta">
@@ -191,16 +191,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-08-26 19:03:01" itemprop="dateCreated datePublished" datetime="2020-08-26T19:03:01+08:00">2020-08-26</time>
+              <time title="创建时间：2021-02-27 22:37:37 / 修改时间：22:38:48" itemprop="dateCreated datePublished" datetime="2021-02-27T22:37:37+08:00">2021-02-27</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-21 15:09:14" itemprop="dateModified" datetime="2021-01-21T15:09:14+08:00">2021-01-21</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -229,7 +223,58 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>对于整数和有理数，我们可以很轻松的从直观上理解并将他们表示出来。对于整数 $1,2,3,4,…$，我们只需要通过写出各数位上的数字便可将他们精确的表出；对于有理数，我们也只需要写出构成分母和分子的两个整数便可以精确表示。</p>
+        <p>实数集是不可数集这一结论的证明是近代集合论研究的一大重要标志。随着近代分析学的发展，这一结论可以从许多不同的角度推导而出。这些方法融合了许多重要的分析思想及数学技巧，在此进行一个简单的整理和总结。</p>
+<a id="more"></a>
+<blockquote>
+<p><strong>Theorem:</strong> 实数集 <script type="math/tex">\mathbb{R}</script> 不可数</p>
+</blockquote>
+<h2 id="对角线法"><a href="#对角线法" class="headerlink" title="对角线法"></a>对角线法</h2><p>若 <script type="math/tex">\mathbb{R}</script> 可数，则区间 <script type="math/tex">[0,1] \subset \mathbb{R}</script> 必然可数</p>
+<p>因此必然可以使用十进制表示法将 <script type="math/tex">[0,1]</script> 中的每一个数一一列出：</p>
+<script type="math/tex; mode=display">
+r_1 = 0.d_{11} d_{12} d_{13} d_{14} ... \\
+r_2 = 0.d_{21} d_{22} d_{23} d_{24} ... \\
+r_3 = 0.d_{31} d_{32} d_{33} d_{34} ... \\
+r_4 = 0.d_{41} d_{42} d_{43} d_{44} ... \\
+...</script><p>其中 <script type="math/tex">d_{ij} \in \{0, 1, 2, ..., 9\}</script></p>
+<p>现构造一新的实数 <script type="math/tex">r = 0.d_1 d_2 d_3 d_4 ...</script>，使得</p>
+<script type="math/tex; mode=display">
+d_i = \left\{
+\begin{aligned}
+4, \ if \ d_{ii} \neq 4 \\
+5, \ if \ d_{ii} = 4
+\end{aligned}
+\right.</script><p>显然 <script type="math/tex">r \in [0, 1]</script></p>
+<p>而由于对任意 <script type="math/tex">i \in \mathbb{N}^+</script>，<script type="math/tex">r</script> 与 <script type="math/tex">r_i</script> 的第 <script type="math/tex">i</script> 位数字均不相同，因此 <script type="math/tex">r \neq r_i</script></p>
+<p>由此我们构造出了一个未被列出的实数，这与 <script type="math/tex">[0,1]</script> 中的每一个数均可被列出矛盾</p>
+<p>故 <script type="math/tex">[0,1]</script> 为不可数集，进而可知 <script type="math/tex">\mathbb{R}</script> 为不可数集。</p>
+<h2 id="区间套法"><a href="#区间套法" class="headerlink" title="区间套法"></a>区间套法</h2><blockquote>
+<p><strong>Lemma:</strong> 若 <script type="math/tex">\{[a_n, b_n]\}</script> 形成一闭区间套，则存在唯一的实数 <script type="math/tex">\xi</script> 属于所有的闭区间 <script type="math/tex">[a_n, b_n]</script>，且 <script type="math/tex">\xi = \lim_\limits{n \to \infty} a_n = \lim_\limits{n \to \infty} b_n</script></p>
+</blockquote>
+<p>若 <script type="math/tex">\mathbb{R}</script> 可数，则区间 <script type="math/tex">[0,1] \subset \mathbb{R}</script> 必然可数</p>
+<p>因此我们可将 <script type="math/tex">[0,1]</script> 写为一数列 <script type="math/tex">r_1, r_2, ...,r_n,...</script></p>
+<p>现将 <script type="math/tex">[0,1]</script> 三等分，则必存在某个区间 <script type="math/tex">[a_1, b_1] \subset [0,1]</script>，使得 <script type="math/tex">r_1 \notin [a_1, b_1]</script></p>
+<p>接着继续将 <script type="math/tex">[a_1, b_1]</script> 三等分，则必存在某一子区间 <script type="math/tex">[a_2, b_2] \subset [a_1, b_1]</script>，使得 <script type="math/tex">r_2 \notin [a_2, b_2]</script></p>
+<p>如此进行下去，可得一闭区间套 <script type="math/tex">\{[a_n, b_n]\}</script>，且满足对任意 <script type="math/tex">i \in \mathbb{N^+}</script>，有 <script type="math/tex">r_i \notin [a_i, b_i]</script></p>
+<p>故由<strong>闭区间套定理</strong>可知，存在 <script type="math/tex">\xi \in \mathbb{R}</script>，使得对任意 <script type="math/tex">n \in \mathbb{N^+}</script>，有 <script type="math/tex">\xi \in [a_n, b_n]</script></p>
+<p>于是存在 <script type="math/tex">\xi \in [0,1]</script>，使得对任意 <script type="math/tex">i \in \mathbb{R}^+</script>，有 <script type="math/tex">\xi \neq r_i</script>，与 <script type="math/tex">[0,1]</script> 中每一个数均可被列出矛盾</p>
+<p>故 <script type="math/tex">[0,1]</script> 为不可数集，进而可知 <script type="math/tex">\mathbb{R}</script> 为不可数集。</p>
+<h2 id="外测度法"><a href="#外测度法" class="headerlink" title="外测度法"></a>外测度法</h2><p>对于 <script type="math/tex">\mathbb{R}</script> 上的任意闭区间 <script type="math/tex">I=[a,b]</script>，其体积 <script type="math/tex">V(I)=b-a</script></p>
+<p>故由外测度定义</p>
+<script type="math/tex; mode=display">
+m(S) = \inf \{ \sum_{i=1}^\infty V(I_i) \big| S \subset \bigcup_{i \in \mathbb{N}} I_i \}</script><p>可知 <script type="math/tex">m(I) = b-a</script></p>
+<p>而对任意可数集 <script type="math/tex">S</script>，<script type="math/tex">m(S) = 0</script></p>
+<p>因此 <script type="math/tex">\mathbb{R}</script> 不可数</p>
+<h2 id="Baire纲定理"><a href="#Baire纲定理" class="headerlink" title="Baire纲定理"></a>Baire纲定理</h2><blockquote>
+<p>Lemma: 设 <script type="math/tex">(X, d)</script> 是一个完备的度量空间，则</p>
+<ol>
+<li>若 <script type="math/tex">(F_n)_{n=0}^\infty</script> 是一列无处稠密的闭集，则它的并的内部是空的</li>
+<li>若 <script type="math/tex">(O_n))_{n=0}^\infty</script> 是一列在 <script type="math/tex">X</script> 中稠密的开集，则它的交在也 <script type="math/tex">X</script> 中稠密</li>
+</ol>
+</blockquote>
+<p>Baire纲定理指出，一个完备的度量空间不能写成可数个无处稠密的集合的并</p>
+<p>由于 <script type="math/tex">\mathbb{R}</script> 是完备的，且在其上有自然度量 <script type="math/tex">d(x,y) = |x-y|</script>，因此其为一个完备的度量空间</p>
+<p>若 <script type="math/tex">\mathbb{R}</script> 可数，则其可以表示为可数个单点集的并，而单点集的闭包即为它本身，也即是无处稠密的</p>
+<p>这与Baire纲定理矛盾，因此 <script type="math/tex">\mathbb{R}</script> 必不可数</p>
 
     </div>
 
@@ -245,7 +290,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://gonggongjohn.me/2020/08/26/analysis-real-number/" title="实数的严格定义">http://gonggongjohn.me/2020/08/26/analysis-real-number/</a>
+    <a href="http://gonggongjohn.me/2021/02/27/real-number-uncountability/" title="实数集不可数的证明">http://gonggongjohn.me/2021/02/27/real-number-uncountability/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -266,13 +311,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/31/algebra-projection/" rel="prev" title="代数概念整理：映射">
-      <i class="fa fa-chevron-left"></i> 代数概念整理：映射
+    <a href="/2021/01/30/csapp-datalab/" rel="prev" title="Data Lab实验记录">
+      <i class="fa fa-chevron-left"></i> Data Lab实验记录
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/09/19/gdb-guide/" rel="next" title="GDB使用指南">
-      GDB使用指南 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -331,6 +373,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%A7%92%E7%BA%BF%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">对角线法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E9%97%B4%E5%A5%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">区间套法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%96%E6%B5%8B%E5%BA%A6%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">外测度法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Baire%E7%BA%B2%E5%AE%9A%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">Baire纲定理</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
