@@ -18,8 +18,8 @@
   
   <entry>
     <title>实数集不可数的证明</title>
-    <link href="http://gonggongjohn.me/2021/02/27/real-number-uncountability/"/>
-    <id>http://gonggongjohn.me/2021/02/27/real-number-uncountability/</id>
+    <link href="http://gonggongjohn.me/2021/02/27/analysis/real-number-uncountability/"/>
+    <id>http://gonggongjohn.me/2021/02/27/analysis/real-number-uncountability/</id>
     <published>2021-02-27T14:37:37.000Z</published>
     <updated>2021-02-27T14:38:48.142Z</updated>
     
@@ -41,8 +41,8 @@
   
   <entry>
     <title>Data Lab实验记录</title>
-    <link href="http://gonggongjohn.me/2021/01/30/csapp-datalab/"/>
-    <id>http://gonggongjohn.me/2021/01/30/csapp-datalab/</id>
+    <link href="http://gonggongjohn.me/2021/01/30/csapp/csapp-datalab/"/>
+    <id>http://gonggongjohn.me/2021/01/30/csapp/csapp-datalab/</id>
     <published>2021-01-30T14:15:21.000Z</published>
     <updated>2021-02-01T06:30:16.415Z</updated>
     
@@ -64,8 +64,8 @@
   
   <entry>
     <title>Malloc Lab实验记录</title>
-    <link href="http://gonggongjohn.me/2021/01/30/csapp-malloclab/"/>
-    <id>http://gonggongjohn.me/2021/01/30/csapp-malloclab/</id>
+    <link href="http://gonggongjohn.me/2021/01/30/csapp/csapp-malloclab/"/>
+    <id>http://gonggongjohn.me/2021/01/30/csapp/csapp-malloclab/</id>
     <published>2021-01-30T14:15:13.000Z</published>
     <updated>2021-01-31T10:13:55.469Z</updated>
     
@@ -87,8 +87,8 @@
   
   <entry>
     <title>Shell Lab实验记录</title>
-    <link href="http://gonggongjohn.me/2021/01/29/csapp-shlab/"/>
-    <id>http://gonggongjohn.me/2021/01/29/csapp-shlab/</id>
+    <link href="http://gonggongjohn.me/2021/01/29/csapp/csapp-shlab/"/>
+    <id>http://gonggongjohn.me/2021/01/29/csapp/csapp-shlab/</id>
     <published>2021-01-29T15:48:59.000Z</published>
     <updated>2021-01-29T17:30:27.575Z</updated>
     
@@ -110,8 +110,8 @@
   
   <entry>
     <title>K-Means聚类与层次聚类</title>
-    <link href="http://gonggongjohn.me/2020/12/30/clustering/"/>
-    <id>http://gonggongjohn.me/2020/12/30/clustering/</id>
+    <link href="http://gonggongjohn.me/2020/12/30/machine_learning/clustering/"/>
+    <id>http://gonggongjohn.me/2020/12/30/machine_learning/clustering/</id>
     <published>2020-12-30T13:22:44.000Z</published>
     <updated>2021-02-01T07:42:39.481Z</updated>
     
@@ -133,8 +133,8 @@
   
   <entry>
     <title>从主方法到Akra-Bazzi定理</title>
-    <link href="http://gonggongjohn.me/2020/11/25/akra-bazzi/"/>
-    <id>http://gonggongjohn.me/2020/11/25/akra-bazzi/</id>
+    <link href="http://gonggongjohn.me/2020/11/25/algorithm/akra-bazzi/"/>
+    <id>http://gonggongjohn.me/2020/11/25/algorithm/akra-bazzi/</id>
     <published>2020-11-25T03:34:14.000Z</published>
     <updated>2021-01-21T07:09:55.412Z</updated>
     
@@ -156,8 +156,8 @@
   
   <entry>
     <title>斐波那契数的相关算法</title>
-    <link href="http://gonggongjohn.me/2020/10/30/fibonacci/"/>
-    <id>http://gonggongjohn.me/2020/10/30/fibonacci/</id>
+    <link href="http://gonggongjohn.me/2020/10/30/algorithm/fibonacci/"/>
+    <id>http://gonggongjohn.me/2020/10/30/algorithm/fibonacci/</id>
     <published>2020-10-30T15:29:04.000Z</published>
     <updated>2021-01-21T07:10:05.314Z</updated>
     
@@ -187,8 +187,8 @@
   
   <entry>
     <title>和式的求解方法</title>
-    <link href="http://gonggongjohn.me/2020/10/11/sum-solve/"/>
-    <id>http://gonggongjohn.me/2020/10/11/sum-solve/</id>
+    <link href="http://gonggongjohn.me/2020/10/11/concrete_math/sum-solve/"/>
+    <id>http://gonggongjohn.me/2020/10/11/concrete_math/sum-solve/</id>
     <published>2020-10-11T12:40:02.000Z</published>
     <updated>2020-10-11T12:44:47.214Z</updated>
     
@@ -208,8 +208,8 @@
   
   <entry>
     <title>递归式的解法</title>
-    <link href="http://gonggongjohn.me/2020/10/11/recursion-solve/"/>
-    <id>http://gonggongjohn.me/2020/10/11/recursion-solve/</id>
+    <link href="http://gonggongjohn.me/2020/10/11/concrete_math/recursion-solve/"/>
+    <id>http://gonggongjohn.me/2020/10/11/concrete_math/recursion-solve/</id>
     <published>2020-10-11T12:39:48.000Z</published>
     <updated>2020-10-11T12:52:00.138Z</updated>
     
@@ -230,8 +230,8 @@
   
   <entry>
     <title>快速排序时间复杂度分析</title>
-    <link href="http://gonggongjohn.me/2020/10/10/qsort-analyze/"/>
-    <id>http://gonggongjohn.me/2020/10/10/qsort-analyze/</id>
+    <link href="http://gonggongjohn.me/2020/10/10/algorithm/qsort-analyze/"/>
+    <id>http://gonggongjohn.me/2020/10/10/algorithm/qsort-analyze/</id>
     <published>2020-10-10T07:46:07.000Z</published>
     <updated>2021-01-21T07:09:44.427Z</updated>
     
@@ -254,8 +254,8 @@
   
   <entry>
     <title>《深入理解计算机系统》笔记整理（一）</title>
-    <link href="http://gonggongjohn.me/2020/10/07/csapp-01/"/>
-    <id>http://gonggongjohn.me/2020/10/07/csapp-01/</id>
+    <link href="http://gonggongjohn.me/2020/10/07/csapp/csapp-01/"/>
+    <id>http://gonggongjohn.me/2020/10/07/csapp/csapp-01/</id>
     <published>2020-10-07T14:31:17.000Z</published>
     <updated>2020-10-11T12:39:08.176Z</updated>
     
@@ -300,8 +300,8 @@
   
   <entry>
     <title>实数的严格定义</title>
-    <link href="http://gonggongjohn.me/2020/08/26/analysis-real-number/"/>
-    <id>http://gonggongjohn.me/2020/08/26/analysis-real-number/</id>
+    <link href="http://gonggongjohn.me/2020/08/26/analysis/real-number/"/>
+    <id>http://gonggongjohn.me/2020/08/26/analysis/real-number/</id>
     <published>2020-08-26T11:03:01.000Z</published>
     <updated>2021-01-21T07:09:14.876Z</updated>
     
@@ -327,8 +327,8 @@
   
   <entry>
     <title>代数概念整理：映射</title>
-    <link href="http://gonggongjohn.me/2020/07/31/algebra-projection/"/>
-    <id>http://gonggongjohn.me/2020/07/31/algebra-projection/</id>
+    <link href="http://gonggongjohn.me/2020/07/31/algebra/algebra-projection/"/>
+    <id>http://gonggongjohn.me/2020/07/31/algebra/algebra-projection/</id>
     <published>2020-07-31T07:00:00.000Z</published>
     <updated>2021-01-21T07:09:04.830Z</updated>
     
@@ -357,8 +357,8 @@
   
   <entry>
     <title>代数概念整理：集合</title>
-    <link href="http://gonggongjohn.me/2020/07/30/algebra-set/"/>
-    <id>http://gonggongjohn.me/2020/07/30/algebra-set/</id>
+    <link href="http://gonggongjohn.me/2020/07/30/algebra/algebra-set/"/>
+    <id>http://gonggongjohn.me/2020/07/30/algebra/algebra-set/</id>
     <published>2020-07-30T07:31:34.000Z</published>
     <updated>2021-01-21T07:08:51.567Z</updated>
     
