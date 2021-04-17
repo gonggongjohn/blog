@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://gonggongjohn.me/2020/10/23/algorithm/algorithm-exp5/</loc>
+    
+    <lastmod>2021-04-17</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/about/index.html</loc>
+    
+    <lastmod>2021-04-17</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/2020/12/15/csapp-malloclab/</loc>
+    
+    <lastmod>2021-04-17</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/2020/10/02/csapp-datalab/</loc>
+    
+    <lastmod>2021-04-17</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://gonggongjohn.me/2020/10/09/algorithm/algorithm-exp3/</loc>
     
     <lastmod>2021-04-17</lastmod>
@@ -51,20 +79,6 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/2021/01/30/csapp-datalab/</loc>
-    
-    <lastmod>2021-02-01</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gonggongjohn.me/2021/01/30/csapp-malloclab/</loc>
-    
-    <lastmod>2021-01-31</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://gonggongjohn.me/2021/01/29/csapp-shlab/</loc>
     
     <lastmod>2021-01-29</lastmod>
@@ -108,13 +122,6 @@
   
   <url>
     <loc>http://gonggongjohn.me/categories/index.html</loc>
-    
-    <lastmod>2021-01-21</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gonggongjohn.me/about/index.html</loc>
     
     <lastmod>2021-01-21</lastmod>
     
@@ -179,13 +186,6 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/Machine-Learning/</loc>
-    <lastmod>2021-04-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://gonggongjohn.me/tags/CSAPP/</loc>
     <lastmod>2021-04-17</lastmod>
     <changefreq>daily</changefreq>
@@ -208,6 +208,13 @@
   
   <url>
     <loc>http://gonggongjohn.me/tags/Language/</loc>
+    <lastmod>2021-04-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/tags/Machine-Learning/</loc>
     <lastmod>2021-04-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -237,13 +244,6 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2021-04-17</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://gonggongjohn.me/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2021-04-17</lastmod>
     <changefreq>daily</changefreq>
@@ -252,6 +252,13 @@
   
   <url>
     <loc>http://gonggongjohn.me/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2021-04-17</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2021-04-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

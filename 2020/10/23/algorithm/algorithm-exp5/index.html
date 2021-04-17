@@ -20,30 +20,37 @@
     var CONFIG = {"hostname":"gonggongjohn.me","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="A sophomore student major in Data Science.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="GONGGONGJOHN&#39;s Blog">
-<meta property="og:url" content="http://gonggongjohn.me/index.html">
+  <meta name="description" content="内容与设计思想 编写随机整数生成算法，生成S到T范围内的N个随机整数并输出；  编写随机选择算法和SELECT算法；  随机生成 10^2、10^3、10^4、10^5、10^6 个数，使用随机选择算法和SELECT算法找到第 0.5N 大的数输出，并画图描述不同情况下的运行时间差异；  随机生成 10^6 个数，使用随机选择算法和SELECT算法找到第 0.2N, 0.4N, 0.6N, 0.8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="随机化快速选择算法">
+<meta property="og:url" content="http://gonggongjohn.me/2020/10/23/algorithm/algorithm-exp5/index.html">
 <meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
-<meta property="og:description" content="A sophomore student major in Data Science.">
+<meta property="og:description" content="内容与设计思想 编写随机整数生成算法，生成S到T范围内的N个随机整数并输出；  编写随机选择算法和SELECT算法；  随机生成 10^2、10^3、10^4、10^5、10^6 个数，使用随机选择算法和SELECT算法找到第 0.5N 大的数输出，并画图描述不同情况下的运行时间差异；  随机生成 10^6 个数，使用随机选择算法和SELECT算法找到第 0.2N, 0.4N, 0.6N, 0.8">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://gonggongjohn.me/2020/10/23/algorithm/algorithm-exp5/1.png">
+<meta property="og:image" content="http://gonggongjohn.me/2020/10/23/algorithm/algorithm-exp5/2.png">
+<meta property="article:published_time" content="2020-10-23T03:45:00.000Z">
+<meta property="article:modified_time" content="2021-04-17T11:28:01.531Z">
 <meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="Algorithm">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://gonggongjohn.me/2020/10/23/algorithm/algorithm-exp5/1.png">
 
-<link rel="canonical" href="http://gonggongjohn.me/">
+<link rel="canonical" href="http://gonggongjohn.me/2020/10/23/algorithm/algorithm-exp5/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>GONGGONGJOHN's Blog</title>
+  <title>随机化快速选择算法 | GONGGONGJOHN's Blog</title>
   
 
 
@@ -158,497 +165,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2021/02/27/real-number-uncountability/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="A sophomore student major in Data Science.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GONGGONGJOHN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/02/27/real-number-uncountability/" class="post-title-link" itemprop="url">实数集不可数的证明</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-02-27 22:37:37 / 修改时间：22:38:48" itemprop="dateCreated datePublished" datetime="2021-02-27T22:37:37+08:00">2021-02-27</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%88%86%E6%9E%90%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">分析学</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>实数集是不可数集这一结论的证明是近代集合论研究的一大重要标志。随着近代分析学的发展，这一结论可以从许多不同的角度推导而出。这些方法融合了许多重要的分析思想及数学技巧，在此进行一个简单的整理和总结。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/02/27/real-number-uncountability/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2021/01/29/csapp-shlab/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="A sophomore student major in Data Science.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GONGGONGJOHN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/29/csapp-shlab/" class="post-title-link" itemprop="url">Shell Lab实验记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-29 23:48:59" itemprop="dateCreated datePublished" datetime="2021-01-29T23:48:59+08:00">2021-01-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-30 01:30:27" itemprop="dateModified" datetime="2021-01-30T01:30:27+08:00">2021-01-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">计算机系统</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>简单来说就是用C语言以及各种系统调用实现一个简单的Unix Shell，说的更直白点就是把CSAPP书上第八章提到的关于Shell的内容全部实现一遍，因此最快的办法应该就是先搭一个基本的框架出来，然后跟着trace的要求把功能一个个补齐。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/29/csapp-shlab/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/12/30/clustering/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="A sophomore student major in Data Science.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GONGGONGJOHN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/30/clustering/" class="post-title-link" itemprop="url">K-Means聚类与层次聚类</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-30 21:22:44" itemprop="dateCreated datePublished" datetime="2020-12-30T21:22:44+08:00">2020-12-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-01 15:42:39" itemprop="dateModified" datetime="2021-02-01T15:42:39+08:00">2021-02-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Cluster-Analysis"><a href="#Cluster-Analysis" class="headerlink" title="Cluster Analysis"></a>Cluster Analysis</h2><p><strong>Cluster analysis</strong> or <strong>clustering</strong> is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is <strong>a main task of exploratory data mining</strong>, and <strong>a common technique for statistical data analysis</strong> which is used in many fields including <strong>pattern recognition</strong>, <strong>image analysis</strong>, <strong>information retrieval</strong>, <strong>bioinformatics</strong>, <strong>data compression</strong>, <strong>computer graphics</strong> and <strong>machine learning</strong>. </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/30/clustering/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/12/15/csapp-malloclab/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="A sophomore student major in Data Science.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GONGGONGJOHN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/15/csapp-malloclab/" class="post-title-link" itemprop="url">Malloc Lab实验记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-12-15 22:15:13" itemprop="dateCreated datePublished" datetime="2020-12-15T22:15:13+08:00">2020-12-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-17 19:14:33" itemprop="dateModified" datetime="2021-04-17T19:14:33+08:00">2021-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">计算机系统</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Malloc Lab要求我们利用CSAPP中9.9节所介绍的技术设计一个简单的动态内存分配器，并且尽可能的使得分配效率最高且空间利用率最大。一个基本的思路便是先构建一个内存分配器的框架，并在此基础上不断优化使得效率和空间使用率均相对达到最优。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/15/csapp-malloclab/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/11/25/akra-bazzi/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="A sophomore student major in Data Science.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GONGGONGJOHN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/25/akra-bazzi/" class="post-title-link" itemprop="url">从主方法到Akra-Bazzi定理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-11-25 11:34:14" itemprop="dateCreated datePublished" datetime="2020-11-25T11:34:14+08:00">2020-11-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-17 17:14:28" itemprop="dateModified" datetime="2021-04-17T17:14:28+08:00">2021-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="主方法"><a href="#主方法" class="headerlink" title="主方法"></a>主方法</h2><p>在算法分析中，当我们使用分治法求解问题时，通常会遇到以递归式定义的算法运行时间函数。要得到此类算法的时间复杂度，就必须求出该递归式的渐近表达式。通常情况下，我们可以通过如下公式直接得到大部分不太复杂的递归式的渐近解。<strong>《算法导论》</strong>一书中将该方法称为<strong>“主方法”</strong>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/25/akra-bazzi/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/10/30/fibonacci/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="A sophomore student major in Data Science.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GONGGONGJOHN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/30/fibonacci/" class="post-title-link" itemprop="url">斐波那契数的相关算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-30 23:29:04" itemprop="dateCreated datePublished" datetime="2020-10-30T23:29:04+08:00">2020-10-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-21 15:10:05" itemprop="dateModified" datetime="2021-01-21T15:10:05+08:00">2021-01-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="斐波那契数列"><a href="#斐波那契数列" class="headerlink" title="斐波那契数列"></a>斐波那契数列</h2><p>斐波那契数列由以下递推式定义：</p>
-<script type="math/tex; mode=display">
-\left\{
-\begin{aligned}
-&F(0)=0 \\
-&F(1)=1 \\
-&F(n)=F(n-1)+F(n-2),n \geq 2
-\end{aligned}
-\right.</script>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/30/fibonacci/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -664,10 +184,9 @@
       <meta itemprop="name" content="GONGGONGJOHN's Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/23/algorithm/algorithm-exp5/" class="post-title-link" itemprop="url">随机化快速选择算法</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          随机化快速选择算法
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -696,6 +215,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -706,7 +232,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="内容与设计思想"><a href="#内容与设计思想" class="headerlink" title="内容与设计思想"></a>内容与设计思想</h2><ol>
+        <h2 id="内容与设计思想"><a href="#内容与设计思想" class="headerlink" title="内容与设计思想"></a>内容与设计思想</h2><ol>
 <li><p>编写随机整数生成算法，生成S到T范围内的N个随机整数并输出；</p>
 </li>
 <li><p>编写随机选择算法和SELECT算法；</p>
@@ -724,247 +250,55 @@
 <p><img src="2.png" alt="2"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>从理论上看，随机选择算法（Rand-Select）的平均时间复杂度为 <script type="math/tex">\mathcal{O}(n)</script>，而在最坏情况下会降为 <script type="math/tex">\Theta(n^2)</script>；而选择算法（Select）在最坏情况下的时间复杂度也为<script type="math/tex">\mathcal{O}(n)</script>，优于随机选择算法。然而在实际运行时，随机选择算法直接通过随机数确定了pivot，而选择算法需要通过插入排序并递归取中位数的方式找出区间最优的pivot，对数据的预处理耗时较大，故选择算法的实际运行效率反而不如随机选择算法，这也与实验结果相吻合。</p>
 
-      
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/10/16/algorithm/algorithm-exp4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="A sophomore student major in Data Science.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GONGGONGJOHN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/16/algorithm/algorithm-exp4/" class="post-title-link" itemprop="url">计数排序</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-10-16 11:45:00" itemprop="dateCreated datePublished" datetime="2020-10-16T11:45:00+08:00">2020-10-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-17 19:10:48" itemprop="dateModified" datetime="2021-04-17T19:10:48+08:00">2021-04-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="内容与设计思想"><a href="#内容与设计思想" class="headerlink" title="内容与设计思想"></a>内容与设计思想</h2><ol>
-<li><p>随机生成 <script type="math/tex">1...M</script> 范围内的N个整数；</p>
-</li>
-<li><p>编写计数排序算法；</p>
-</li>
-<li><p>在相同 <script type="math/tex">M</script> 的条件下，<script type="math/tex">N</script> 分别等于 <script type="math/tex">0.1M, 0.2M, 0.5M, 1M</script> 时的运行时间；</p>
-</li>
-<li><p>在相同 <script type="math/tex">N</script> 的条件下，<script type="math/tex">M</script> 分别等于 <script type="math/tex">2N，5N，10N，20N</script> 时的运行时间。</p>
-</li>
-</ol>
-<h2 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h2><h3 id="随机数生成器"><a href="#随机数生成器" class="headerlink" title="随机数生成器"></a>随机数生成器</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    srand(time(<span class="number">0</span>));</span><br><span class="line">    <span class="function">ofstream <span class="title">fout</span><span class="params">(<span class="string">&quot;data.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">int</span> n, m;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) fout&lt;&lt;<span class="number">1</span> + rand() % (m - <span class="number">1</span>)&lt;&lt;<span class="string">&quot; &quot;</span>;</span><br><span class="line">    fout.close();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">fin</span><span class="params">(<span class="string">&quot;data.txt&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">clock_t</span> start, stop;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; a;</span><br><span class="line">    <span class="keyword">int</span> n, tmp, maxn, minn;</span><br><span class="line">    maxn = <span class="number">-99999999</span>;</span><br><span class="line">    minn = <span class="number">99999999</span>;</span><br><span class="line">    <span class="keyword">while</span> (!fin.eof())&#123;</span><br><span class="line">        fin&gt;&gt;tmp;</span><br><span class="line">        <span class="keyword">if</span>(tmp &gt; maxn) maxn = tmp;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(tmp &lt; minn) minn = tmp;</span><br><span class="line">        a.push_back(tmp);</span><br><span class="line">        n++;</span><br><span class="line">    &#125;</span><br><span class="line">    n--;</span><br><span class="line">    vector&lt;int&gt; c(maxn - minn + 1, 0), r(n);</span><br><span class="line">    start = clock();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.size(); i++)&#123;</span><br><span class="line">        c[a[i] - minn]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; c.size(); i++)&#123;</span><br><span class="line">        c[i] = c[i<span class="number">-1</span>] + c[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.size(); i++)&#123;</span><br><span class="line">        r[c[a[i] - minn] - <span class="number">1</span>] = a[i];</span><br><span class="line">        c[a[i] - minn]--;</span><br><span class="line">    &#125;</span><br><span class="line">    stop = clock();</span><br><span class="line">    <span class="comment">//for(int i = 0; i &lt; r.size(); i++) cout&lt;&lt;r[i]&lt;&lt;&quot; &quot;;</span></span><br><span class="line">    <span class="comment">//cout&lt;&lt;endl;</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;Total time: &quot;</span>&lt;&lt;(<span class="keyword">double</span>) (stop - start) / CLOCKS_PER_SEC&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    fin.close();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="运行效率"><a href="#运行效率" class="headerlink" title="运行效率"></a>运行效率</h2><p>时间记录使用了C++自带的clock()函数，通过在程序开头和结尾分别调用clock()函数并将两值相减，即可得到程序运行时间。结果如下：</p>
-<p><img src="1.png" alt="1"></p>
-<p><img src="2.png" alt="2"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>计数排序的时间复杂度为 <script type="math/tex">O(n+k)</script>。实验中 <script type="math/tex">N</script> 和 <script type="math/tex">M</script> 的值分别影响 <script type="math/tex">n</script> 和 <script type="math/tex">k</script>，随着 <script type="math/tex">N</script> 和 <script type="math/tex">M</script> 的增大，运行时间呈线性增长。考虑到计算机在实际运行时的系统调度偏差，实验结果基本与理论分析吻合。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/10/11/sum-solve/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="A sophomore student major in Data Science.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GONGGONGJOHN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/11/sum-solve/" class="post-title-link" itemprop="url">和式的求解方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-10-11 20:40:02 / 修改时间：20:44:47" itemprop="dateCreated datePublished" datetime="2020-10-11T20:40:02+08:00">2020-10-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="扰动法"><a href="#扰动法" class="headerlink" title="扰动法"></a>扰动法</h2><p>扰动法的主要思想是将原和式加上后一项并分离第一项，从而化简得到一个求和下标对齐的包含后一项的和式。若能将该和式写成原来和式的表达式，即可通过解方程求出原和式的通项公式。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/11/sum-solve/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>GONGGONGJOHN
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://gonggongjohn.me/2020/10/23/algorithm/algorithm-exp5/" title="随机化快速选择算法">http://gonggongjohn.me/2020/10/23/algorithm/algorithm-exp5/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/Computer-Science/" rel="tag"># Computer-Science</a>
+              <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/10/11/recursion-solve/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="GONGGONGJOHN">
-      <meta itemprop="description" content="A sophomore student major in Data Science.">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GONGGONGJOHN's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/11/recursion-solve/" class="post-title-link" itemprop="url">递归式的解法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-10-11 20:39:48 / 修改时间：20:52:00" itemprop="dateCreated datePublished" datetime="2020-10-11T20:39:48+08:00">2020-10-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="求和因子法"><a href="#求和因子法" class="headerlink" title="求和因子法"></a>求和因子法</h2><p>对于形如 <script type="math/tex">a_n T_n = b_n T_{n-1} + c_n</script>，我们可以求出其通项公式，下面我们来推导这一公式。</p>
-<p>我们考虑通过变量替换的方式将 <script type="math/tex">T_n</script> 前的 <script type="math/tex">a_n</script> 和 <script type="math/tex">b_n</script> 隐去以方便求解。为了做到这一点，我们需要通过将等式左右同时乘以某个表达式使得 <script type="math/tex">b_n T_{n-1}</script> 能够通过 <script type="math/tex">a_n T_n</script> 表示出来（该表达式通常被称为求和因子）。设该表达式为 <script type="math/tex">s_n</script>，两边同乘以 <script type="math/tex">s_n</script>，即为 <script type="math/tex">s_n a_n T_n = s_n b_n T_{n-1} + s_n c_n</script></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/11/recursion-solve/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/16/algorithm/algorithm-exp4/" rel="prev" title="计数排序">
+      <i class="fa fa-chevron-left"></i> 计数排序
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/30/fibonacci/" rel="next" title="斐波那契数的相关算法">
+      斐波那契数的相关算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
+    
   </article>
   
   
   
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
 
 
 
@@ -1016,6 +350,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E4%B8%8E%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3"><span class="nav-number">1.</span> <span class="nav-text">内容与设计思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">实现代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">随机数生成器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E9%80%89%E6%8B%A9%E7%AE%97%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">随机选择算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SELECT%E7%AE%97%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">SELECT算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%95%88%E7%8E%87"><span class="nav-number">3.</span> <span class="nav-text">运行效率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
