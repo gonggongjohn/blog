@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Chapter 2：信息的表示和处理基本概念进制转换进位计数制定义：设一个 $m$ 进制下$w$ 位的位向量表示为 [a_{w-1}, a_{w-2}, ..., a_0]，则其表示的数为 $\sum_\limits{i&#x3D;0}^{w-1} a_im^i$ $m$ 进制 $\rightarrow$ 十进制 设一个 $w$ 位 $m$ 进制整数的位相量表示为 \vec{x} &#x3D; [ x_{w-1},">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《深入理解计算机系统》笔记整理（一）">
+<meta property="og:url" content="http://gonggongjohn.me/2020/10/07/csapp-01/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="Chapter 2：信息的表示和处理基本概念进制转换进位计数制定义：设一个 $m$ 进制下$w$ 位的位向量表示为 [a_{w-1}, a_{w-2}, ..., a_0]，则其表示的数为 $\sum_\limits{i&#x3D;0}^{w-1} a_im^i$ $m$ 进制 $\rightarrow$ 十进制 设一个 $w$ 位 $m$ 进制整数的位相量表示为 \vec{x} &#x3D; [ x_{w-1},">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-07T14:31:17.000Z">
+<meta property="article:modified_time" content="2020-10-11T12:39:08.176Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="CSAPP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://gonggongjohn.me/2020/10/07/csapp-01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>《深入理解计算机系统》笔记整理（一） | GONGGONGJOHN's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">GONGGONGJOHN's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">19</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/10/07/csapp-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GONGGONGJOHN">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GONGGONGJOHN's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《深入理解计算机系统》笔记整理（一）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-07 22:31:17" itemprop="dateCreated datePublished" datetime="2020-10-07T22:31:17+08:00">2020-10-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-11 20:39:08" itemprop="dateModified" datetime="2020-10-11T20:39:08+08:00">2020-10-11</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Chapter-2：信息的表示和处理"><a href="#Chapter-2：信息的表示和处理" class="headerlink" title="Chapter 2：信息的表示和处理"></a>Chapter 2：信息的表示和处理</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h3><h4 id="进位计数制"><a href="#进位计数制" class="headerlink" title="进位计数制"></a>进位计数制</h4><p><strong>定义：</strong>设一个 $m$ 进制下$w$ 位的位向量表示为 <script type="math/tex">[a_{w-1}, a_{w-2}, ..., a_0]</script>，则其表示的数为 $\sum_\limits{i=0}^{w-1} a_im^i$</p>
+<h4 id="m-进制-rightarrow-十进制"><a href="#m-进制-rightarrow-十进制" class="headerlink" title="$m$ 进制 $\rightarrow$ 十进制"></a>$m$ 进制 $\rightarrow$ 十进制</h4><blockquote>
+<p>设一个 $w$ 位 $m$ 进制整数的位相量表示为 <script type="math/tex">\vec{x} = [ x_{w-1}, x_{w-2}, ..., x_0 ]</script> ，定义函数 $M2D(\vec{x}) = \sum_\limits{i=0}^{w-1} x_i m^i$，则其对应的十进制数 $n = M2D(\vec{x})$</p>
+</blockquote>
+<a id="more"></a>
+<p><strong>证明：</strong>由进位计数制的定义可直接得到结论</p>
+<blockquote>
+<p>Example:</p>
+<p>将 $3$ 进制数 $12011$ 转为十进制数</p>
+<p>解： 令 $\vec{x} = [1,2,0,1,1], m = 3$</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\therefore n = M2D(\vec{x}) &= 1 \cdot 3^4 + 2 \cdot 3^3 + 1 \cdot 3^1 +1 \cdot 3^0 \\ 
+&= 81+54+3+1 \\ 
+&= 139 
+\end{align}</script><p>故 <script type="math/tex">12011_3 = 139_{10}</script></p>
+</blockquote>
+<h4 id="十进制-rightarrow-m-进制"><a href="#十进制-rightarrow-m-进制" class="headerlink" title="十进制 $\rightarrow$ $m$ 进制"></a>十进制 $\rightarrow$ $m$ 进制</h4><blockquote>
+<p>设一个十进制整数为 $n$，定义序列 </p>
+<script type="math/tex; mode=display">
+\begin{align}
+&p_0 = \lfloor \frac{n}{m} \rfloor, \ r_0 = n \ \ mod \ \ m \\
+&p_1 = \lfloor \frac{p_0}{m}\rfloor, \ r_1 = p_0 \ \ mod \ \ m \\
+&... \\
+&p_{s-1} = \lfloor \frac{p_{s-2}}{m}\rfloor = 0, \ r_{s-1} = p_{s-2} \ \ mod \ \ m \\
+\end{align}</script><p>则其对应的 $m$ 进制数的位向量表示为 <script type="math/tex">\vec{x} = [r_{s-1}, r_{s-2}, ..., r_0]</script></p>
+</blockquote>
+<p><strong>证明：</strong>设 $n$ 在 $m$ 进制下的位相量表示为 <script type="math/tex">[r_{s-1}, r_{s-2}, ..., r_0]</script></p>
+<p>则由定义可知，<script type="math/tex">n = r_{s-1} \cdot m^{s-1} + r_{s-2} \cdot m^{s-2} + ...+ r_0</script></p>
+<p>故 <script type="math/tex">n = m \cdot \left( r_{s-1} \cdot m^{s-2} + r_{s-2} \cdot m^{s-3} + ... + r_1 \right) + r_0</script></p>
+<p>故 $r_0 = n \ \ mod \ \ m$</p>
+<p>又由</p>
+<script type="math/tex; mode=display">
+\begin{align}
+p_0 = \lfloor \frac{n}{m} \rfloor &= r_{s-1} \cdot m^{s-2} + r_{s-2} \cdot m^{s-3} + ... + r_1 \\
+&= m \cdot \left( r_{s-1} \cdot m^{s-3} + r_{s-2} \cdot m^{s-4} + ... + r_2 \right) + r_1
+\end{align}</script><p>故 $r_1 = p_0 \ \ mod \ \ m$</p>
+<p>以此类推，<script type="math/tex">r_{i} = p_{i-1} \ \ mod \ \ m \ (i=s-2, ..., 1)</script></p>
+<p>故结论成立</p>
+<blockquote>
+<p>Example:</p>
+<p>将十进制数 $508$ 转为八进制数</p>
+<p>解：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+508 &= 63 * 8 + 4 \\
+63 &= 7 * 8 + 7 \\
+7 &= 0 * 8 + 7
+\end{align}</script><p>故 $508_{10} = 774_8$</p>
+</blockquote>
+<h3 id="信息的存储"><a href="#信息的存储" class="headerlink" title="信息的存储"></a>信息的存储</h3><h4 id="字长（Word-Size）"><a href="#字长（Word-Size）" class="headerlink" title="字长（Word Size）"></a>字长（Word Size）</h4><p>在计算机中，<strong>字（Word）</strong>是用来表示一次性处理数据的固定长度。字的位数称为<strong>字长（Word Size）</strong>。字长是计算机系统中的一个重要指标，字长的大小决定了<strong>虚拟地址空间的最大大小</strong>。</p>
+<p>对于一个字长为 $w$ 的机器来说，其虚拟地址的范围为 $0$ ～ $2^w-1$，即可以存储 $2^w$ 个字节</p>
+<blockquote>
+<p>Example:</p>
+<p>字长为32的机器的虚拟地址范围为 $0$ ～ $2^{32}-1$，可以存储 $2^{32}$ 个字节</p>
+</blockquote>
+<h4 id="小端序（Little-Endian）和大端序（Big-Endian）"><a href="#小端序（Little-Endian）和大端序（Big-Endian）" class="headerlink" title="小端序（Little Endian）和大端序（Big Endian）"></a>小端序（Little Endian）和大端序（Big Endian）</h4><p>超过一个字节的数据在计算机中有两种排列顺序：小端序（Little Endian）和大端序（Big Endian）。</p>
+<p>小端序：将较低的有效字节放在<strong>较小</strong>的内存地址中。</p>
+<p>大端序：将较低的有效字节放在<strong>较大</strong>的内存地址中。</p>
+<blockquote>
+<p>Example:</p>
+<p>原始数据：12 34 56 78 </p>
+<p>小端序存储：12 34 56 78</p>
+<p>大端序存储：78 56 34 12</p>
+</blockquote>
+<p><strong>注：</strong>使用ASCII码存储的字符数据在任何系统上都能得到相同的结果，不受端序的影响。</p>
+<h3 id="基本运算"><a href="#基本运算" class="headerlink" title="基本运算"></a>基本运算</h3><h4 id="位级运算"><a href="#位级运算" class="headerlink" title="位级运算"></a>位级运算</h4><p>计算机中有以下四种基本位级运算：<strong>按位与（&amp;）</strong>，<strong>按位或（|）</strong>，<strong>按位非（~）</strong>，<strong>按位异或（^）</strong>，其规则与布尔代数中的规则一致。</p>
+<blockquote>
+<p>Example:</p>
+<p>101100 &amp; 100110 = 100100</p>
+<p>101100 | 100110 = 101110</p>
+<p>~101100 = 010011</p>
+<p>101100 ^ 100110 = 001010</p>
+</blockquote>
+<h4 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h4><p>计算机中提供了以下三种逻辑运算：<strong>且（&amp;&amp;）</strong>，<strong>或（||）</strong>，<strong>非（!）</strong>，其规则与命题逻辑中的规则一致。</p>
+<p><strong>注：</strong>C语言中的逻辑运算有<strong>提早终止（Early Termination）</strong>的机制，即当两个表达式做逻辑运算时，若前一个表达式已经能确定最终结果，则不再计算后一个表达式。</p>
+<blockquote>
+<p>Example:</p>
+<p>(1+1=2) &amp; (3=3) = 1</p>
+<p>(1-1=0) || (1=2) = 1</p>
+<p>!(2*5=10) = 0</p>
+<p>!0x3F = 0</p>
+</blockquote>
+<h4 id="位移运算"><a href="#位移运算" class="headerlink" title="位移运算"></a>位移运算</h4><p>计算机中提供了三种位移操作：左移（&lt;&lt;），逻辑右移（&gt;&gt;），算术右移（&gt;&gt;）</p>
+<p>$x$ 左移 $k$ 位：将 $x$ 的最高 $k$ 位丢弃并在最低位后补充 $k$ 个零，相当于 $x \cdot 2^k$</p>
+<p>$x$ 逻辑右移 $k$ 位：将 $x$ 的最低 $k$ 位丢弃并在最高位前补充 $k$ 个零，相当于 $\lfloor \frac{x}{2^k} \rfloor$</p>
+<p>算术右移 $k$ 位：将 $x$ 的最低 $k$ 位丢弃并在最高位前补充 $k$ 个最高位值</p>
+<h3 id="整数的存储与运算"><a href="#整数的存储与运算" class="headerlink" title="整数的存储与运算"></a>整数的存储与运算</h3><h4 id="无符号整数"><a href="#无符号整数" class="headerlink" title="无符号整数"></a>无符号整数</h4><p>二进制数码不表示符号信息的整数称为无符号整数，其代码的数字与常规的进位计数制规则一致。即若定义 <script type="math/tex">B2U_w(\vec{x}) = \sum_\limits{i=0}^{w-1}x_i 2^i</script>，则一个 $w$ 位的二进制位相量 $\vec{x}$ 所对应的十进制数 $n = B2U_w(\vec{x})$</p>
+<p>由定义可知，一个 $w$ 位的二进制位相量 $\vec{x}$ 可表示的整数范围为 $0$ ～ $2^w-1$</p>
+<h4 id="有符号整数"><a href="#有符号整数" class="headerlink" title="有符号整数"></a>有符号整数</h4><p>有符号整数是采用补码进行存储的整数。补码是对二进制的一种新的解读方式，其严格的定义如下：若定义 <script type="math/tex">B2T_w(\vec{x}) = -x_{w-1} 2^{w-1} + \sum_\limits{i=0}^{w-2}x_i 2^i</script>，则一个 $w$ 位的二进制位相量 $\vec{x}$ 所对应的十进制数 $n = B2T_w(\vec{x})$。通俗来说，补码将原本 $0$ ～ $2^w-1$ 中 $2^{w-1}$ ～ $2^{w} - 1$ 的部分重新解读为负数，从而使得其可以表示负数。从取模的角度来看， 对于一个 $0$ ～ $2^{w-1} - 1$ 中的数 $n$ 和一个 $2^{w-1}$ ～ $2^{w} - 1$ 中的数 $m$，$(n + m) \ \ mod \ \ 2^w = n - (2^w - m)$，故这样定义是合适的。且容易看出其与无符号整数间的转换关系为 </p>
+<script type="math/tex; mode=display">
+U2T(x) = \left\{
+\begin{aligned}
+&x &, &0 \leq x \leq 2^{w-1} - 1 \\
+&x - 2^w &, &2^{w-1} \leq x \leq 2^w - 1
+\end{aligned}
+\right.</script><script type="math/tex; mode=display">
+T2U(x) = \left\{
+\begin{aligned}
+&x &, & 0 \leq x \leq 2^{w-1}-1 \\
+&x + 2^w &, & -2^{w-1} \leq x \leq -1
+\end{aligned}
+\right.</script><p><strong>证明：</strong>设二进制位向量 $\vec{x}$</p>
+<p>当 <script type="math/tex">0 \leq B2U_w(\vec{x}) \leq 2^{w-1} - 1</script> 时</p>
+<script type="math/tex; mode=display">x_{w-1} = 0</script><p>此时 <script type="math/tex">B2T_w(\vec{x}) = \sum_\limits{i=0}^{w-2}x_i 2^i = B2U_w(\vec{x})</script></p>
+<p>故 <script type="math/tex">U2T_w(x) = x</script></p>
+<p>当 <script type="math/tex">2^{w-1} \leq x \leq 2^w - 1</script> 时</p>
+<script type="math/tex; mode=display">x_{w-1} = 1</script><p>此时 </p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{aligned}
+B2T_w(\vec{x}) &= -2^{w-1} + \sum_\limits{i=0}^{w-2}x_i 2^i \\
+B2U_w(\vec{x}) &= 2^{w-1} + \sum_\limits{i=0}^{w-2}x_i 2^i
+\end{aligned}
+\right.</script><p>故 <script type="math/tex">B2T_w(\vec{x}) = B2U_w(\vec{x}) - 2^w</script></p>
+<p>故 <script type="math/tex">U2T_w(\vec{x}) = x - 2^w</script></p>
+<p><script type="math/tex">T2U(x)</script>的情况同理可证</p>
+<p><strong>注：</strong>无符号或有符号整数仅为二进制解读为十进制时的不同解读方式，由于计算机在二进制层面进行运算，故计算机在进行底层运算时并不区分这两种解读方式。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>GONGGONGJOHN
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://gonggongjohn.me/2020/10/07/csapp-01/" title="《深入理解计算机系统》笔记整理（一）">http://gonggongjohn.me/2020/10/07/csapp-01/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Computer-Science/" rel="tag"># Computer-Science</a>
+              <a href="/tags/CSAPP/" rel="tag"># CSAPP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/25/algorithm/algorithm-exp2/" rel="prev" title="Strassen矩阵乘法">
+      <i class="fa fa-chevron-left"></i> Strassen矩阵乘法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/10/qsort-analyze/" rel="next" title="快速排序时间复杂度分析">
+      快速排序时间复杂度分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Chapter-2%EF%BC%9A%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">Chapter 2：信息的表示和处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.1.1.</span> <span class="nav-text">进制转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E4%BD%8D%E8%AE%A1%E6%95%B0%E5%88%B6"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">进位计数制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#m-%E8%BF%9B%E5%88%B6-rightarrow-%E5%8D%81%E8%BF%9B%E5%88%B6"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">$m$ 进制 $\rightarrow$ 十进制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%81%E8%BF%9B%E5%88%B6-rightarrow-m-%E8%BF%9B%E5%88%B6"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">十进制 $\rightarrow$ $m$ 进制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AD%98%E5%82%A8"><span class="nav-number">1.1.2.</span> <span class="nav-text">信息的存储</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E9%95%BF%EF%BC%88Word-Size%EF%BC%89"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">字长（Word Size）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%AB%AF%E5%BA%8F%EF%BC%88Little-Endian%EF%BC%89%E5%92%8C%E5%A4%A7%E7%AB%AF%E5%BA%8F%EF%BC%88Big-Endian%EF%BC%89"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">小端序（Little Endian）和大端序（Big Endian）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97"><span class="nav-number">1.1.3.</span> <span class="nav-text">基本运算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E7%BA%A7%E8%BF%90%E7%AE%97"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">位级运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">逻辑运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E7%A7%BB%E8%BF%90%E7%AE%97"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">位移运算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%9A%84%E5%AD%98%E5%82%A8%E4%B8%8E%E8%BF%90%E7%AE%97"><span class="nav-number">1.1.4.</span> <span class="nav-text">整数的存储与运算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">无符号整数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">有符号整数</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GONGGONGJOHN"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">GONGGONGJOHN</p>
+  <div class="site-description" itemprop="description">A sophomore student major in Data Science.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gonggongjohn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gonggongjohn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GONGGONGJOHN</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+          load: ['[tex]/mhchem'],
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+          packages: {'[+]': ['mhchem']},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
