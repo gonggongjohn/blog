@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://gonggongjohn.me/2020/10/09/algorithm/algorithm-exp3/</loc>
+    
+    <lastmod>2021-04-17</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/2020/10/16/algorithm/algorithm-exp4/</loc>
+    
+    <lastmod>2021-04-17</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://gonggongjohn.me/2020/09/25/algorithm/algorithm-exp2/</loc>
     
     <lastmod>2021-04-17</lastmod>
@@ -10,20 +24,6 @@
   
   <url>
     <loc>http://gonggongjohn.me/2020/09/18/algorithm/algorithm-exp1/</loc>
-    
-    <lastmod>2021-04-17</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gonggongjohn.me/2020/09/18/algorithm/algorithm-exp3/</loc>
-    
-    <lastmod>2021-04-17</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gonggongjohn.me/2020/09/18/algorithm/algorithm-exp4/</loc>
     
     <lastmod>2021-04-17</lastmod>
     
@@ -179,14 +179,14 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/CSAPP/</loc>
+    <loc>http://gonggongjohn.me/tags/Machine-Learning/</loc>
     <lastmod>2021-04-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/Machine-Learning/</loc>
+    <loc>http://gonggongjohn.me/tags/CSAPP/</loc>
     <lastmod>2021-04-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
