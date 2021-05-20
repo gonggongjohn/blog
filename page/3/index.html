@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">22</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">25</span></a>
 
   </li>
   </ul>
@@ -160,6 +160,241 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/09/19/gdb-guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GONGGONGJOHN">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GONGGONGJOHN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/19/gdb-guide/" class="post-title-link" itemprop="url">GDB使用指南</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-19 12:24:40" itemprop="dateCreated datePublished" datetime="2020-09-19T12:24:40+08:00">2020-09-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-28 16:06:30" itemprop="dateModified" datetime="2020-09-28T16:06:30+08:00">2020-09-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="GDB使用指南"><a href="#GDB使用指南" class="headerlink" title="GDB使用指南"></a>GDB使用指南</h1><p>GDB（GNU Project Debugger）是一款UNIX及类UNIX环境下的C/C++调试工具。</p>
+<p>GDB官网：<a target="_blank" rel="noopener" href="http://www.gnu.org/software/gdb/">GDB: The GNU Project Debugger</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/19/gdb-guide/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/09/18/algorithm/algorithm-exp1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GONGGONGJOHN">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GONGGONGJOHN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/18/algorithm/algorithm-exp1/" class="post-title-link" itemprop="url">插入排序、归并排序及冒泡排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-18 11:45:00" itemprop="dateCreated datePublished" datetime="2020-09-18T11:45:00+08:00">2020-09-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-18 18:24:23" itemprop="dateModified" datetime="2021-04-18T18:24:23+08:00">2021-04-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="内容与设计思想"><a href="#内容与设计思想" class="headerlink" title="内容与设计思想"></a>内容与设计思想</h2><ol>
+<li>设计一个数据生成器，输入参数包括 <script type="math/tex">N, s, t, T</script>；可随机生成一个大小为<script type="math/tex">N</script>、数值范围在 <script type="math/tex">[s, t]</script> 之间、类型为 <script type="math/tex">T</script> 的数据集合；<script type="math/tex">T</script> 包括三种类型（顺序递增、顺序递减、随机取值）</li>
+<li>编程实现<strong>Merge sort</strong>算法和<strong>Insertion sort</strong>算法。</li>
+<li>对于<strong>顺序递增</strong>类型的数据集合而言，在不同数据规模情况下（数据规模为<script type="math/tex">10^2, 10^3, 10^4, 10^5, 10^6</script>）下，两种算法的运行时间各是多少？</li>
+<li>对于<strong>顺序递减</strong>类型的数据集合而言，在不同数据规模情况下（数据规模为<script type="math/tex">10^2, 10^3, 10^4, 10^5, 10^6</script>）下，两种算法的运行时间各是多少？</li>
+<li>对于<strong>随机取值</strong>类型的数据集合而言，在不同数据规模情况下（数据规模为<script type="math/tex">10^2, 10^3, 10^4, 10^5, 10^6</script>）下，两种算法的运行时间各是多少？</li>
+<li>编程实现<strong>Bubble sort</strong>算法，并与上面两个算法进行对比。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/18/algorithm/algorithm-exp1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://gonggongjohn.me/2020/08/26/real-number/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="GONGGONGJOHN">
+      <meta itemprop="description" content="A sophomore student major in Data Science.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GONGGONGJOHN's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/26/real-number/" class="post-title-link" itemprop="url">实数的严格定义</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-26 19:03:01" itemprop="dateCreated datePublished" datetime="2020-08-26T19:03:01+08:00">2020-08-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-21 15:09:14" itemprop="dateModified" datetime="2021-01-21T15:09:14+08:00">2021-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%86%E6%9E%90%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">分析学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>对于整数和有理数，我们可以很轻松的从直观上理解并将他们表示出来。对于整数 $1,2,3,4,…$，我们只需要通过写出各数位上的数字便可将他们精确的表出；对于有理数，我们也只需要写出构成分母和分子的两个整数便可以精确表示。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -407,7 +642,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
