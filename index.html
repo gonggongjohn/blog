@@ -495,6 +495,60 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}其中 n \in \mathbb{N}^+, k \in \{0,1,2,..
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/01/08/algorithm/algorithm-exp13/" target="_self">
+          求解最大团
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/01/08/algorithm/algorithm-exp13/" target="_self">
+          
+          
+            
+          
+          内容与设计思想给定一个图，如下所示。请找出这个图的最大团。
+
+实现代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556#include &lt;iostream&gt;#include &lt;fstream&gt;#include &lt;
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-01-08 11:45" pubdate>
+              2021-01-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Computer-Science/">Computer-Science</a>
+            
+              <a href="/tags/Algorithm/">Algorithm</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2020/12/30/clustering/" target="_self">
           K-Means聚类与层次聚类
         </a>
@@ -547,18 +601,27 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}其中 n \in \mathbb{N}^+, k \in \{0,1,2,..
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/12/15/csapp-malloclab/" target="_self">
-          Malloc Lab实验记录
+        <a href="/2020/12/25/algorithm/algorithm-exp12/" target="_self">
+          单源最短路径
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/12/15/csapp-malloclab/" target="_self">
+        <a href="/2020/12/25/algorithm/algorithm-exp12/" target="_self">
           
           
             
           
-          Malloc Lab要求我们利用CSAPP中9.9节所介绍的技术设计一个简单的动态内存分配器，并且尽可能的使得分配效率最高且空间利用率最大。一个基本的思路便是先构建一个内存分配器的框架，并在此基础上不断优化使得效率和空间使用率均相对达到最优。
+          内容与设计思想川西风光几枚，以下图片是川西路线图。张三是旅游爱好者，他从成都出发自驾到西藏江达。
+
+
+从成都到江达的最短自驾路线是什么？可以用Dijkstra算法来求解。
+
+张三把理塘列为必游之地。怎么规划路线，使得总行程最短？
+
+张三觉得理塘风景很美，道孚也不错，两个地方如果能够去一个地方的话就心满意足了。应该怎么安排行程使得总行程最短？
+
+张三在规划线路的时候，发现不同路况行驶速度不一样。地图
         </a>
       </p>
 
@@ -566,61 +629,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}其中 n \in \mathbb{N}^+, k \in \{0,1,2,..
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2020-12-15 22:15" pubdate>
-              2020-12-15
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">计算机系统</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Computer-Science/">Computer-Science</a>
-            
-              <a href="/tags/Computer-System/">Computer-System</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/12/11/algorithm/algorithm-exp10/" target="_self">
-          贪心算法
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/12/11/algorithm/algorithm-exp10/" target="_self">
-          
-          
-            
-          
-          内容与设计思想
-最优打印等待问题某个班级有 $m$ 位同学一起去打印店打印实验报告。这个打印店只有一台打印机。由于各实验报告的厚薄不同，所需打印时间也不相同。同学 $i$ 需要的打印时间为 $t_i(1 \leq i \leq m)$。应该应如何安排这些同学的打印次序使得平均等待时间最小？输入数据格式：在文件students.txt中。第 $1$ 行是正整数 $m$，表示有 $m$ 位同学。接下来
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-12-11 11:45" pubdate>
-              2020-12-11
+            <time datetime="2020-12-25 11:45" pubdate>
+              2020-12-25
             </time>
           </div>
         
@@ -652,18 +662,26 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}其中 n \in \mathbb{N}^+, k \in \{0,1,2,..
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2020/12/04/algorithm/algorithm-exp9/" target="_self">
-          动态表
+        <a href="/2020/12/18/algorithm/algorithm-exp11/" target="_self">
+          最小生成树
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2020/12/04/algorithm/algorithm-exp9/" target="_self">
+        <a href="/2020/12/18/algorithm/algorithm-exp11/" target="_self">
           
           
             
           
-          内容与设计思想有一个公司想开发一个关于花卉的百科全书，用户只要输入花卉的名称，就能够输出花卉的详细信息。花卉包括：牡丹、芍药、茶花、菊花、梅花、兰花、月季、杜鹃花、郁金香、茉莉花、海棠、荷花、栀子花、莲花、百合、康乃馨、玫瑰、格桑花等1000种。这个公司想提升花卉检索和存储效率，打算采用动态表（Dynamic Table）来实现。由于花卉的数量可能会增加，也可能会减少，所实现的动态表需要有如下功能
+          内容与设计思想国家电网公司想在全国布局超高压输电网络，联通所有省会城市。为了降低成本，并且达到某些硬性要求，国家电网按照以下五种策略进行规划布局。
+
+要求整个电网的长度最短。
+
+要求在西宁与郑州拉一根直达专线的情况下，使得整个电网长度最短
+
+要求不仅在西宁与郑州之间拉直达专线，还在杭州与长沙之间拉直达专线的情况下，使得整个电网长度最短。
+
+在香港与澳门、澳门与广州不拉直达线路的前提之下，使得整个电
         </a>
       </p>
 
@@ -671,8 +689,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}其中 n \in \mathbb{N}^+, k \in \{0,1,2,..
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2020-12-04 11:45" pubdate>
-              2020-12-04
+            <time datetime="2020-12-18 11:45" pubdate>
+              2020-12-18
             </time>
           </div>
         
@@ -702,7 +720,7 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}其中 n \in \mathbb{N}^+, k \in \{0,1,2,..
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
