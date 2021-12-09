@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://gonggongjohn.me/about/index.html</loc>
+    
+    <lastmod>2021-12-09</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://gonggongjohn.me/2021/01/08/algorithm/algorithm-exp13/</loc>
     
     <lastmod>2021-12-09</lastmod>
@@ -47,13 +54,6 @@
     <loc>http://gonggongjohn.me/2020/09/18/algorithm/algorithm-exp1/</loc>
     
     <lastmod>2021-08-26</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://gonggongjohn.me/about/index.html</loc>
-    
-    <lastmod>2021-07-18</lastmod>
     
   </url>
   
@@ -277,13 +277,6 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/CSAPP/</loc>
-    <lastmod>2021-12-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://gonggongjohn.me/tags/Computer-System/</loc>
     <lastmod>2021-12-09</lastmod>
     <changefreq>daily</changefreq>
@@ -291,7 +284,7 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/Language/</loc>
+    <loc>http://gonggongjohn.me/tags/CSAPP/</loc>
     <lastmod>2021-12-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -299,6 +292,13 @@
   
   <url>
     <loc>http://gonggongjohn.me/tags/Algorithm/</loc>
+    <lastmod>2021-12-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/tags/Language/</loc>
     <lastmod>2021-12-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
