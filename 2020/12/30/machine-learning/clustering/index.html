@@ -1,0 +1,544 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="GONGGONGJOHN">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Cluster Analysis Cluster analysis or clustering is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K-Means聚类与层次聚类">
+<meta property="og:url" content="http://gonggongjohn.me/2020/12/30/machine-learning/clustering/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="Cluster Analysis Cluster analysis or clustering is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-30T13:22:44.000Z">
+<meta property="article:modified_time" content="2021-02-01T07:42:39.481Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="Machine-Learning">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>K-Means聚类与层次聚类 - GONGGONGJOHN&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GONGGONGJOHN&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="K-Means聚类与层次聚类">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-30 21:22" pubdate>
+        2020年12月30日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      84 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">K-Means聚类与层次聚类</h1>
+            
+            <div class="markdown-body">
+              <h2 id="cluster-analysis">Cluster Analysis</h2>
+<p><strong>Cluster analysis</strong> or <strong>clustering</strong> is a task of grouping a set of objects in such a way that objects in the same group are more similar to each other than to those in other groups. It is <strong>a main task of exploratory data mining</strong>, and <strong>a common technique for statistical data analysis</strong> which is used in many fields including <strong>pattern recognition</strong>, <strong>image analysis</strong>, <strong>information retrieval</strong>, <strong>bioinformatics</strong>, <strong>data compression</strong>, <strong>computer graphics</strong> and <strong>machine learning</strong>.</p>
+<a id="more"></a>
+<p>There are various clustering algorithms that differ significantly in their understanding of what constitutes a cluster and how to effectively find them, which proved to be useful in different scenarios.</p>
+<h2 id="k-means-clustering">K-means Clustering</h2>
+<h3 id="concept">Concept</h3>
+<p>K-means clustering is a partition-based method that can be used to partition a dataset into a fixed number of clusters. We can use the famous <strong>priest-villager model</strong> to illustrate the main idea of K-means algorithm.</p>
+<p>There are four priests preaching in the countryside. At first, they chose four preaching points arbitrarily, and told villagers to take the preaching course that is nearest to their own house. After the first class, some villagers complained that the preaching points were still too far from their home, so each of the priests collected the home addresses of all the villagers that came to his class and move the preaching point to the center of all the addresses. Since the update of preaching points, some villagers found that another preaching points became closer to their house than the previous one, so they chose to take the course at the new preaching point. In this way, the priests updated their preaching points every week, and villagers decided which course to take according to the distance of each preaching points. After several weeks, the preaching points became stable and both the villagers and the priests got satisfied.</p>
+<p>In formal words, K-means algorithm can be described as follows:</p>
+<ol type="1">
+<li>Choose a set of <span class="math display">\[K\]</span> initial points <span class="math display">\[\{c_1, c_2, ..., c_K\}\]</span> that denotes the centroid of each cluster</li>
+<li>Iteratively execute the following steps until all the centroid points stop to change (or hit some global restriction):
+<ul>
+<li>For each sample points in the dataset, compute the distances from it to every centroids and assign it to the centroid with the smallest distance</li>
+<li>Recompute the position of each centroid according to the positions of all the samples assigned to it</li>
+</ul></li>
+</ol>
+<h3 id="mathematical-details">Mathematical Details</h3>
+<p>Intuitively, we want to find a set of centroids and an assignment of every instances in the dataset to these centroids so that every centroid covers the most reasonable amount of instances and anchors at exactly the average point of all the instances that assigned to it. We can use a mathematical trick to convert this intuition into an optimization problem.</p>
+<p>If we define an indicator variable <span class="math display">\[r_{nk}\]</span> to describe which cluster an instance is in, which is <span class="math display">\[
+r_{nk} = \left\{
+\begin{aligned}
+&amp;1, &amp;if \ n \ is \ assigned \ to \ k \\
+&amp;0, &amp;otherwise
+\end{aligned}
+\right.
+\]</span> , then the sum of the distance of all the instances in the dataset to their centroids can be written as <span class="math display">\[
+J = \sum_{n=1}^N \sum_{k=1}^K r_{nk} \cdot dist(x_n, c_k)
+\]</span> where <span class="math display">\[N\]</span> is the size of the dataset, <span class="math display">\[K\]</span> is the number of clusters, <span class="math display">\[x_n\]</span> is the <span class="math display">\[n^{th}\]</span> instance in the dataset, <span class="math display">\[c_k\]</span> is the <span class="math display">\[k^{th}\]</span> centroid, <span class="math display">\[dist(a, b)\]</span> is the distance between <span class="math display">\[a\]</span> and <span class="math display">\[b\]</span>.</p>
+<p>Specifically, if the dataset is in the Euclidean space, then we can use the <strong>square of Euclidean distance</strong> as the distance function (square is for the convenience of derivation operations), which is <span class="math display">\[
+dist(x_n, c_k) = ||x_n - c_k||^2 = (x_{n1}-c_{k1})^2 + (x_{n2}-c_{k2})^2 + ... + (x_{nm}-c_{km})^2
+\]</span> where <span class="math display">\[x_{ni}\]</span> and <span class="math display">\[c_{ki}\]</span> is the <span class="math display">\[i^{th}\]</span> component of <span class="math display">\[x\]</span> and <span class="math display">\[c\]</span> respectively.</p>
+<p>If the dataset denotes some broader set (usually text data), we can also use the <strong>Jaccard distance</strong> as the distance function, which is defined as <span class="math display">\[
+dist(A, B) = \frac{A \Delta B}{|A \cup B|} = \frac{|A \cup B - A \cap B|}{|A \cup B|}
+\]</span> where <span class="math display">\[A, B\]</span> are two sets and <span class="math display">\[|S|\]</span> is the size of set <span class="math display">\[S\]</span>.</p>
+<p>Therefore, our goal becomes to minimize the function <span class="math display">\[J\]</span>. A famous solution to this kind of problems is the <strong>EM(Expectation-Maximization) Algorithm</strong> where optimizing <span class="math display">\[r_{nk}\]</span> is the expectation step and minimizing <span class="math display">\[dist(x_n, c_k)\]</span> is the maximization step.</p>
+<p>First we optimize <span class="math display">\[r_{nk}\]</span>. Since <span class="math display">\[J\]</span> is the linear function of <span class="math display">\[r_{nk}\]</span>, we can simply assigned every instance to the centroid <span class="math display">\[k\]</span> if the distance between them is the smallest among all centroids to get the minimum <span class="math display">\[J\]</span> when the centroids are fixed.</p>
+<p>Then we try to minimize the distance function. Here we only consider the situation when we use the Euclidean distance as the distance metrics. More specifically, our goal is to minimize <span class="math display">\[
+J = \sum_{n=1}^N \sum_{k=1}^K r_{nk} ||x_n - c_k||^2
+\]</span> when <span class="math display">\[r_{nk}\]</span> is fixed (This function are also called the <strong>sum of squared error</strong> function). Since each cluster is independent, we can optimize each cluster respectively to get the global minimum, which is to minimize the following expression <span class="math display">\[
+J_k = \sum_{n=1}^N r_{nk} \cdot ||x_n-c_k||^2
+\]</span> for every <span class="math display">\[k\]</span> from <span class="math display">\[1\]</span> to <span class="math display">\[K\]</span>.</p>
+<p>We can notice that this is a quadratic function of <span class="math display">\[c_k\]</span>, so we can simply set its derivative function to <span class="math display">\[0\]</span> and solve for <span class="math display">\[c_k\]</span> to get the minimum point. From this we can get the final formula to find the position of <span class="math display">\[c_k\]</span> <span class="math display">\[
+c_k = \frac{\sum_\limits{n=1}^N r_{nk}x_n}{\sum_\limits{n=1}^N r_{nk}}
+\]</span> Since both of the two steps aims at reducing <span class="math display">\[J\]</span> while <span class="math display">\[J\]</span> is always greater than <span class="math display">\[0\]</span>, we can prove that the function will finally converges.</p>
+<h3 id="complexity-analysis">Complexity Analysis</h3>
+<p>We can implement K-means algorithm in pseudo-code:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></div></td><td class="code"><pre><code class="hljs pseudocode">K-MEANS(K, t, s): &#x2F;&#x2F;The paramaters denote the number of clusters, the iteration times and the dataset respectively<br>Initialize c[K] &#x2F;&#x2F;Denote the centroid set<br>While t<br>	For i in s<br>		min_dist &#x3D; INF<br>		For j &#x3D; 1 to K<br>			d &#x3D; Distance between i and c[j]<br>			If d &lt; min_dist<br>				min_dist &#x3D; d<br>				min_index &#x3D; j<br>			Append i into the cluster set of c[min_index]<br>	For i &#x3D; 1 to K<br>		c[i].pos &#x3D; Mean position of all the points in the cluster set of c[i]<br>return c<br></code></pre></td></tr></table></figure>
+<p>If we use the standard Euclidean distance (<span class="math display">\[L_2\]</span> norm) as the distance metrics, then the time complexity of K-means algorithm is <span class="math display">\[\mathcal{O}(tknm)\]</span> where <span class="math display">\[t\]</span> is the iteration times, <span class="math display">\[k\]</span> is the number of clusters, <span class="math display">\[n\]</span> is the size of the dataset and <span class="math display">\[m\]</span> is the dimension of each sample in the dataset.</p>
+<p>Similarly, if the samples of the dataset and the centroids are all in <span class="math display">\[m\]</span>-dimensional Euclidean space, than the space complexity of K-means algorithm is <span class="math display">\[\mathcal{O}((n+k) \cdot m)\]</span> where <span class="math display">\[n\]</span> is the size of the dataset, <span class="math display">\[k\]</span> is the number of clusters.</p>
+<h3 id="applications">Applications</h3>
+<p>Due to its simplicity, K-means clustering algorithm has been successfully used in many domains such as market segmentation, computer vision and astronomy. It is also used as a preprocessing step before many other alogirithms to find a starting configuration.</p>
+<p>For example, in computer graphics, there is a task called <strong>color quantization</strong> which is to reduce the color palette of a picture into a fixed number. K-means algorithm can easily been used for this task and often produces a competitive result.</p>
+<p>As an unsupervised learning algorithm, K-means algorithm is also widely used to explore the implicit features of a dataset before applying subsequent learning algorithms in data mining area, which can be very useful in some NLP(Natural Language Processing) and computer vision tasks.</p>
+<h3 id="pros-and-cons">Pros And Cons</h3>
+<p>The advantage of K-means algorithm is that it <strong>has a relatively low time and space complexity</strong>, and <strong>has a good flexibility even when applying to a large dataset</strong>. However, there are also some drawbacks of it:</p>
+<ol type="1">
+<li>The algorithm may converges to a local minimum, which is counterintuitive in some situation.</li>
+<li>Unable to get a correct partition when the clusters is not spherical or non-convex.</li>
+<li>The algorithm is sensitive to the cluster number K and the initial point of the centroids.</li>
+</ol>
+<h2 id="hierarchical-clustering">Hierarchical Clustering</h2>
+<h3 id="concept-1">Concept</h3>
+<p>As its name suggests, hierarchical clustering is a hierarchical-based method to group similar objects into clusters. Its main idea is to build a <strong>hierarchical tree</strong> (or <strong>dendrogram</strong>) to represent the nested group relations. In general, there are two different strategies to achieve this goal: <strong>Agglomerative Hierarchical Clustering</strong> and <strong>Divisive Hierarchical Clustering</strong>. Agglomative method is a <strong>bottom-up</strong> method, which is to regard each of the instances as a single cluster at first and then keep merging the most similar clusters until there is only one cluster left. In comparison, divisive method is a <strong>top-down</strong> method, which consider the whole dataset as a big cluster and keep splitting down until each of the clusters have only one instance in it.</p>
+<h3 id="complexity-analysis-1">Complexity Analysis</h3>
+<p>Agglomerative hierarchical clustering algorithm can be implemented as follow:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs pseudocode">AHC(s): &#x2F;&#x2F;s denotes the dataset<br>Initialize c &#x2F;&#x2F;Denote the clusters at the current level<br>Append every instance from s to c<br>While c.length !&#x3D; 1<br>	min_dist &#x3D; INF<br>	For i in c<br>		For j in c<br>			If i !&#x3D; j<br>				d &#x3D; Distance between i and j<br>				If d &lt; min_dist<br>					min_dist &#x3D; d<br>					min_cp &#x3D; i, j<br>	cm &#x3D; merge(min_cp)<br>	Remove min_cp from c<br>	Append cm to c<br></code></pre></td></tr></table></figure>
+<p>The basic structure of Divisive hierarchical clustering algorithm is the same as the agglomerative one, except the divisive one needs to split the farthest sub-clusters from the larger cluster in every loop.</p>
+<p>If we use the Euclidean distance as the distance metrics, then the <strong>time complexity</strong> of hierarchical clustering is <span class="math display">\[\mathcal{O}(mn^3)\]</span> where <span class="math display">\[m\]</span> is the dimension of each sample in the dataset and <span class="math display">\[n\]</span> is the size of the dataset.</p>
+<p>Since every cluster needs to record its member and its sub-clusters, the <strong>space complexity</strong> of hierarchical clustering is <span class="math display">\[\mathcal{O}(n^2)\]</span></p>
+<h3 id="applications-1">Applications</h3>
+<p>Hierarchical clustering is an ideal methods to find the hierarchical relations between instances. These instances often differ from each other in some aspects, but not to the extent that we should put them into two mutual exclusive groups.</p>
+<p>For instance, we can use hierarchical clustering to find the members of each party in America senate. To achieve this, we can define how much one senator agrees with another's words as a metrics, and implement hierarchical clustering algorithm on all senator's twitter accounts.</p>
+<h3 id="pros-and-cons-1">Pros And Cons</h3>
+<p>A conspicuous benefit for hierarchical clustering is that it can get the whole cluster information once-and-for-all. Once we get the hierarchical relation tree of a dataset, we can probe the cluster information in different granularity and get the fittest cluster results we want to get.</p>
+<p>However, the defects of it is equally distinct. The huge cost of computing distance between every two clusters and storing hierarchical information makes it unsuitable to handle large dataset. Once a cluster partition or congregation is determined, it is not easy to change since every subsequent judgement is based on clusters existed, which gives the algorithm a poor flexibility. Moreover, the strategy for merging or splitting the clusters is a greedy strategy, which may leads to an local-optimum result.</p>
+<h3 id="k-means-v.s.-hierarchical-clustering">K-means V.S. Hierarchical Clustering</h3>
+<p>In view of their different features, K-means and hierarchical clustering are often used in different scenarios. K-means can be easily adapted to a large or dense dataset thanks to its simplity and low computational cost. When it is uneasy to determine how many clusters in the dataset or the instance relations are unambiguous, hierarchical clustering proves to be a better choice. In practice, we often perform K-means clustering first to get a rough understanding of a dataset and reduce the data size. Then we perform hierarchical clustering to explore the deeper interrelationships among the dataset.</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer-Science</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Machine-Learning/">Machine-Learning</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/08/algorithm/course-exp/algorithm-exp13/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">求解最大团</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/12/25/algorithm/course-exp/algorithm-exp12/">
+                        <span class="hidden-mobile">单源最短路径</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

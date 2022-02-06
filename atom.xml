@@ -99,8 +99,8 @@
   
   <entry>
     <title>离散型随机变量整理</title>
-    <link href="http://gonggongjohn.me/2021/04/21/math_prob_stat/prob-drv/"/>
-    <id>http://gonggongjohn.me/2021/04/21/math_prob_stat/prob-drv/</id>
+    <link href="http://gonggongjohn.me/2021/04/21/math-prob-stat/prob-drv/"/>
+    <id>http://gonggongjohn.me/2021/04/21/math-prob-stat/prob-drv/</id>
     <published>2021-04-21T09:56:35.000Z</published>
     <updated>2021-04-21T10:00:23.948Z</updated>
     
@@ -156,8 +156,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>实数集不可数的证明</title>
-    <link href="http://gonggongjohn.me/2021/02/27/math_analysis/real-number-uncountability/"/>
-    <id>http://gonggongjohn.me/2021/02/27/math_analysis/real-number-uncountability/</id>
+    <link href="http://gonggongjohn.me/2021/02/27/math-analysis/real-number-uncountability/"/>
+    <id>http://gonggongjohn.me/2021/02/27/math-analysis/real-number-uncountability/</id>
     <published>2021-02-27T14:37:37.000Z</published>
     <updated>2021-02-27T14:38:48.142Z</updated>
     
@@ -179,8 +179,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>Shell Lab实验记录</title>
-    <link href="http://gonggongjohn.me/2021/01/29/computer_system/csapp-shlab/"/>
-    <id>http://gonggongjohn.me/2021/01/29/computer_system/csapp-shlab/</id>
+    <link href="http://gonggongjohn.me/2021/01/29/computer-system/csapp-shlab/"/>
+    <id>http://gonggongjohn.me/2021/01/29/computer-system/csapp-shlab/</id>
     <published>2021-01-29T15:48:59.000Z</published>
     <updated>2021-01-29T17:30:27.575Z</updated>
     
@@ -202,8 +202,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>求解最大团</title>
-    <link href="http://gonggongjohn.me/2021/01/08/algorithm/course_exp/algorithm-exp13/"/>
-    <id>http://gonggongjohn.me/2021/01/08/algorithm/course_exp/algorithm-exp13/</id>
+    <link href="http://gonggongjohn.me/2021/01/08/algorithm/course-exp/algorithm-exp13/"/>
+    <id>http://gonggongjohn.me/2021/01/08/algorithm/course-exp/algorithm-exp13/</id>
     <published>2021-01-08T03:45:00.000Z</published>
     <updated>2021-12-09T02:07:51.049Z</updated>
     
@@ -226,8 +226,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>K-Means聚类与层次聚类</title>
-    <link href="http://gonggongjohn.me/2020/12/30/machine_learning/clustering/"/>
-    <id>http://gonggongjohn.me/2020/12/30/machine_learning/clustering/</id>
+    <link href="http://gonggongjohn.me/2020/12/30/machine-learning/clustering/"/>
+    <id>http://gonggongjohn.me/2020/12/30/machine-learning/clustering/</id>
     <published>2020-12-30T13:22:44.000Z</published>
     <updated>2021-02-01T07:42:39.481Z</updated>
     
@@ -250,8 +250,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>单源最短路径</title>
-    <link href="http://gonggongjohn.me/2020/12/25/algorithm/course_exp/algorithm-exp12/"/>
-    <id>http://gonggongjohn.me/2020/12/25/algorithm/course_exp/algorithm-exp12/</id>
+    <link href="http://gonggongjohn.me/2020/12/25/algorithm/course-exp/algorithm-exp12/"/>
+    <id>http://gonggongjohn.me/2020/12/25/algorithm/course-exp/algorithm-exp12/</id>
     <published>2020-12-25T03:45:00.000Z</published>
     <updated>2021-12-09T02:07:41.756Z</updated>
     
@@ -274,8 +274,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>最小生成树</title>
-    <link href="http://gonggongjohn.me/2020/12/18/algorithm/course_exp/algorithm-exp11/"/>
-    <id>http://gonggongjohn.me/2020/12/18/algorithm/course_exp/algorithm-exp11/</id>
+    <link href="http://gonggongjohn.me/2020/12/18/algorithm/course-exp/algorithm-exp11/"/>
+    <id>http://gonggongjohn.me/2020/12/18/algorithm/course-exp/algorithm-exp11/</id>
     <published>2020-12-18T03:45:00.000Z</published>
     <updated>2021-12-09T01:54:08.303Z</updated>
     
@@ -305,8 +305,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>Malloc Lab实验记录</title>
-    <link href="http://gonggongjohn.me/2020/12/15/computer_system/csapp-malloclab/"/>
-    <id>http://gonggongjohn.me/2020/12/15/computer_system/csapp-malloclab/</id>
+    <link href="http://gonggongjohn.me/2020/12/15/computer-system/csapp-malloclab/"/>
+    <id>http://gonggongjohn.me/2020/12/15/computer-system/csapp-malloclab/</id>
     <published>2020-12-15T14:15:13.000Z</published>
     <updated>2021-04-17T11:14:33.865Z</updated>
     
@@ -328,8 +328,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>贪心算法</title>
-    <link href="http://gonggongjohn.me/2020/12/11/algorithm/course_exp/algorithm-exp10/"/>
-    <id>http://gonggongjohn.me/2020/12/11/algorithm/course_exp/algorithm-exp10/</id>
+    <link href="http://gonggongjohn.me/2020/12/11/algorithm/course-exp/algorithm-exp10/"/>
+    <id>http://gonggongjohn.me/2020/12/11/algorithm/course-exp/algorithm-exp10/</id>
     <published>2020-12-11T03:45:00.000Z</published>
     <updated>2021-09-05T15:53:15.718Z</updated>
     
@@ -355,8 +355,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>动态表</title>
-    <link href="http://gonggongjohn.me/2020/12/04/algorithm/course_exp/algorithm-exp9/"/>
-    <id>http://gonggongjohn.me/2020/12/04/algorithm/course_exp/algorithm-exp9/</id>
+    <link href="http://gonggongjohn.me/2020/12/04/algorithm/course-exp/algorithm-exp9/"/>
+    <id>http://gonggongjohn.me/2020/12/04/algorithm/course-exp/algorithm-exp9/</id>
     <published>2020-12-04T03:45:00.000Z</published>
     <updated>2021-09-05T15:53:37.129Z</updated>
     
@@ -384,8 +384,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>最优二叉搜索树</title>
-    <link href="http://gonggongjohn.me/2020/11/27/algorithm/course_exp/algorithm-exp8/"/>
-    <id>http://gonggongjohn.me/2020/11/27/algorithm/course_exp/algorithm-exp8/</id>
+    <link href="http://gonggongjohn.me/2020/11/27/algorithm/course-exp/algorithm-exp8/"/>
+    <id>http://gonggongjohn.me/2020/11/27/algorithm/course-exp/algorithm-exp8/</id>
     <published>2020-11-27T03:45:00.000Z</published>
     <updated>2021-05-20T12:11:50.436Z</updated>
     
@@ -439,8 +439,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>最长公共子序列</title>
-    <link href="http://gonggongjohn.me/2020/11/20/algorithm/course_exp/algorithm-exp7/"/>
-    <id>http://gonggongjohn.me/2020/11/20/algorithm/course_exp/algorithm-exp7/</id>
+    <link href="http://gonggongjohn.me/2020/11/20/algorithm/course-exp/algorithm-exp7/"/>
+    <id>http://gonggongjohn.me/2020/11/20/algorithm/course-exp/algorithm-exp7/</id>
     <published>2020-11-20T03:45:00.000Z</published>
     <updated>2021-05-20T12:05:39.847Z</updated>
     
@@ -468,8 +468,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>红黑树</title>
-    <link href="http://gonggongjohn.me/2020/11/13/algorithm/course_exp/algorithm-exp6/"/>
-    <id>http://gonggongjohn.me/2020/11/13/algorithm/course_exp/algorithm-exp6/</id>
+    <link href="http://gonggongjohn.me/2020/11/13/algorithm/course-exp/algorithm-exp6/"/>
+    <id>http://gonggongjohn.me/2020/11/13/algorithm/course-exp/algorithm-exp6/</id>
     <published>2020-11-13T03:45:00.000Z</published>
     <updated>2021-05-20T11:58:03.342Z</updated>
     
@@ -528,8 +528,8 @@ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k}
   
   <entry>
     <title>随机化快速选择算法</title>
-    <link href="http://gonggongjohn.me/2020/10/23/algorithm/course_exp/algorithm-exp5/"/>
-    <id>http://gonggongjohn.me/2020/10/23/algorithm/course_exp/algorithm-exp5/</id>
+    <link href="http://gonggongjohn.me/2020/10/23/algorithm/course-exp/algorithm-exp5/"/>
+    <id>http://gonggongjohn.me/2020/10/23/algorithm/course-exp/algorithm-exp5/</id>
     <published>2020-10-23T03:45:00.000Z</published>
     <updated>2021-04-18T10:25:10.659Z</updated>
     
