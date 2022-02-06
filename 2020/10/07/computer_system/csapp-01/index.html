@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="GONGGONGJOHN">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Chapter 2：信息的表示和处理 基本概念 进制转换 进位计数制 定义：设一个 \(m\) 进制下\(w\) 位的位向量表示为 \[[a_{w-1}, a_{w-2}, ..., a_0]\]，则其表示的数为 \(\sum_\limits{i&#x3D;0}^{w-1} a_im^i\) \(m\) 进制 \(\rightarrow\) 十进制  设一个 \(w\) 位 \(m\) 进制整数的位相量表示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《深入理解计算机系统》笔记整理（一）">
+<meta property="og:url" content="http://gonggongjohn.me/2020/10/07/computer_system/csapp-01/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="Chapter 2：信息的表示和处理 基本概念 进制转换 进位计数制 定义：设一个 \(m\) 进制下\(w\) 位的位向量表示为 \[[a_{w-1}, a_{w-2}, ..., a_0]\]，则其表示的数为 \(\sum_\limits{i&#x3D;0}^{w-1} a_im^i\) \(m\) 进制 \(\rightarrow\) 十进制  设一个 \(w\) 位 \(m\) 进制整数的位相量表示">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-07T14:31:17.000Z">
+<meta property="article:modified_time" content="2020-10-11T12:39:08.176Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="CSAPP">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>《深入理解计算机系统》笔记整理（一） - GONGGONGJOHN&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GONGGONGJOHN&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="《深入理解计算机系统》笔记整理（一）">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-10-07 22:31" pubdate>
+        2020年10月7日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      33 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《深入理解计算机系统》笔记整理（一）</h1>
+            
+            <div class="markdown-body">
+              <h1 id="chapter-2信息的表示和处理">Chapter 2：信息的表示和处理</h1>
+<h2 id="基本概念">基本概念</h2>
+<h3 id="进制转换">进制转换</h3>
+<h4 id="进位计数制">进位计数制</h4>
+<p><strong>定义：</strong>设一个 <span class="math inline">\(m\)</span> 进制下<span class="math inline">\(w\)</span> 位的位向量表示为 <span class="math display">\[[a_{w-1}, a_{w-2}, ..., a_0]\]</span>，则其表示的数为 <span class="math inline">\(\sum_\limits{i=0}^{w-1} a_im^i\)</span></p>
+<h4 id="m-进制-rightarrow-十进制"><span class="math inline">\(m\)</span> 进制 <span class="math inline">\(\rightarrow\)</span> 十进制</h4>
+<blockquote>
+<p>设一个 <span class="math inline">\(w\)</span> 位 <span class="math inline">\(m\)</span> 进制整数的位相量表示为 <span class="math display">\[\vec{x} = [ x_{w-1}, x_{w-2}, ..., x_0 ]\]</span> ，定义函数 <span class="math inline">\(M2D(\vec{x}) = \sum_\limits{i=0}^{w-1} x_i m^i\)</span>，则其对应的十进制数 <span class="math inline">\(n = M2D(\vec{x})\)</span></p>
+</blockquote>
+<a id="more"></a>
+<p><strong>证明：</strong>由进位计数制的定义可直接得到结论</p>
+<blockquote>
+<p>Example:</p>
+<p>将 <span class="math inline">\(3\)</span> 进制数 <span class="math inline">\(12011\)</span> 转为十进制数</p>
+<p>解： 令 <span class="math inline">\(\vec{x} = [1,2,0,1,1], m = 3\)</span> <span class="math display">\[
+\begin{align}
+\therefore n = M2D(\vec{x}) &amp;= 1 \cdot 3^4 + 2 \cdot 3^3 + 1 \cdot 3^1 +1 \cdot 3^0 \\ 
+&amp;= 81+54+3+1 \\ 
+&amp;= 139 
+\end{align}
+\]</span> 故 <span class="math display">\[12011_3 = 139_{10}\]</span></p>
+</blockquote>
+<h4 id="十进制-rightarrow-m-进制">十进制 <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(m\)</span> 进制</h4>
+<blockquote>
+<p>设一个十进制整数为 <span class="math inline">\(n\)</span>，定义序列 <span class="math display">\[
+\begin{align}
+&amp;p_0 = \lfloor \frac{n}{m} \rfloor, \ r_0 = n \ \ mod \ \ m \\
+&amp;p_1 = \lfloor \frac{p_0}{m}\rfloor, \ r_1 = p_0 \ \ mod \ \ m \\
+&amp;... \\
+&amp;p_{s-1} = \lfloor \frac{p_{s-2}}{m}\rfloor = 0, \ r_{s-1} = p_{s-2} \ \ mod \ \ m \\
+\end{align}
+\]</span> 则其对应的 <span class="math inline">\(m\)</span> 进制数的位向量表示为 <span class="math display">\[\vec{x} = [r_{s-1}, r_{s-2}, ..., r_0]\]</span></p>
+</blockquote>
+<p><strong>证明：</strong>设 <span class="math inline">\(n\)</span> 在 <span class="math inline">\(m\)</span> 进制下的位相量表示为 <span class="math display">\[[r_{s-1}, r_{s-2}, ..., r_0]\]</span></p>
+<p>则由定义可知，<span class="math display">\[n = r_{s-1} \cdot m^{s-1} + r_{s-2} \cdot m^{s-2} + ...+ r_0\]</span></p>
+<p>故 <span class="math display">\[n = m \cdot \left( r_{s-1} \cdot m^{s-2} + r_{s-2} \cdot m^{s-3} + ... + r_1 \right) + r_0\]</span></p>
+<p>故 <span class="math inline">\(r_0 = n \ \ mod \ \ m\)</span></p>
+<p>又由 <span class="math display">\[
+\begin{align}
+p_0 = \lfloor \frac{n}{m} \rfloor &amp;= r_{s-1} \cdot m^{s-2} + r_{s-2} \cdot m^{s-3} + ... + r_1 \\
+&amp;= m \cdot \left( r_{s-1} \cdot m^{s-3} + r_{s-2} \cdot m^{s-4} + ... + r_2 \right) + r_1
+\end{align}
+\]</span> 故 <span class="math inline">\(r_1 = p_0 \ \ mod \ \ m\)</span></p>
+<p>以此类推，<span class="math display">\[r_{i} = p_{i-1} \ \ mod \ \ m \ (i=s-2, ..., 1)\]</span></p>
+<p>故结论成立</p>
+<blockquote>
+<p>Example:</p>
+<p>将十进制数 <span class="math inline">\(508\)</span> 转为八进制数</p>
+<p>解： <span class="math display">\[
+\begin{align}
+508 &amp;= 63 * 8 + 4 \\
+63 &amp;= 7 * 8 + 7 \\
+7 &amp;= 0 * 8 + 7
+\end{align}
+\]</span> 故 <span class="math inline">\(508_{10} = 774_8\)</span></p>
+</blockquote>
+<h3 id="信息的存储">信息的存储</h3>
+<h4 id="字长word-size">字长（Word Size）</h4>
+<p>在计算机中，<strong>字（Word）</strong>是用来表示一次性处理数据的固定长度。字的位数称为<strong>字长（Word Size）</strong>。字长是计算机系统中的一个重要指标，字长的大小决定了<strong>虚拟地址空间的最大大小</strong>。</p>
+<p>对于一个字长为 <span class="math inline">\(w\)</span> 的机器来说，其虚拟地址的范围为 <span class="math inline">\(0\)</span> ～ <span class="math inline">\(2^w-1\)</span>，即可以存储 <span class="math inline">\(2^w\)</span> 个字节</p>
+<blockquote>
+<p>Example:</p>
+<p>字长为32的机器的虚拟地址范围为 <span class="math inline">\(0\)</span> ～ <span class="math inline">\(2^{32}-1\)</span>，可以存储 <span class="math inline">\(2^{32}\)</span> 个字节</p>
+</blockquote>
+<h4 id="小端序little-endian和大端序big-endian">小端序（Little Endian）和大端序（Big Endian）</h4>
+<p>超过一个字节的数据在计算机中有两种排列顺序：小端序（Little Endian）和大端序（Big Endian）。</p>
+<p>小端序：将较低的有效字节放在<strong>较小</strong>的内存地址中。</p>
+<p>大端序：将较低的有效字节放在<strong>较大</strong>的内存地址中。</p>
+<blockquote>
+<p>Example:</p>
+<p>原始数据：12 34 56 78</p>
+<p>小端序存储：12 34 56 78</p>
+<p>大端序存储：78 56 34 12</p>
+</blockquote>
+<p><strong>注：</strong>使用ASCII码存储的字符数据在任何系统上都能得到相同的结果，不受端序的影响。</p>
+<h3 id="基本运算">基本运算</h3>
+<h4 id="位级运算">位级运算</h4>
+<p>计算机中有以下四种基本位级运算：<strong>按位与（&amp;）</strong>，<strong>按位或（|）</strong>，<strong>按位非（~）</strong>，<strong>按位异或（^）</strong>，其规则与布尔代数中的规则一致。</p>
+<blockquote>
+<p>Example:</p>
+<p>101100 &amp; 100110 = 100100</p>
+<p>101100 | 100110 = 101110</p>
+<p>~101100 = 010011</p>
+<p>101100 ^ 100110 = 001010</p>
+</blockquote>
+<h4 id="逻辑运算">逻辑运算</h4>
+<p>计算机中提供了以下三种逻辑运算：<strong>且（&amp;&amp;）</strong>，<strong>或（||）</strong>，<strong>非（!）</strong>，其规则与命题逻辑中的规则一致。</p>
+<p><strong>注：</strong>C语言中的逻辑运算有<strong>提早终止（Early Termination）</strong>的机制，即当两个表达式做逻辑运算时，若前一个表达式已经能确定最终结果，则不再计算后一个表达式。</p>
+<blockquote>
+<p>Example:</p>
+<p>(1+1=2) &amp; (3=3) = 1</p>
+<p>(1-1=0) || (1=2) = 1</p>
+<p>!(2*5=10) = 0</p>
+<p>!0x3F = 0</p>
+</blockquote>
+<h4 id="位移运算">位移运算</h4>
+<p>计算机中提供了三种位移操作：左移（&lt;&lt;），逻辑右移（&gt;&gt;），算术右移（&gt;&gt;）</p>
+<p><span class="math inline">\(x\)</span> 左移 <span class="math inline">\(k\)</span> 位：将 <span class="math inline">\(x\)</span> 的最高 <span class="math inline">\(k\)</span> 位丢弃并在最低位后补充 <span class="math inline">\(k\)</span> 个零，相当于 <span class="math inline">\(x \cdot 2^k\)</span></p>
+<p><span class="math inline">\(x\)</span> 逻辑右移 <span class="math inline">\(k\)</span> 位：将 <span class="math inline">\(x\)</span> 的最低 <span class="math inline">\(k\)</span> 位丢弃并在最高位前补充 <span class="math inline">\(k\)</span> 个零，相当于 <span class="math inline">\(\lfloor \frac{x}{2^k} \rfloor\)</span></p>
+<p>算术右移 <span class="math inline">\(k\)</span> 位：将 <span class="math inline">\(x\)</span> 的最低 <span class="math inline">\(k\)</span> 位丢弃并在最高位前补充 <span class="math inline">\(k\)</span> 个最高位值</p>
+<h3 id="整数的存储与运算">整数的存储与运算</h3>
+<h4 id="无符号整数">无符号整数</h4>
+<p>二进制数码不表示符号信息的整数称为无符号整数，其代码的数字与常规的进位计数制规则一致。即若定义 <span class="math display">\[B2U_w(\vec{x}) = \sum_\limits{i=0}^{w-1}x_i 2^i\]</span>，则一个 <span class="math inline">\(w\)</span> 位的二进制位相量 <span class="math inline">\(\vec{x}\)</span> 所对应的十进制数 <span class="math inline">\(n = B2U_w(\vec{x})\)</span></p>
+<p>由定义可知，一个 <span class="math inline">\(w\)</span> 位的二进制位相量 <span class="math inline">\(\vec{x}\)</span> 可表示的整数范围为 <span class="math inline">\(0\)</span> ～ <span class="math inline">\(2^w-1\)</span></p>
+<h4 id="有符号整数">有符号整数</h4>
+<p>有符号整数是采用补码进行存储的整数。补码是对二进制的一种新的解读方式，其严格的定义如下：若定义 <span class="math display">\[B2T_w(\vec{x}) = -x_{w-1} 2^{w-1} + \sum_\limits{i=0}^{w-2}x_i 2^i\]</span>，则一个 <span class="math inline">\(w\)</span> 位的二进制位相量 <span class="math inline">\(\vec{x}\)</span> 所对应的十进制数 <span class="math inline">\(n = B2T_w(\vec{x})\)</span>。通俗来说，补码将原本 <span class="math inline">\(0\)</span> ～ <span class="math inline">\(2^w-1\)</span> 中 <span class="math inline">\(2^{w-1}\)</span> ～ <span class="math inline">\(2^{w} - 1\)</span> 的部分重新解读为负数，从而使得其可以表示负数。从取模的角度来看， 对于一个 <span class="math inline">\(0\)</span> ～ <span class="math inline">\(2^{w-1} - 1\)</span> 中的数 <span class="math inline">\(n\)</span> 和一个 <span class="math inline">\(2^{w-1}\)</span> ～ <span class="math inline">\(2^{w} - 1\)</span> 中的数 <span class="math inline">\(m\)</span>，<span class="math inline">\((n + m) \ \ mod \ \ 2^w = n - (2^w - m)\)</span>，故这样定义是合适的。且容易看出其与无符号整数间的转换关系为 <span class="math display">\[
+U2T(x) = \left\{
+\begin{aligned}
+&amp;x &amp;, &amp;0 \leq x \leq 2^{w-1} - 1 \\
+&amp;x - 2^w &amp;, &amp;2^{w-1} \leq x \leq 2^w - 1
+\end{aligned}
+\right.
+\]</span></p>
+<p><span class="math display">\[
+T2U(x) = \left\{
+\begin{aligned}
+&amp;x &amp;, &amp; 0 \leq x \leq 2^{w-1}-1 \\
+&amp;x + 2^w &amp;, &amp; -2^{w-1} \leq x \leq -1
+\end{aligned}
+\right.
+\]</span></p>
+<p><strong>证明：</strong>设二进制位向量 <span class="math inline">\(\vec{x}\)</span></p>
+<p>当 <span class="math display">\[0 \leq B2U_w(\vec{x}) \leq 2^{w-1} - 1\]</span> 时</p>
+<p><span class="math display">\[x_{w-1} = 0\]</span></p>
+<p>此时 <span class="math display">\[B2T_w(\vec{x}) = \sum_\limits{i=0}^{w-2}x_i 2^i = B2U_w(\vec{x})\]</span></p>
+<p>故 <span class="math display">\[U2T_w(x) = x\]</span></p>
+<p>当 <span class="math display">\[2^{w-1} \leq x \leq 2^w - 1\]</span> 时</p>
+<p><span class="math display">\[x_{w-1} = 1\]</span></p>
+<p>此时 <span class="math display">\[
+\left\{
+\begin{aligned}
+B2T_w(\vec{x}) &amp;= -2^{w-1} + \sum_\limits{i=0}^{w-2}x_i 2^i \\
+B2U_w(\vec{x}) &amp;= 2^{w-1} + \sum_\limits{i=0}^{w-2}x_i 2^i
+\end{aligned}
+\right.
+\]</span></p>
+<p>故 <span class="math display">\[B2T_w(\vec{x}) = B2U_w(\vec{x}) - 2^w\]</span></p>
+<p>故 <span class="math display">\[U2T_w(\vec{x}) = x - 2^w\]</span></p>
+<p><span class="math display">\[T2U(x)\]</span>的情况同理可证</p>
+<p><strong>注：</strong>无符号或有符号整数仅为二进制解读为十进制时的不同解读方式，由于计算机在二进制层面进行运算，故计算机在进行底层运算时并不区分这两种解读方式。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer-Science</a>
+                    
+                      <a class="hover-with-bg" href="/tags/CSAPP/">CSAPP</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/09/algorithm/course_exp/algorithm-exp3/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">优先队列</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/02/computer_system/csapp-datalab/">
+                        <span class="hidden-mobile">Data Lab实验记录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

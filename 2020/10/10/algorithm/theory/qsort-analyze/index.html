@@ -1,0 +1,585 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="GONGGONGJOHN">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="随机化快速排序 随机化快速排序在快速排序的基础上，通过随机数选择一个数作为pivot，使得没有特定的输入数据可以使得该算法达到最坏情况。 下面我们来分析其平均时间复杂度。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速排序时间复杂度分析">
+<meta property="og:url" content="http://gonggongjohn.me/2020/10/10/algorithm/theory/qsort-analyze/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="随机化快速排序 随机化快速排序在快速排序的基础上，通过随机数选择一个数作为pivot，使得没有特定的输入数据可以使得该算法达到最坏情况。 下面我们来分析其平均时间复杂度。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-10T07:46:07.000Z">
+<meta property="article:modified_time" content="2021-01-21T07:09:44.427Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>快速排序时间复杂度分析 - GONGGONGJOHN&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GONGGONGJOHN&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="快速排序时间复杂度分析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-10-10 15:46" pubdate>
+        2020年10月10日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      38 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">快速排序时间复杂度分析</h1>
+            
+            <div class="markdown-body">
+              <h2 id="随机化快速排序">随机化快速排序</h2>
+<p>随机化快速排序在快速排序的基础上，通过随机数选择一个数作为pivot，使得没有特定的输入数据可以使得该算法达到最坏情况。</p>
+<p>下面我们来分析其平均时间复杂度。</p>
+<a id="more"></a>
+<p>设 <span class="math display">\[X_k\]</span> 为一个随机变量，使得对任意 <span class="math display">\[k=0,1,...,n-1\]</span>，有 <span class="math display">\[
+X_k = \left\{
+\begin{aligned}
+1 &amp;, &amp;if \ Partition \ generates \ (k:n-k-1) \ split \\
+0 &amp;, &amp;otherwise
+\end{aligned}
+\right.
+\]</span> 若随机数生成每个数的概率相同，则 <span class="math display">\[
+\begin{aligned}
+E[X_k] &amp;= 0 \cdot \Pr \{X_k = 0\} + 1 \cdot \Pr \{X_k = 1\} \\
+&amp;=\Pr\{X_k = 1\} \\
+&amp;=\frac{1}{n}
+\end{aligned}
+\]</span> 设 <span class="math display">\[T(n)\]</span> 为一个代表总运行时间的随机变量（假设所有的情况均为独立的）</p>
+<p>即 <span class="math display">\[
+T(n) = \left\{
+\begin{aligned}
+T(0) + T(n-1) + \Theta(n) &amp;, &amp;if \ Partition \ generates \ (0:n-1) \ split \\
+T(1) + T(n-2) + \Theta(n) &amp;, &amp;if \ Partition \ generates \ (1:n-2) \ split \\
+...... \\
+T(n-1) + T(0) + \Theta(n) &amp;, &amp;if \ Partition \ generates \ (n-1:0) \ split
+\end{aligned}
+\right.
+\]</span> 通过引入 <span class="math display">\[X_k\]</span>，我们可以把 <span class="math display">\[T(n)\]</span> 改写为一个和式 <span class="math display">\[
+T(n) = \sum_\limits{k=0}^{n-1} X_k \left( T(k) + T(n-k-1) + \Theta(n) \right)
+\]</span> 故 <span class="math display">\[
+\begin{aligned}
+E[T(n)] &amp;= E \left[\sum_\limits{k=0}^{n-1} X_k \left( T(k) + T(n-k-1) + \Theta(n) \right) \right] \\
+&amp;=\sum_\limits{k=0}^{n-1} E \left[ X_k \left( T(k) + T(n-k-1) + \Theta(n) \right) \right] \\
+&amp;=\sum_\limits{k=0}^{n-1} E \left[ X_k \right] \cdot E\left[ \left( T(k) + T(n-k-1) + \Theta(n)\right) \right] \\
+&amp;=\frac{1}{n} \sum_\limits{k=0}^{n-1} E[T(k)] + \frac{1}{n} \sum_\limits{k=0}^{n-1} E[T(n-k-1)] + \frac{1}{n} \sum_\limits{k=0}^{n-1} E[\Theta(n)] \\
+&amp;=\frac{2}{n} \sum_\limits{k=0}^{n-1} E[T(k)] + \Theta(n)
+\end{aligned}
+\]</span> 由此我们得到了一个关于 <span class="math display">\[E[T(n)]\]</span> 的递推式。下面我们使用<strong>第二数学归纳法</strong>证明：当 <span class="math display">\[n \geq 3\]</span> 时，存在 <span class="math display">\[a&gt;0\]</span>，使得 <span class="math display">\[E[T(n)] \leq an \lg n\]</span></p>
+<p>为了方便起见，我们首先对原式进行适当变形 <span class="math display">\[
+\begin{aligned}
+E[T(n)] &amp;=\frac{2}{n} \sum_\limits{k=0}^{n-1} E[T(k)] + \Theta(n) \\
+&amp;=\frac{2}{n}E[T(0)] + \frac{2}{n}E[T(1)] + \frac{2}{n} \sum_\limits{k=2}^{n-1} E[T(k)] + \Theta(n) \\
+&amp;=\frac{2}{n} \sum_\limits{k=2}^{n-1} E[T(k)] + \Theta(n)
+\end{aligned}
+\]</span> 随后，我们需要一个引理</p>
+<blockquote>
+<p>Lemma: <span class="math display">\[
+\sum_\limits{k=2}^{n-1} k \lg k \leq \frac{1}{2}n^2 \lg n - \frac{1}{8} n^2
+\]</span> 证明：令 <span class="math display">\[f(x) = x \lg x\]</span></p>
+<p>则 <span class="math display">\[f&#39;(x) = \lg k + \frac{1}{\ln 2}\]</span></p>
+<p>故当 <span class="math display">\[x \geq 2\]</span> 时 <span class="math display">\[f(x)&gt;0\]</span> 且 <span class="math display">\[f(x)\]</span> 单调递增</p>
+<p>因此 <span class="math display">\[
+\begin{aligned}
+\sum_\limits{k=2}^{n-1} k \lg k &amp;\leq \int_2^n x \lg x dx \\
+&amp;=\frac{1}{2} \int_2^n \lg x d(x^2) \\
+&amp;=\frac{1}{2} \left(\left[x^2 \lg x\right]\Big|_2^n - \int_2^n x^2 \cdot \frac{1}{x \ln 2} dx\right) \\
+&amp;=\frac{1}{2} \left( n^2 \lg n - 4 - \frac{1}{2 \ln 2} \cdot \left[x^2\right]\Big|_2^n\right) \\
+&amp;=\frac{1}{2}n^2 \lg n - \frac{1}{4 \ln 2}n^2 -2 + \frac{1}{\ln 2} \\
+&amp;\leq \frac{1}{2}n^2 \lg n -\frac{1}{4\ln2}n^2 \\
+&amp;\leq \frac{1}{2}n^2 \lg n - \frac{1}{8}n^2
+\end{aligned}
+\]</span></p>
+</blockquote>
+<p>现在就可以对 <span class="math display">\[n\]</span> 进行归纳了</p>
+<p>当 <span class="math display">\[n=3\]</span> 时，<span class="math display">\[E[T(3)]=\Theta(1)\]</span>，仅需取一足够大的 <span class="math display">\[a\]</span>，则结论显然成立</p>
+<p>若对 <span class="math display">\[\forall k &lt; n\]</span>，存在 <span class="math display">\[a&gt;0\]</span> 使得 <span class="math display">\[E[T(n)] \leq ak \lg k\]</span> 成立</p>
+<p>则 <span class="math display">\[
+\begin{aligned}
+E[T(n)] &amp;\leq \frac{2}{n} \sum_\limits{k=2}^{n-1} ak \lg k + \Theta(n) \\
+&amp;\leq \frac{2a}{n} \cdot \left( \frac{1}{2}n^2 \lg n - \frac{1}{8}n^2\right) + \Theta(n) \\
+&amp;=an \lg n - \frac{an}{4} + \Theta(n)
+\end{aligned}
+\]</span> 故仅需取一足够大的 <span class="math display">\[a\]</span> 使得 <span class="math display">\[\frac{an}{4}&gt; \Theta(n)\]</span>，即可使得 <span class="math display">\[E[T(n)] \leq an \lg n\]</span></p>
+<p>因此 <span class="math display">\[E[T(n)] \leq an \lg n\]</span> 对 <span class="math display">\[\forall n \geq 3\]</span> 均成立</p>
+<p>由此可知 <span class="math display">\[E[T(n)] = \mathcal{O}(n \lg n)\]</span></p>
+<p>同理可得 <span class="math display">\[E[T(n)] = \Omega(n\lg n)\]</span></p>
+<p>故 <span class="math display">\[E[T(n)] = \Theta(n \lg n)\]</span></p>
+<p>事实上，原始的快速排序中Partition的操作次数为 <span class="math display">\[n+1\]</span> 次，故总运行时间的期望还可以进一步写成以下递推式 <span class="math display">\[
+\left\{
+\begin{aligned}
+&amp;E[T(0)] = 0 \\
+&amp;E[T(n)] = \frac{2}{n}\sum_\limits{k = 0}^{n-1} E[T(k)] + n+1 \ \ (n \geq 1)
+\end{aligned}
+\right.
+\]</span> 下面我们来尝试推导该递推式的封闭解</p>
+<p>首先将原式化简为整式，得到 <span class="math display">\[n \cdot E[T(n)] = 2 \sum_\limits{k=0}^{n-1} E[T(k)] + n^2+n\]</span></p>
+<p>注意到等式右边有一个连续的求和式（即从 <span class="math display">\[E[T(0)]\]</span> 到 <span class="math display">\[E[T(n-1)]\]</span> 中没有缺项），故考虑做<strong>差项</strong>消去该求和式。 <span class="math display">\[
+\left\{
+\begin{aligned}
+&amp;n \cdot E[T(n)] = 2 \sum_\limits{k=0}^{n-1} E[T(k)] + n^2+n \\
+&amp;(n-1) \cdot E[T(n-1)] = 2 \sum_\limits{k=0}^{n-2} E[T(k)] + (n-1)^2+(n-1)
+\end{aligned}
+\right.
+\]</span> 两式相减，得到 <span class="math inline">\(n \cdot E[T(n)] - (n-1) \cdot E[T(n-1)] = 2n + 2 \cdot E[T(n-1)]\)</span></p>
+<p>化简得到 <span class="math display">\[n \cdot E[T(n)] = (n+1) \cdot E[T(n-1)] + 2n\]</span></p>
+<p>接下来我们考虑将 <span class="math display">\[E[T(n)]\]</span> 和 <span class="math display">\[E[T(n-1)]\]</span> 前的系数消去以找出通项公式。</p>
+<p>两边同时乘以 <span class="math display">\[\frac{2}{n(n+1)}\]</span> ，得到 <span class="math display">\[\frac{2}{n+1} \cdot E[T(n)] = \frac{2}{n} \cdot E[T(n-1)] + \frac{4}{n+1}\]</span></p>
+<p>令 <span class="math display">\[S_n = \frac{2}{n+1} \cdot E[T(n)]\]</span>，于是原递归式化简为 <span class="math display">\[
+\left\{
+\begin{aligned}
+&amp; S_0 = 0 \\
+&amp; S_n = S_{n-1} + \frac{4}{n+1}
+\end{aligned}
+\right.
+\]</span> 我们可以快速写出该递归式的通项公式 <span class="math display">\[S_n = 4\sum_\limits{k=2}^{n+1} \frac{1}{k}\]</span></p>
+<p>即 <span class="math inline">\(\frac{2}{n+1} \cdot E[T(n)] = 4\sum_\limits{k=2}^{n+1} \frac{1}{k}\)</span></p>
+<p>化简即得 <span class="math inline">\(E[T(n)] = 2(n+1)\sum_\limits{k=2}^{n+1} \frac{1}{k}\)</span></p>
+<p>引入调和级数符号 <span class="math inline">\(H_n = 1 + \frac{1}{2} + \frac{1}{3} + ... + \frac{1}{n}\)</span></p>
+<p>注意到 <span class="math inline">\(\sum_\limits{k=2}^{n+1} \frac{1}{k} = H_n - 1 + \frac{1}{n+1}\)</span></p>
+<p>故我们得到了原递推式的封闭解 <span class="math display">\[E[T(n)] = 2(n+1)H_n - 2n\]</span></p>
+<p>又由 <span class="math inline">\(H_n = \ln n + \gamma + \mathcal{O}\left(\frac{1}{n} \right)\)</span></p>
+<p>故可得 <span class="math display">\[
+\begin{aligned}
+E[T(n)] &amp;= 2(n+1)\left(\ln n + \gamma + \mathcal{O} \left(\frac{1}{n} \right)\right) - 2n \\
+&amp;= 2n \ln n + 2(\gamma - 1)n + 2\ln n + 2\gamma + \mathcal{O}(1) + \mathcal{O}\left(\frac{1}{n}\right) \\
+&amp;= \Theta \left( n \ln n \right) \\
+&amp;= \Theta \left( n \lg n\right)
+\end{aligned}
+\]</span> 由此我们得到了快速排序的平均时间复杂度为 <span class="math inline">\(\Theta (n \lg n)\)</span></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer-Science</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Algorithm/">Algorithm</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/11/math_combination/recursion-solve/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">递归式的解法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/09/algorithm/course_exp/algorithm-exp3/">
+                        <span class="hidden-mobile">优先队列</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

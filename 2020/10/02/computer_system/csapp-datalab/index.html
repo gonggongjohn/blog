@@ -1,0 +1,554 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="GONGGONGJOHN">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Data Lab要求我们在有一系列运算限制的情况下实现某些运算操作，从而尽可能的开发位运算的作用。这个Lab中的绝大部分内容的技巧性都比较强，可以阅读《算法心得：高效算法的奥秘》一书作为参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Lab实验记录">
+<meta property="og:url" content="http://gonggongjohn.me/2020/10/02/computer_system/csapp-datalab/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="Data Lab要求我们在有一系列运算限制的情况下实现某些运算操作，从而尽可能的开发位运算的作用。这个Lab中的绝大部分内容的技巧性都比较强，可以阅读《算法心得：高效算法的奥秘》一书作为参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-02T14:15:21.000Z">
+<meta property="article:modified_time" content="2021-04-17T11:14:04.166Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="Computer-System">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Data Lab实验记录 - GONGGONGJOHN&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GONGGONGJOHN&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Data Lab实验记录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-10-02 22:15" pubdate>
+        2020年10月2日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      50 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Data Lab实验记录</h1>
+            
+            <div class="markdown-body">
+              <p>Data Lab要求我们在有一系列运算限制的情况下实现某些运算操作，从而尽可能的开发位运算的作用。这个Lab中的绝大部分内容的技巧性都比较强，可以阅读<strong>《算法心得：高效算法的奥秘》</strong>一书作为参考。</p>
+<a id="more"></a>
+<h2 id="概述">概述</h2>
+<p>在Lab中的<strong>bits.c</strong>文件内描述了一系列规则和我们需要实现的函数。具体来说，我们需要实现以下几个函数：</p>
+<ul>
+<li><strong>bitAnd</strong>：按位与</li>
+<li><strong>getByte</strong>：从一个二进制整数中提取某个Byte（8位）</li>
+<li><strong>logicalShift</strong>：逻辑右移</li>
+<li><strong>bitCount</strong>：计算一个二进制整数中1的位数</li>
+<li><strong>bang</strong>：逻辑取反</li>
+<li><strong>tmin</strong>：最小的补码能表示的int型整数</li>
+<li><strong>fitsBits</strong>：判断某个整数能否用n位补码表示</li>
+<li><strong>divpwr2</strong>：计算 <span class="math display">\[\frac{x}{2^n}\]</span> 并向0取整</li>
+<li><strong>negate</strong>：取相反数</li>
+<li><strong>isPositive</strong>：判断某个数是否为正数</li>
+<li><strong>isLessOrEqual</strong>：判断x是否小于等于y</li>
+<li><strong>ilog2</strong>：计算 <span class="math display">\[\lfloor \log_2 x \rfloor\]</span></li>
+<li><strong>float_neg</strong>：在float型表示下取相反数</li>
+<li><strong>float_i2f</strong>：将int型表示转为float型表示</li>
+<li><strong>float_twice</strong>：在float型表示下计算 <span class="math display">\[2*x\]</span></li>
+</ul>
+<p>对于上面这些函数，我们一般只能使用以下几种运算操作：</p>
+<p><strong>逻辑取反（!），按位取反（~），按位与（&amp;），按位异或（^），按位或（|），加法（+），左移（&lt;&lt;），算数右移（&gt;&gt;）</strong></p>
+<p>在此基础之上，其中某些函数还有进一步的限制要求：</p>
+<ul>
+<li>bitAnd：只允许使用<strong>按位取反（~）</strong>和<strong>按位或（|）</strong>操作</li>
+<li>bang：不允许使用<strong>逻辑取反（!）</strong>操作</li>
+<li>float_neg/float_i2f/float_twice：允许使用一切<strong>整数操作</strong>、<strong>逻辑与（&amp;&amp;）</strong>、<strong>逻辑或（||）</strong>、<strong>if语句</strong>及<strong>while语句</strong></li>
+</ul>
+<p>Lab中提供了两种工具来帮助我们检查实现是否正确：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">&gt;</span><span class="bash"> ./dlc -e bits.c <span class="hljs-comment"># 检查函数实现中操作是否符合要求</span></span><br><span class="hljs-meta">&gt;</span><span class="bash"> ./driver.pl <span class="hljs-comment"># 检查函数实现是否正确</span></span><br></code></pre></td></tr></table></figure>
+<h2 id="具体实现">具体实现</h2>
+<h3 id="bitand">bitAnd</h3>
+<p>由<strong>De Morgan律</strong>可知 <span class="math display">\[\neg (P \land Q) = (\neg P) \lor (\neg Q)\]</span></p>
+<p>故 <span class="math display">\[P \land Q = \neg ((\neg P) \lor (\neg Q))\]</span></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bitAnd</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span> </span>&#123;<br>  <span class="hljs-keyword">return</span> ~(~x | ~y);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>一行代码搞定。</p>
+<h3 id="getbyte">getByte</h3>
+<p>采用掩码的思想，要提取某个Byte的数值并屏蔽其他位的值，可以将目标位移动到最小的8位并将其和0xFF做按位与运算。观察输入的参数，要提取 <span class="math display">\[x\]</span> 中的第 <span class="math display">\[n\]</span> 个Byte，就要将 <span class="math display">\[x\]</span> 向右移动 <span class="math display">\[8*n\]</span> 位。使用位运算操作的话，也即x&gt;&gt;(n&lt;&lt;3)。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getByte</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>	<span class="hljs-keyword">return</span> (x&gt;&gt;(n&lt;&lt;<span class="hljs-number">3</span>)) &amp; <span class="hljs-number">0xFF</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>同样可以一行搞定。</p>
+<h3 id="logicalshift">logicalShift</h3>
+<p>算数右移和逻辑右移的区别在于，算数右移会在高位填充最高位的值，而逻辑右移则不会，因此一个基本的思路就是使用算数右移后屏蔽掉高位的值，于是问题便转化为如何构造掩码。</p>
+<p>我们的掩码要保证原数最高位之前均为0，最高位之后均为1。而利用算数右移会填充最高位的特性，我们可以将0x1移动到最高位，随后算数右移到目标位置，再取反即可满足要求，问题也迎刃而解。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">logicalShift</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>  <span class="hljs-keyword">return</span> (x&gt;&gt;n)&amp;(~((<span class="hljs-number">0x01</span>&lt;&lt;<span class="hljs-number">31</span>)&gt;&gt;n&lt;&lt;<span class="hljs-number">1</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="bitcount">bitCount</h3>
+<p>利用位运算统计一个字中1的个数是一个技巧性十分强的算法。它的主要思想是<strong>分治法（Divide And Conquer）</strong>，将统计整个字中1的个数的问题转化为多个统计更小区间内1的个数的问题。具体来说，一个32位的整数中，我们可以将其划分为两个16位的区间，进而划分为4个8位的区间，再划分为8个4位的区间，最后划分为16个2位的区间，因此我们仅需要统计每两位中1的个数，再将结果逐步合并即可得到整个数中1的个数。</p>
+<p>对于统计每2位中1的个数，我们同样可以采用掩码的思想，先对两位中第一位和0x1做与运算，再将整个数右移一位与0x1做与运算，将两个结果相加即可统计出这两位中1的个数。</p>
+<p>此外，由于题目中规定不能使用超过0xFF的十六进制数，我们需要通过多步位移的方法来构造出我们想要的的掩码。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bitCount</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> cnt;<br>	<span class="hljs-keyword">int</span> maskt1 = (<span class="hljs-number">0x55</span>) | (<span class="hljs-number">0x55</span>&lt;&lt;<span class="hljs-number">8</span>);<br>	<span class="hljs-keyword">int</span> maskt2 = (<span class="hljs-number">0x33</span>) | (<span class="hljs-number">0x33</span>&lt;&lt;<span class="hljs-number">8</span>);<br>	<span class="hljs-keyword">int</span> maskt3 = (<span class="hljs-number">0x0F</span>) | (<span class="hljs-number">0x0F</span>&lt;&lt;<span class="hljs-number">8</span>);<br>	<span class="hljs-keyword">int</span> mask1 = (maskt1) | (maskt1&lt;&lt;<span class="hljs-number">16</span>);<br>	<span class="hljs-keyword">int</span> mask2 = (maskt2) | (maskt2&lt;&lt;<span class="hljs-number">16</span>);<br>	<span class="hljs-keyword">int</span> mask3 = (maskt3) | (maskt3&lt;&lt;<span class="hljs-number">16</span>);<br>	<span class="hljs-keyword">int</span> mask4 = (<span class="hljs-number">0xFF</span>) | (<span class="hljs-number">0xFF</span>&lt;&lt;<span class="hljs-number">16</span>);<br>	<span class="hljs-keyword">int</span> mask5 = (<span class="hljs-number">0xFF</span>) | (<span class="hljs-number">0xFF</span>&lt;&lt;<span class="hljs-number">8</span>);<br>	cnt = (x &amp; mask1) + ((x&gt;&gt;<span class="hljs-number">1</span>) &amp; mask1);<br>	cnt = (cnt &amp; mask2) + ((cnt&gt;&gt;<span class="hljs-number">2</span>) &amp; mask2);<br>	cnt = (cnt &amp; mask3) + ((cnt&gt;&gt;<span class="hljs-number">4</span>) &amp; mask3);<br>	cnt = (cnt &amp; mask4) + ((cnt&gt;&gt;<span class="hljs-number">8</span>) &amp; mask4);<br>	cnt = (cnt &amp; mask5) + ((cnt&gt;&gt;<span class="hljs-number">16</span>) &amp; mask5);<br>	<span class="hljs-keyword">return</span> cnt;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="negate">negate</h3>
+<p>在补码表示中，对一个二进制表示下 <span class="math display">\[n\]</span> 位的整数 <span class="math display">\[x\]</span> 取相反数相当于做运算 <span class="math display">\[2^n-x\]</span>，而 <span class="math display">\[(2^n-1)-x\]</span> 相当于对x按位取反，因此总的位运算表示即为~x+1</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">negate</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;<br>  <span class="hljs-keyword">return</span> ~x+<span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="bang">bang</h3>
+<p>逻辑取反操作即是要让0变为1，除0以外的任何数变为0，因此我们需要找到一个把0和其他数分开的位运算特性。利用补码表示中负数的最高位始终为1的特性，我们可以发现让一个数和它在补码下的相反数做按位或运算时，如果这个数不为0，那么它的最高位始终为1，而由于0的补码还是0，因此最高位为0。于是利用上一题的结论，我们就能得到最终的运算操作。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bang</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;<br>  <span class="hljs-keyword">return</span> ((x|(~x+<span class="hljs-number">1</span>))&gt;&gt;<span class="hljs-number">31</span>)+<span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="tmin">tmin</h3>
+<p>在模的剩余系下，最靠近中间的数即为离边界距离最远的数。利用这一特性可知补码表示下最小的负数最高位为1，其余全为0。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">tmin</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span> </span>&#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0x1</span>&lt;&lt;<span class="hljs-number">31</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="fitsbits">fitsBits</h3>
+<p>如果一个数能用n为补码表示，那么取它的后n位做符号扩展到原来的长度后值应与原来一样。利用逻辑右移的特性，我们只需要将x与x&lt;&lt;(32 - n)&gt;&gt;(32 - n)相比较即可。利用位运算取相反数的结论，以及异或运算的性质 <span class="math display">\[x \oplus x = 0\]</span>，即可得到最终的运算操作。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">fitsBits</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>  <span class="hljs-keyword">int</span> shift = <span class="hljs-number">32</span> + ~n + <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">return</span> !(x^((x&lt;&lt;shift)&gt;&gt;shift));<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="divpwr2">divpwr2</h3>
+<p>要计算 <span class="math display">\[\frac{x}{2^n}\]</span> 并向0取整，因此我们需要分类讨论。当 <span class="math display">\[x \geq 0\]</span> 时，这一操作相当于x&gt;&gt;n；而当 <span class="math display">\[x&lt;0\]</span> 时，若直接对原数右移n位，相当于 <span class="math display">\[\lfloor \frac{x}{2^n} \rfloor\]</span>，并不满足向0取整的要求。而对于整数，有如下定理成立：</p>
+<blockquote>
+<p>对于整数 <span class="math display">\[x\]</span> 和 <span class="math display">\[y(y&gt;0)\]</span>，有 <span class="math display">\[\lceil \frac{x}{y} \rceil = \lfloor \frac{x+y-1}{y} \rfloor\]</span></p>
+</blockquote>
+<p>由此可知对于负数，我们只需将其加上一个偏置 <span class="math display">\[2^n -1\]</span>，即可将结果变为向上取整。因此当 <span class="math display">\[x&lt;0\]</span> 时的操作为 <span class="math display">\[(x+(1&lt;&lt;n)-1)&gt;&gt;n\]</span>。</p>
+<p>现在我们要通过位运算将这两种情况整合到一起。通过观察可以发现，我们只需要让某个运算在 <span class="math display">\[x \geq 0\]</span> 时的结果为0，在 <span class="math display">\[x &lt; 0\]</span> 时的结果为(1&lt;&lt;n)-1即可。同样的，我们可以使用掩码的思想来做到这一点。结合补码的性质及算数右移的性质，我们可以发现只需要将x右移31位即可得到掩码。由此最终的运算操作也迎刃而解。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">divpwr2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> tn = ~((~<span class="hljs-number">0</span>)&lt;&lt;n);<br>    <span class="hljs-keyword">int</span> tx = (~((x&gt;&gt;<span class="hljs-number">31</span>) &amp; <span class="hljs-number">0x01</span>)) + <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">return</span> (x + (tx &amp; tn)) &gt;&gt; n;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="ispositive">isPositive</h3>
+<p>根据题意，我们要让大于0的数运算结果等于1，0和小于0的数运算结果等于0。根据补码的性质，对于除0以外的其他数，我们只需判断最高位是否为1即可；而对于0，我们可以将其单独讨论。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">isPositive</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> tx = (x&gt;&gt;<span class="hljs-number">31</span>) &amp; <span class="hljs-number">0x01</span>;<br>	<span class="hljs-keyword">return</span> !(tx | !x);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="islessorequal">isLessOrEqual</h3>
+<p>当两数异号时，如果直接相减可能会导致结果溢出，但此时我们仅需判断其中一个数的正负即可得知结果，因此无需做减法运算；而当两个数同号时，可以保证相减不会溢出，因此我们只需相减判断符号即可。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">isLessOrEqual</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span> </span>&#123;<br>  <span class="hljs-keyword">int</span> negx = ~x + <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">int</span> addx = negx + y;<br>  <span class="hljs-keyword">int</span> sign = addx&gt;&gt;<span class="hljs-number">31</span>&amp;<span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">int</span> left = <span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">31</span>;<br>  <span class="hljs-keyword">int</span> xleft = x &amp; left;<br>  <span class="hljs-keyword">int</span> yleft = y &amp; left;<br>  <span class="hljs-keyword">int</span> <span class="hljs-keyword">xor</span> = xleft ^ yleft;<br>  <span class="hljs-keyword">xor</span> = (<span class="hljs-keyword">xor</span> &gt;&gt; <span class="hljs-number">31</span>) &amp; <span class="hljs-number">1</span>;<br>  <span class="hljs-keyword">return</span> ((!<span class="hljs-keyword">xor</span>)&amp;(!sign))|(<span class="hljs-keyword">xor</span>&amp;(xleft&gt;&gt;<span class="hljs-number">31</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="ilog2">ilog2</h3>
+<p>根据二进制的性质，我们只需要找到最高1的位置即可。仿照前面统计1的个数的思想，我们可以使用二分法来解决这一问题。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">ilog2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> t1, t2, t3;<br>	t3 = x;<br>	t2 = (!!(t3&gt;&gt;<span class="hljs-number">16</span>))&lt;&lt;<span class="hljs-number">4</span>;<br>	t3 = t3&gt;&gt;t2;<br>	t1 = (!!(t3&gt;&gt;<span class="hljs-number">8</span>))&lt;&lt;<span class="hljs-number">3</span>;<br>	t3 = t3&gt;&gt;t1;<br>	t2 = t2 | t1;<br>	t1 = (!!(t3&gt;&gt;<span class="hljs-number">4</span>))&lt;&lt;<span class="hljs-number">2</span>;<br>	t3 = t3&gt;&gt;t1;<br>	t2 = t2 | t1;<br>	t1 = (!!(t3&gt;&gt;<span class="hljs-number">2</span>))&lt;&lt;<span class="hljs-number">1</span>;<br>	t3 = t3&gt;&gt;t1;<br>	t2 = t2 | t1;<br>	<span class="hljs-keyword">return</span> (t2 | (t3&gt;&gt;<span class="hljs-number">1</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="float_neg">float_neg</h3>
+<p>在IEEE标准下，float型的格式为1位符号位，8位指数位和23位尾数位。因此我们首先要判断输入的数能否表示为一个float型小数。具体的，我们只需要将其符号位去除（左移），随后将其与0xFF000000比较即可。若大于这个数，则表明其不能表示为float型小数；若小于等于这个数，只需要改变其符号位即可得到结果。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-title">float_neg</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> uf)</span> </span>&#123;<br>	<span class="hljs-keyword">unsigned</span> x = <span class="hljs-number">0x80000000</span>;<br>	<span class="hljs-keyword">unsigned</span> c = <span class="hljs-number">0xFF000000</span>;<br>	<span class="hljs-keyword">unsigned</span> tuf = uf&lt;&lt;<span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">if</span>((c &amp; tuf) == c)&#123;<br>		<span class="hljs-keyword">if</span>(tuf != c) <span class="hljs-keyword">return</span> uf;<br>	&#125;<br>	<span class="hljs-keyword">return</span> uf ^ x;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="float_i2f">float_i2f</h3>
+<p>根据IEEE标准中float型的规则，我们需要先计算出符号尾及指数位的数值。随后，我们仅需利用位移操作将符号位、指数位、尾数位移动到相应的位置，再根据舍入的规则做一次微调即可。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-title">float_i2f</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;<br>	<span class="hljs-keyword">unsigned</span> ax, sign, flag, tmp, shift, cur;<br>	ax = x;<br>	sign = x &amp; (<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">31</span>);<br>	<span class="hljs-keyword">if</span>(sign) ax = -x;<br>	shift = ax;<br>	<span class="hljs-keyword">if</span>(!x) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	cur = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)&#123;<br>		tmp = shift;<br>		shift = shift&lt;&lt;<span class="hljs-number">1</span>;<br>		cur++;<br>		<span class="hljs-keyword">if</span>(tmp &amp; <span class="hljs-number">0x80000000</span>) <span class="hljs-keyword">break</span>;<br>	&#125;<br>	<span class="hljs-keyword">if</span>((shift &amp; <span class="hljs-number">0x01FF</span>) &gt; <span class="hljs-number">0x0100</span>) flag = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>((shift &amp; <span class="hljs-number">0x03FF</span>) == <span class="hljs-number">0x0300</span>) flag = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">else</span> flag = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">return</span> sign + ((<span class="hljs-number">159</span> - cur)&lt;&lt;<span class="hljs-number">23</span>) + (shift&gt;&gt;<span class="hljs-number">9</span>) + flag;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="float_twice">float_twice</h3>
+<p>在二进制科学技术法下，对某个数x乘以2就相对于将其阶数加一。因此若原数阶码不为0且不为255，则直接将阶码加一即可。若阶码等于0，表明其为非规范化数，因此直接将尾数位左移一位即可。由于非规范化数与规范化数之间有一个平滑过渡关系，因此即使左移一位后尾数位的最高位移动至了阶码位，该操作仍然是合法的。当原数阶码为255时，表明其为 <span class="math display">\[\infty\]</span> 或 <span class="math display">\[NaN\]</span>，不能进行算术运算，直接返回即可。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-title">float_twice</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> uf)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span>((uf &amp; <span class="hljs-number">0x7F800000</span>) == <span class="hljs-number">0</span>)<br>		uf = ((uf &amp; <span class="hljs-number">0x007FFFFF</span>) &lt;&lt; <span class="hljs-number">1</span>) | (uf &amp; <span class="hljs-number">0x80000000</span>);<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>((uf &amp; <span class="hljs-number">0x7F800000</span>) != <span class="hljs-number">0x7F800000</span>)<br>		uf = uf + <span class="hljs-number">0x800000</span>;<br>	<span class="hljs-keyword">return</span> uf;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">计算机系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer-Science</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-System/">Computer-System</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/07/computer_system/csapp-01/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">《深入理解计算机系统》笔记整理（一）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/09/25/algorithm/course_exp/algorithm-exp2/">
+                        <span class="hidden-mobile">Strassen矩阵乘法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
