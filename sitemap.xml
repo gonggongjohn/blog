@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://gonggongjohn.me/2021/06/08/os/os-exp-memory/</loc>
+    
+    <lastmod>2022-02-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/2021/06/01/os/os-exp-io/</loc>
+    
+    <lastmod>2022-02-09</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://gonggongjohn.me/2021/04/27/os/os-exp-chrt/</loc>
     
     <lastmod>2022-02-09</lastmod>
@@ -270,20 +284,6 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/Machine-Learning/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://gonggongjohn.me/tags/Database/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://gonggongjohn.me/tags/CSAPP/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
@@ -312,13 +312,6 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/Analysis/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://gonggongjohn.me/tags/Algebra/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
@@ -326,7 +319,35 @@
   </url>
   
   <url>
+    <loc>http://gonggongjohn.me/tags/Database/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/tags/Analysis/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/tags/Operating-System/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://gonggongjohn.me/tags/Sequence/</loc>
+    <lastmod>2022-02-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gonggongjohn.me/tags/Machine-Learning/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -354,13 +375,6 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/tags/Operating-System/</loc>
-    <lastmod>2022-02-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://gonggongjohn.me/tags/Algorithm/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
@@ -370,14 +384,14 @@
 
   
   <url>
-    <loc>http://gonggongjohn.me/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>http://gonggongjohn.me/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</loc>
+    <loc>http://gonggongjohn.me/categories/%E4%BB%A3%E6%95%B0%E5%AD%A6/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -391,7 +405,7 @@
   </url>
   
   <url>
-    <loc>http://gonggongjohn.me/categories/%E4%BB%A3%E6%95%B0%E5%AD%A6/</loc>
+    <loc>http://gonggongjohn.me/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2022-02-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
