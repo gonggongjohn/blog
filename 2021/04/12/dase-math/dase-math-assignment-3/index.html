@@ -1,0 +1,812 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="GONGGONGJOHN">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一  分别求下面向量的1-范数、2-范数和无穷范数 \[ a_1 &#x3D; \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}, a_2 &#x3D; \begin{pmatrix} -1 \\ 0 \\ 1 \end{pmatrix}, a_3 &#x3D; \begin{pmatrix} -2 \\ 1 \\ 1 \end{pmatrix} \]  \[ \begin{aligned}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据科学与工程数学基础 作业3">
+<meta property="og:url" content="http://gonggongjohn.me/2021/04/12/dase-math/dase-math-assignment-3/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="一  分别求下面向量的1-范数、2-范数和无穷范数 \[ a_1 &#x3D; \begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}, a_2 &#x3D; \begin{pmatrix} -1 \\ 0 \\ 1 \end{pmatrix}, a_3 &#x3D; \begin{pmatrix} -2 \\ 1 \\ 1 \end{pmatrix} \]  \[ \begin{aligned}">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://gonggongjohn.me/2021/04/12/dase-math/dase-math-assignment-3/euclid.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/04/12/dase-math/dase-math-assignment-3/manhattan.png">
+<meta property="article:published_time" content="2021-04-12T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-02-10T08:37:20.703Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Mathematics">
+<meta property="article:tag" content="DataScience">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://gonggongjohn.me/2021/04/12/dase-math/dase-math-assignment-3/euclid.png">
+  
+  
+  <title>数据科学与工程数学基础 作业3 - GONGGONGJOHN&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GONGGONGJOHN&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="数据科学与工程数学基础 作业3">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-12 10:00" pubdate>
+        2021年4月12日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      84 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">数据科学与工程数学基础 作业3</h1>
+            
+            <div class="markdown-body">
+              <h2 id="一">一</h2>
+<blockquote>
+<p>分别求下面向量的1-范数、2-范数和无穷范数 <span class="math display">\[
+a_1 = \begin{pmatrix}
+1 \\
+2 \\
+1
+\end{pmatrix},
+a_2 = \begin{pmatrix}
+-1 \\
+0 \\
+1
+\end{pmatrix},
+a_3 = \begin{pmatrix}
+-2 \\
+1 \\
+1
+\end{pmatrix}
+\]</span></p>
+</blockquote>
+<p><span class="math display">\[
+\begin{aligned}
+||a_1||_1 &amp;= |1| + |2| + |1| = 4 \\
+||a_1||_2 &amp;= \sqrt{1^2+2^2+1^2} = \sqrt{6} \\
+||a_1||_\infty &amp;= \max\{|1|,|2|,|1|\} = 2 \\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+||a_2||_1 &amp;= |-1| + |0| + |1| = 2 \\
+||a_2||_2 &amp;= \sqrt{(-1)^2+0^2+1^2} = \sqrt{2} \\
+||a_2||_\infty &amp;= \max\{|-1|,|0|,|1|\} = 1 \\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+||a_2||_1 &amp;= |-2| + |1| + |1| = 4 \\
+||a_2||_2 &amp;= \sqrt{(-2)^2+1^2+1^2} = \sqrt{6} \\
+||a_2||_\infty &amp;= \max\{|-2|,|1|,|1|\} = 2 \\
+\end{aligned}
+\]</span></p>
+<h2 id="二">二</h2>
+<blockquote>
+<p>证明函数 <span class="math inline">\(F: \mathbb{R}^n \to \mathbb{R}, F(x) = \sqrt{\langle x, x \rangle }\)</span> 是向量范数</p>
+</blockquote>
+<p><strong>非负性：</strong>易见任取 <span class="math inline">\(\textbf{x} \in \mathbb{R}^n\)</span> <span class="math display">\[
+F(\mathbf{x}) = \sqrt{\langle \mathbf{x}, \mathbf{x}\rangle} = \sqrt{\sum_\limits{i = 1}^n x_i^2} \geq 0
+\]</span> 且 <span class="math inline">\(F(\mathbf{x}) = 0 \leftrightarrow \forall i \in \{1,2,...,n\}, x_i = 0\)</span>，即 <span class="math inline">\(F(\textbf{x}) = 0\)</span> 当且仅当 <span class="math inline">\(\textbf{x} = \textbf{0}\)</span></p>
+<p><strong>齐次性：</strong>任取 <span class="math inline">\(\textbf{x} \in \mathbb{R}^n, \lambda \in \mathbb{R}\)</span> <span class="math display">\[
+\begin{aligned}
+F(\lambda \textbf{x}) &amp;= \sqrt{\langle \lambda \textbf{x}, \lambda \textbf{x}\rangle} \\
+&amp;=\sqrt{(\lambda \textbf{x})^T\lambda \textbf{x}} \\
+&amp;=\sqrt{\lambda^2 \textbf{x}^T \textbf{x}} \\
+&amp;=|\lambda| \sqrt{\textbf{x}^T \textbf{x}} \\
+&amp;=|\lambda| F(\textbf{x})
+\end{aligned}
+\]</span> <strong>三角不等式：</strong>任取 <span class="math inline">\(\textbf{x}, \textbf{y} \in \mathbb{R}^n\)</span> <span class="math display">\[
+\begin{aligned}
+F^2(\textbf{x} + \textbf{y}) &amp;= (\textbf{x} + \textbf{y})^T(\textbf{x} + \textbf{y}) \\
+&amp;=(\textbf{x}^T + \textbf{y}^T)(\textbf{x} + \textbf{y}) \\
+&amp;= \textbf{x}^T \textbf{x} + \textbf{y}^T \textbf{x} + \textbf{x}^T \textbf{y} + \textbf{y}^T \textbf{y} \\ 
+\end{aligned}
+\]</span> 由<strong>Cauchy-Schwarz不等式</strong>可知 <span class="math inline">\(\forall \textbf{x}, \textbf{y} \in \mathbb{R}^n, | \langle \textbf{x}, \textbf{y} \rangle | \leq ||\textbf{x}||_2 \cdot \||\textbf{y}||_2\)</span></p>
+<p>故 <span class="math display">\[
+\begin{aligned}
+F^2(\textbf{x} + \textbf{y}) &amp;\leq \textbf{x}^T \textbf{x} + |\textbf{y}^T \textbf{x}| + |\textbf{x}^T \textbf{y}| + \textbf{y}^T \textbf{y} \\
+&amp;\leq \textbf{x}^T \textbf{x} + 2 \sqrt{\textbf{x}^T \textbf{x} \textbf{y}^T \textbf{y}} + \textbf{y}^T \textbf{y} \\
+&amp;=\left( \sqrt{\textbf{x}^T \textbf{x}} + \sqrt{\textbf{y}^T \textbf{y}} \right)^2 \\
+&amp;=\left(F(\textbf{x}) + F(\textbf{y})\right)^2
+\end{aligned}
+\]</span> 于是由非负性可知 <span class="math display">\[
+F(\textbf{x} + \textbf{y}) \leq F(\textbf{x}) + F(\textbf{y})
+\]</span></p>
+<p>因此 <span class="math inline">\(F(\mathbf{x}) = \sqrt{\langle \mathbf{x}, \mathbf{x}\rangle}\)</span> 是向量范数</p>
+<h2 id="三">三</h2>
+<blockquote>
+<p>对任给的 <span class="math inline">\(x = (x_1, x_2, x_3)^T \in \mathbb{C}^3\)</span>，试问如下实值函数是否构成向量范数？ <span class="math display">\[
+f_1(x) = |x_1|^4 + |x_2|^4 + |x_3|^4 \\
+f_2(x) = |x_1| + 3 |x_2| + 2 |x_3|
+\]</span></p>
+</blockquote>
+<p><strong>(1)</strong> 任取 <span class="math inline">\(\textbf{x} = (x_1, x_2, x_3)^T \in \mathbb{C}^3, \lambda \in \mathbb{R}\)</span> <span class="math display">\[
+\begin{aligned}
+f_1(\lambda \textbf{x}) &amp;=|\lambda x_1|^4 + |\lambda x_2|^4 + |\lambda x_3|^4 \\
+&amp;= |\lambda|^4 |x_1|^4 + |\lambda|^4 |x_2|^4 + |\lambda|^4 |x_3|^4 \\
+\end{aligned}
+\]</span> 故 <span class="math inline">\(f_1\)</span> 不满足齐次性，因此 <strong><span class="math inline">\(f_1\)</span> 不构成向量范数</strong></p>
+<p><strong>(2)</strong> 任取 <span class="math inline">\(\textbf{x}, \textbf{y} \in \mathbb{C}^3, \lambda \in \mathbb{R}\)</span></p>
+<p>易见 <span class="math display">\[
+f_2(\textbf{x}) = |x_1| + 3 |x_2| + 2|x_3| \geq 0
+\]</span> 且 <span class="math inline">\(f_2(\textbf{x}) = 0 \leftrightarrow x_1=x_2=x_3 = 0\)</span> <span class="math display">\[
+\begin{aligned}
+f_2(\lambda \textbf{x}) &amp;= |\lambda x_1| + 3 |\lambda x_2| + 2 |\lambda x_3| \\
+&amp;=|\lambda| (|x_1| + 3 |x_2| + 2 |x_3|) \\
+&amp;=|\lambda| f_2 (\textbf{x})
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+f_2(\textbf{x} + \textbf{y}) &amp;= |x_1+y_1| + 3 |x_2+y_2| + 2|x_3 + y_3| \\
+&amp;\leq |x_1| + |y_1| + 3|x_2| + 3|y_2| + 2|x_3| + 2|y_3| \\
+&amp;=f_2(\textbf{x}) + f_2(\textbf{y})
+\end{aligned}
+\]</span></p>
+<p>因此 <strong><span class="math inline">\(f_2\)</span> 构成向量范数</strong></p>
+<h2 id="四">四</h2>
+<blockquote>
+<p>证明如下定义的函数 <span class="math inline">\(\langle \cdot, \cdot \rangle: \mathbb{R}^2 \times \mathbb{R}^2 \to \mathbb{R}\)</span> 是内积： <span class="math display">\[
+\langle x, y \rangle := x_1 y_1 - (x_1 y_2 + x_2 y_1) + 2 x_2 y_2
+\]</span></p>
+</blockquote>
+<p><span class="math inline">\(\forall \textbf{x}, \textbf{y}, \textbf{z} \in \mathbb{R}^2, \lambda \in \mathbb{R}\)</span></p>
+<p><strong>非负性：</strong> <span class="math display">\[
+\begin{aligned}
+\langle \textbf{x}, \textbf{x} \rangle &amp;= x_1^2+2x_2^2-2x_1x_2 \\
+&amp;=(x_1-x_2)^2+x_2^2 \geq 0
+\end{aligned}
+\]</span> <span class="math inline">\(\langle \textbf{x}, \textbf{x} \rangle = 0 \leftrightarrow x_1=x_2 = 0 \leftrightarrow \textbf{x} = 0\)</span></p>
+<p><strong>对称性：</strong><span class="math inline">\(\langle \textbf{x}, \textbf{y} \rangle = x_1y_1 - x_2y_1 - x_1y_2 + 2x_2y_2 = y_1x_1-y_2x_1-y_1x_2+2y_2x_2= \langle \textbf{y}, \textbf{x}\rangle\)</span></p>
+<p><strong>齐次性：</strong> <span class="math display">\[
+\begin{aligned}
+\langle \lambda\textbf{x}, \textbf{y} \rangle &amp;=\lambda x_1y_1 - (\lambda x_1y_2 + \lambda x_2y_1) + 2 \lambda x_2y_2 \\
+&amp;=\lambda (x_1y_1 - x_1y_2 - x_2y_1 + 2x_2y_2) \\
+&amp;=\lambda \langle \textbf{x}, \textbf{y} \rangle
+\end{aligned}
+\]</span> <strong>线性性：</strong> <span class="math display">\[
+\begin{aligned}
+\langle \textbf{x} + \textbf{y}, \textbf{z} \rangle &amp;= (x_1 + y_1) z_1 - [(x_1 + y_1)z_2 + (x_2 + y_2) z_1] + 2 (x_2 + y_2) z_2 \\
+&amp;=x_1z_1 + y_1z_1 - x_1z_2 - y_1z_2 + x_2z_1 + y_2z_1 + 2x_2z_2 + 2y_2z_2 \\
+&amp;= \langle \textbf{x}, \textbf{z} \rangle + \langle \textbf{y}, \textbf{z} \rangle
+\end{aligned}
+\]</span> 因此 <span class="math inline">\(\langle \textbf{x}, \textbf{y} \rangle = x_1y_1 - (x_1y_2 + x_2y_1) + 2x_2y_2\)</span> 是一个内积</p>
+<h2 id="五">五</h2>
+<blockquote>
+<p>分别求下面矩阵1-范数、2-范数和无穷范数 <span class="math display">\[
+A_1 = \begin{pmatrix}
+1 &amp; 2 \\
+1 &amp; 0
+\end{pmatrix},
+A_2 = \begin{pmatrix}
+-1 &amp; 0 \\
+1 &amp; 2
+\end{pmatrix}
+\]</span></p>
+</blockquote>
+<p><span class="math display">\[
+\begin{aligned}
+||A_1||_1 &amp;= \max \{|1| + |1|, |2| + |0|\} = 2 \\
+||A_1||_2 &amp;= \sqrt{\max\{3 + \sqrt{5}, 3 - \sqrt{5}\}} = \frac{1+\sqrt{5}}{\sqrt{2}} \\
+||A_1||_\infty &amp;= \max\{|1| + |2|, |1| + |0| \} = 3 \\
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+||A_2||_1 &amp;= \max \{|-1| + |1|, |0| + |2|\} = 2 \\
+||A_2||_2 &amp;= \sqrt{\max\{3 + \sqrt{5}, 3 - \sqrt{5}\}} = \frac{1+\sqrt{5}}{\sqrt{2}} \\
+||A_2||_\infty &amp;= \max\{|-1| + |0|, |1| + |2| \} = 3
+\end{aligned}
+\]</span></p>
+<h2 id="六">六</h2>
+<blockquote>
+<p>求矩阵 <span class="math inline">\(\begin{pmatrix} 1 &amp; -1 &amp; 0 \\ 2 &amp; 4 &amp; 1 \\ 4 &amp; 2 &amp; 1 \end{pmatrix}\)</span> 的行空间、列空间、零空间和左零空间。</p>
+</blockquote>
+<p>设 <span class="math inline">\(A = \begin{pmatrix} 1 &amp; -1 &amp; 0 \\ 2 &amp; 4 &amp; 1 \\ 4 &amp; 2 &amp; 1\end{pmatrix}\)</span></p>
+<p>设 <span class="math inline">\(\alpha_1 = (1, 2, 4)^T, \alpha_2 = (-1, 4, 2)^T, \alpha_3 = (0, 1, 1)^T\)</span></p>
+<p>故 <span class="math display">\[
+\textbf{Col}(A) = \textbf{span} \{\alpha_1, \alpha_2, \alpha_3\} = \{ k_1 \alpha_1 + k_2 \alpha_2 + k_3 \alpha_3 : k_1, k_2, k_3 \in \mathbb{R} \}
+\]</span> 设 <span class="math inline">\(r_1 = (1, -1, 0)^T, r_2 = (2, 4, 1)^T, r_3 = (4, 2, 1)^T\)</span></p>
+<p>故 <span class="math display">\[
+\textbf{Row}(A) = \textbf{span} \{r_1, r_2, r_3 \} = \{k_1 r_1 + k_2 r_2 + k_3 r_3: k_1, k_2, k_3 \in \mathbb{R} \}
+\]</span> 对 <span class="math inline">\(A\)</span> 作行初等变换 <span class="math display">\[
+A \xrightarrow[r_3-4_1]{r_2-2r_1}
+\begin{pmatrix}
+1 &amp; -1 &amp; 0 \\
+0 &amp; 6 &amp; 1 \\
+0 &amp; 6 &amp; 1
+\end{pmatrix}
+\xrightarrow{r_3-r_2}
+\begin{pmatrix}
+1 &amp; -1 &amp; 0 \\
+0 &amp; 6 &amp; 1 \\
+0 &amp; 0 &amp; 0
+\end{pmatrix}
+\xrightarrow{\frac{1}{6}r_2}
+\begin{pmatrix}
+1 &amp; -1 &amp; 0 \\
+0 &amp; 1 &amp; \frac{1}{6} \\
+0 &amp; 0 &amp; 0
+\end{pmatrix}
+\xrightarrow{r_1+r_2}
+\begin{pmatrix}
+1 &amp; 0 &amp; \frac{1}{6} \\
+0 &amp; 1 &amp; \frac{1}{6} \\
+0 &amp; 0 &amp; 0
+\end{pmatrix}
+\]</span> 故令 <span class="math inline">\(\alpha = (-1, -1, 6)^T\)</span>，则 <span class="math display">\[
+\textbf{Null}(A) = \textbf{span}(\alpha) = \{k\alpha: k \in \mathbb{R} \}
+\]</span> 对 <span class="math inline">\(A^T\)</span> 作行初等变换</p>
+<p><span class="math display">\[
+\begin{aligned}
+A^T \xrightarrow{r_2+r_1}
+\begin{pmatrix}
+1 &amp; 2 &amp; 4 \\
+0 &amp; 6 &amp; 6 \\
+0 &amp; 1 &amp; 1
+\end{pmatrix}
+\xrightarrow{\frac{1}{6}r_2}
+\begin{pmatrix}
+1 &amp; 2 &amp; 4 \\
+0 &amp; 1 &amp; 1 \\
+0 &amp; 1 &amp; 1
+\end{pmatrix}
+\xrightarrow{r_3-r_2}
+\begin{pmatrix}
+1 &amp; 2 &amp; 4 \\
+0 &amp; 1 &amp; 1 \\
+0 &amp; 0 &amp; 0
+\end{pmatrix}
+\xrightarrow{r_1-2r_2}
+\begin{pmatrix}
+1 &amp; 0 &amp; 2 \\
+0 &amp; 1 &amp; 1 \\
+0 &amp; 0 &amp; 0
+\end{pmatrix}
+\end{aligned}
+\]</span> 故令 <span class="math inline">\(\beta = (-2, -1, 1)^T\)</span>，则 <span class="math display">\[
+\textbf{Null}(A^T) = \textbf{span}(\beta) = \{k \beta: k \in \mathbb{R} \}
+\]</span></p>
+<h2 id="七">七</h2>
+<blockquote>
+<p>求由向量 <span class="math inline">\(\begin{pmatrix} 1 \\ 2 \\ 1 \end{pmatrix}, \begin{pmatrix} 0 \\ 1 \\ 2 \end{pmatrix}\)</span> 张成的子空间的正交补空间。</p>
+</blockquote>
+<p>由 <span class="math display">\[
+\begin{pmatrix}
+1 &amp; 2 &amp; 0 \\
+0 &amp; 1 &amp; 2
+\end{pmatrix}
+\xrightarrow{r_1-2r_2}
+\begin{pmatrix}
+1 &amp; 0 &amp; -4 \\
+0 &amp; 1 &amp; 2
+\end{pmatrix}
+\]</span> 可知 <span class="math display">\[
+\textbf{span}^{\bot} \left\{
+\begin{pmatrix}
+1 \\ 2 \\ 0
+\end{pmatrix},
+\begin{pmatrix}
+0 \\ 1 \\ 2
+\end{pmatrix}
+\right\}
+=
+\textbf{span} \left\{
+\begin{pmatrix}
+4 \\ -2 \\ 1
+\end{pmatrix}
+\right\}
+\]</span></p>
+<h2 id="八">八</h2>
+<blockquote>
+<p>写出一个与子空间 <span class="math inline">\(\textrm{span} \left\{(1,2,1)^T \right\}\)</span> 正交的子空间。</p>
+</blockquote>
+<p>由于 <span class="math display">\[
+(-1,0,1) \cdot (1,2,1)^T = 0
+\]</span> 故 <span class="math display">\[
+\textbf{span} \left\{ (-1,0,1)^T \right\} \bot \ \textbf{span} \left\{ (1,2,1)^T \right\}
+\]</span></p>
+<h2 id="九">九</h2>
+<blockquote>
+<p>求向量 <span class="math inline">\((1,1,1)^T\)</span> 投影到一维子空间 <span class="math inline">\(\textrm{span} \left\{(1,-1,1)^T \right\}\)</span> 的正交投影。</p>
+</blockquote>
+<p>设 <span class="math inline">\(\alpha = (1,-1,1)^T, x = (1,1,1)^T\)</span></p>
+<p>则 <span class="math inline">\(\textbf{span}\left\{(1,-1,1)^T\right\}\)</span> 的投影矩阵为 <span class="math display">\[
+P_\pi = \frac{\alpha \alpha^T}{\alpha^T \alpha} = \frac{1}{3}
+\begin{pmatrix}
+1 &amp; -1 &amp; 1 \\
+-1 &amp; 1 &amp; -1 \\
+1 &amp; -1 &amp; 1
+\end{pmatrix}
+\]</span> 于是 <span class="math inline">\(x\)</span> 在 <span class="math inline">\(\textbf{span}\left\{(1,-1,1)^T\right\}\)</span> 中的正交投影为 <span class="math display">\[
+\pi(x) = P_\pi \cdot x = \left( \frac{1}{3},-\frac{1}{3},\frac{1}{3} \right)^T
+\]</span></p>
+<h2 id="十">十</h2>
+<blockquote>
+<p>求向量 <span class="math inline">\((1,1,1)^T\)</span> 投影到仿射空间 <span class="math inline">\(\textrm{span} \left\{(1,-1,1)^T , (1,1,0)^T \right\} + (1,2,1)^T\)</span> 的正交投影。</p>
+</blockquote>
+<p>设 <span class="math inline">\(\alpha_1 = (1, -1, 1)^T, \alpha_2 = (1,1,0)^T, \beta = (1,2,1)^T, x = (1,1,1)^T, x_0 = x - \beta = (0,-1,0)^T\)</span></p>
+<p>于是令 <span class="math inline">\(B = (\alpha_1, \alpha_2) = \begin{pmatrix} 1 &amp; 1 \\ -1 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}\)</span></p>
+<p>因此 <span class="math display">\[
+B^TB = \begin{pmatrix}
+3 &amp; 0 \\
+0 &amp; 2
+\end{pmatrix},
+B^Tx_0 = (1,-1)^T
+\]</span> 故由 <span class="math inline">\(B^TB\lambda = B^Tx_0\)</span> 可知，<span class="math inline">\(\lambda = (\frac{1}{3}, -\frac{1}{2})^T\)</span></p>
+<p>故 <span class="math display">\[
+\pi(x_0) = B \lambda = (-\frac{1}{6}, -\frac{5}{6}, \frac{1}{3})^T
+\]</span> 于是 <span class="math display">\[
+\pi(x) = \pi(x_0) + \beta = (\frac{5}{6}, \frac{7}{6}, \frac{4}{3})^T
+\]</span></p>
+<h2 id="十一">十一</h2>
+<blockquote>
+<p>设 <span class="math display">\[
+a_1 = \begin{pmatrix} 
+1 \\
+2 \\
+-1
+\end{pmatrix},
+a_2 = \begin{pmatrix} 
+-1 \\
+3 \\
+1
+\end{pmatrix},
+a_3 = \begin{pmatrix} 
+4 \\
+-1 \\
+0
+\end{pmatrix}
+\]</span> ，试将向量组 <span class="math inline">\((a_1, a_2, a_3)\)</span> 标准正交化。</p>
+</blockquote>
+<p>令 <span class="math display">\[
+\begin{aligned}
+b_1 &amp;= a_1 = (1,2,-1)^T \\
+b_2 &amp;= a_2 - \frac{\langle b_1, a_2 \rangle}{\langle b_1,b_1 \rangle} b_1 = \frac{5}{3}(-1,1,1)^T \\
+b_3 &amp;= a_3 - \frac{\langle b_1, a_3 \rangle}{\langle b_1,b_1 \rangle} b_1 - \frac{\langle b_2, a_3 \rangle}{\langle b_2,b_2 \rangle} b_2 = 2(1, 0, 1)^T
+\end{aligned}
+\]</span> 故 <span class="math display">\[
+\begin{aligned}
+e_1 &amp;= \textbf{e}_{b_1} = \frac{1}{\sqrt{6}} (1,2,-1)^T \\
+e_2 &amp;= \textbf{e}_{b_2} = \frac{1}{\sqrt{3}}(-1,1,1)^T \\
+e_3 &amp;= \textbf{e}_{b_3} = \frac{1}{\sqrt{2}}(1,0,1)^T
+\end{aligned}
+\]</span> 因此 <span class="math inline">\((a_1, a_2, a_3)\)</span> 标准正交化后的向量组为 <span class="math inline">\((e_1, e_2, e_3)\)</span></p>
+<h2 id="十二">十二</h2>
+<blockquote>
+<p>复现Lec6例13的结果。其中负例为 <span class="math inline">\((1.5,2), (1.7, 1.5), (2,2), (1.5,2.5)\)</span>，正例为 <span class="math inline">\((1,2),(0.3,0.3), (2,1), (1,1)\)</span>，分别采用了欧式距离和曼哈顿距离两种距离度量方式。</p>
+</blockquote>
+<p><strong>实现代码：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></div></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> math<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-comment"># 数据集</span><br>p=[[<span class="hljs-number">1</span>,<span class="hljs-number">0.3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">2</span>,<span class="hljs-number">0.3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]]<br>n=[[<span class="hljs-number">1.5</span>,<span class="hljs-number">1.7</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1.5</span>], [<span class="hljs-number">2</span>,<span class="hljs-number">1.5</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2.5</span>]]<br>p=np.array(p)<br>n=np.array(n)<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">divide</span>(<span class="hljs-params">dist,k,X,Y</span>):</span>  <span class="hljs-comment"># dist为一距离函数，k为KNN的参数，(X,Y)为数据的坐标</span><br>    ans_p=[np.sort(dist(p[<span class="hljs-number">0</span>]-X[i],p[<span class="hljs-number">1</span>]-Y[i]))<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(X))]<br>    ans_n=[np.sort(dist(n[<span class="hljs-number">0</span>]-X[i],n[<span class="hljs-number">1</span>]-Y[i]))<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(X))]<br>    t=[ans_p[i][int((k<span class="hljs-number">-1</span>)/<span class="hljs-number">2</span>)]&gt;ans_n[i][int((k<span class="hljs-number">-1</span>)/<span class="hljs-number">2</span>)]<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(ans_p))]<br>    <span class="hljs-keyword">return</span> np.array(t) <span class="hljs-comment"># 返回分类结果</span><br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dist1</span>(<span class="hljs-params">x,y</span>):</span>  <span class="hljs-comment"># Euclid distance</span><br>    result = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(x)):<br>        result.append(math.sqrt(x[i] * x[i] + y[i] * y[i]))<br>    <span class="hljs-keyword">return</span> np.array(result)<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dist2</span>(<span class="hljs-params">x,y</span>):</span>  <span class="hljs-comment"># Manhattan distance</span><br>    <span class="hljs-keyword">return</span> np.abs(x) + np.abs(y)<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">example_dist</span>(<span class="hljs-params">x,y</span>):</span>  <span class="hljs-comment"># Minkovski distance</span><br>    <span class="hljs-keyword">return</span> np.max([np.abs(x),np.abs(y)],axis=<span class="hljs-number">0</span>)<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot</span>(<span class="hljs-params">dist,k,ax</span>):</span>  <span class="hljs-comment"># 画图</span><br>    N=<span class="hljs-number">200</span>  <span class="hljs-comment"># 在平面上生成 N x N个点</span><br>    X=np.linspace(<span class="hljs-number">-0</span>,<span class="hljs-number">3</span>,N)  <span class="hljs-comment"># 生成横坐标</span><br>    Y=X <span class="hljs-comment"># 生成纵坐标</span><br>    X,Y=np.meshgrid(X,Y)  <span class="hljs-comment"># 生成 N x N个点</span><br>    X=X.reshape(<span class="hljs-number">1</span>,N*N)[<span class="hljs-number">0</span>]  <span class="hljs-comment"># 将横坐标化为向量形式</span><br>    Y=Y.reshape(<span class="hljs-number">1</span>,N*N)[<span class="hljs-number">0</span>]  <span class="hljs-comment"># 将纵坐标化为向量形式</span><br>    predict=divide(dist, k, X, Y)<br>    ax.contourf(X.reshape(N,N), Y.reshape(N,N), predict.reshape(N,N),<br>                cmap=plt.cm.Spectral,alpha=<span class="hljs-number">0.3</span>)  <span class="hljs-comment"># 此函数将根据预测值和对应坐标生成图像</span><br>    ax.plot(p[<span class="hljs-number">0</span>],p[<span class="hljs-number">1</span>],<span class="hljs-string">&#x27;rx&#x27;</span>)<br>    ax.plot(n[<span class="hljs-number">0</span>],n[<span class="hljs-number">1</span>],<span class="hljs-string">&#x27;bo&#x27;</span>)<br>    plt.text(<span class="hljs-number">0.5</span>,<span class="hljs-number">2.5</span>,<span class="hljs-string">&quot;k=&quot;</span>+str(k))<br>    plt.show()<br><br><br>fig, ax = plt.subplots()<br>plot(dist2, <span class="hljs-number">3</span>, ax)<br></code></pre></td></tr></table></figure>
+<p><strong>输出结果：（欧几里得距离）</strong></p>
+<img src="/2021/04/12/dase-math/dase-math-assignment-3/euclid.png" srcset="/img/loading.gif" lazyload class="" title="euclid">
+<p><strong>输出结果：（曼哈顿距离）</strong></p>
+<img src="/2021/04/12/dase-math/dase-math-assignment-3/manhattan.png" srcset="/img/loading.gif" lazyload class="" title="manhattan">
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/">数据科学数学基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Mathematics/">Mathematics</a>
+                    
+                      <a class="hover-with-bg" href="/tags/DataScience/">DataScience</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/04/18/web/search-site/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">新闻搜索网站构建记录</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/16/dase-math/dase-math-assignment-2/">
+                        <span class="hidden-mobile">数据科学与工程数学基础 作业2</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
