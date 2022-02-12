@@ -1,0 +1,915 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="GONGGONGJOHN">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="摘要 图像压缩一直是图像处理中一个重要的任务，一个好的图像压缩算法可以大大降低存储和传输代价。主成分分析（Principal Component Analysis）作为一个经典的降维方法，已经在图像压缩领域得到了极为广泛的运用。在本文中，我们从主成分分析的原理出发，导出并实现了基于特征分解的朴素PCA算法，并使用奇异值分解方法对其计算进行了优化。随后，我们实现了更适合图像处理的2DPCA、其改进方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据科学与工程算法基础 PCA实验">
+<meta property="og:url" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="摘要 图像压缩一直是图像处理中一个重要的任务，一个好的图像压缩算法可以大大降低存储和传输代价。主成分分析（Principal Component Analysis）作为一个经典的降维方法，已经在图像压缩领域得到了极为广泛的运用。在本文中，我们从主成分分析的原理出发，导出并实现了基于特征分解的朴素PCA算法，并使用奇异值分解方法对其计算进行了优化。随后，我们实现了更适合图像处理的2DPCA、其改进方">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/naive_pca_alg.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/naive_pca_pic.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/svd_pca_alg.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/2d_pca_alg.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/2d_pca_pic.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/2d_2d_pca_alg.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/2d2d_pca_pic.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/gha_network.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/gha_alg.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/gha_pca_exp1.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/gha_pca_exp2.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/kernel_pca.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/rbf_param.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/kpca_alg.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/kernel_pca_pic.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/jpeg_pipeline.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/jpeg_pic.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/reconstruct_quality.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/time.png">
+<meta property="article:published_time" content="2021-11-29T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-02-12T10:16:50.056Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="Machine-Learning">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://gonggongjohn.me/2021/11/29/machine-learning/dase-alg-exp-pca/naive_pca_alg.png">
+  
+  
+  <title>数据科学与工程算法基础 PCA实验 - GONGGONGJOHN&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GONGGONGJOHN&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="数据科学与工程算法基础 PCA实验">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-29 10:00" pubdate>
+        2021年11月29日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      24k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      203 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">数据科学与工程算法基础 PCA实验</h1>
+            
+            <div class="markdown-body">
+              <h2 id="摘要">摘要</h2>
+<p>图像压缩一直是图像处理中一个重要的任务，一个好的图像压缩算法可以大大降低存储和传输代价。主成分分析（Principal Component Analysis）作为一个经典的降维方法，已经在图像压缩领域得到了极为广泛的运用。在本文中，我们从主成分分析的原理出发，导出并实现了基于特征分解的朴素PCA算法，并使用奇异值分解方法对其计算进行了优化。随后，我们实现了更适合图像处理的2DPCA、其改进方法2D-2DPCA。此外，我们还实现了基于核方法的Kernel PCA来进一步提升主成分的表达能力，并对比了多种不同的核函数下图像的压缩效果。进一步的，我们尝试使用了较为现代的基于神经网络的GHA（Generalized Hebbian Algorithm）算法来迭代得到主成分。最后，我们将实现的结果与时下较为常用的基于离散余弦变换的JPEG图像压缩算法进行了对比。</p>
+<p><strong>关键字：图像压缩，主成分分析，核方法，感知机，余弦变换</strong></p>
+<p>Image compression has long be a fundamental task in image processing, a good image compression algorithm can massively reduce the cost of storage and transmission. As a classic dimension reduction algorithm, Principle Component Analysis has been widely used in the field of image compression. In this article, we derive and implement the naive PCA algorithm based on eigenvalue decomposition, and use the singular value decomposition method to optimize its calculation. Subsequently, we implemented 2DPCA and its improvement version 2D-2DPCA, which is more suitable for image processing. In addition, we implemented Kernel PCA based on the kernel method to further improve the expression ability of principal components, and compared the compression effects of images under a variety of different kernel functions. Further, we tried to use a more modern neural network-based GHA (Generalized Hebbian Algorithm) algorithm to iteratively obtain the principal components. Finally, we compared the achieved results with the contemporary mainstream JPEG image compression algorithm which is based on discrete cosine transform.</p>
+<p><strong>Keywords: Image compression, Principle component analysis, Perceptron, Cosine transformation</strong></p>
+<h2 id="项目概述">项目概述</h2>
+<p>主成分分析（Principal Component Analysis）可以用来减少矩阵（图像）的维度，并将这些新的维度投射到图像上，使其保留质量。本项目要求我们使用PCA方法及其变体，对3组图像（每组包含100张图像）进行压缩，并对图像压缩的性能进行分析。</p>
+<h2 id="问题描述">问题描述</h2>
+<p>一张<span class="math inline">\(8\)</span>位三通道（RGB）正方形彩色图片可视为三个 <span class="math inline">\(N\)</span> 维矩阵 <span class="math inline">\(\boldsymbol{X}\)</span>，其中 <span class="math inline">\(x_{ij} \in \{0,1, \cdots, 255\}\)</span>，其存储代价为 <span class="math inline">\(b\)</span>。图像压缩的目标即为寻找一个映射 <span class="math inline">\(\mathcal{Q}\)</span>，使得 <span class="math inline">\(\mathcal{Q}(\boldsymbol{X}) \in \mathbb{R}^{k \times n}(k \ll n), \mathcal{Q}^{-1} (\mathcal{Q}(\boldsymbol{X})) \approx X\)</span>，且存储 <span class="math inline">\(\mathcal{Q} (\boldsymbol{X})\)</span> 和 <span class="math inline">\(\mathcal{Q}^{-1}\)</span> 所需的空间 <span class="math inline">\(\tilde{b} \ll b\)</span>。</p>
+<h2 id="方法">方法</h2>
+<h3 id="朴素pca">朴素PCA</h3>
+<p>PCA的主要思想是通过将一个高维样本 <span class="math inline">\(\boldsymbol{x} \in \mathbb{R}^n\)</span> 左乘一个正交矩阵 <span class="math inline">\(\boldsymbol{Q} \in \mathbb{R}^{k \times n}(k \ll n)\)</span>，使得其映射到一个较低维的超平面 <span class="math inline">\(\boldsymbol{Q x} \in \mathbb{R}^k\)</span> 上，同时又保证多个数据点映射后的统计性质保持不变。具体来说，这样的超平面要具有如下的性质：</p>
+<ul>
+<li><strong>最近重构性：</strong>样本点到这个超平面的距离足够近</li>
+<li><strong>最大可分性：</strong>样本点在这个超平面上的投影尽可能分开</li>
+</ul>
+<p>由此，我们就有两种角度来求解这一正交矩阵。事实上，在中心化条件下，这两者是等价的。这是由于有如下定理保证：</p>
+<blockquote>
+<p><strong>Theorem:</strong> 对于中心化数据集 <span class="math inline">\(\{\boldsymbol{x}^{(i)}\}_{i = 1}^N\)</span>，最小化重构距离等价于最大化投影方差</p>
+<p><strong>Proof:</strong> 这里仅证明投影到一维时的情形，高维时的情况可自然推广</p>
+<p>设投影直线的方向向量为 <span class="math inline">\(\boldsymbol{v}\)</span>，其中 <span class="math inline">\(||\boldsymbol{v}||^2 = 1\)</span></p>
+<p>则由勾股定理可知，<span class="math inline">\(||\boldsymbol{x}^{(i)} - \boldsymbol{v^T} \boldsymbol{x}^{(i)}\boldsymbol{v}||^2 = ||\boldsymbol{x}^{(i)}||^2 - \left(\boldsymbol{v}^T \boldsymbol{x}^{(i)}\right)^2\)</span></p>
+<p>于是 <span class="math inline">\(\boldsymbol{v}\)</span> 的最优解 <span class="math display">\[
+\begin{aligned}
+\boldsymbol{v}^* &amp;= \mathop{\arg\min}_{\boldsymbol{v}: ||\boldsymbol{v}||^2 = 1} \frac{1}{N} \sum_{i = 1}^N ||\boldsymbol{x}^{(i)} - \boldsymbol{v^T} \boldsymbol{x}^{(i)}\boldsymbol{v}||^2 \\
+&amp;= \mathop{\arg\min}_{\boldsymbol{v}: ||\boldsymbol{v}||^2 = 1} \frac{1}{N} \sum_{i = 1}^N \left( ||\boldsymbol{x}^{(i)}||^2 - \left(\boldsymbol{v}^T \boldsymbol{x}^{(i)}\right)^2 \right) \\
+&amp;= \mathop{\arg\max}_{\boldsymbol{v}: ||\boldsymbol{v}||^2 = 1} \frac{1}{N} \sum_{i = 1}^N \left(\boldsymbol{v}^T \boldsymbol{x}^{(i)}\right)^2
+\end{aligned}
+\]</span> 也即最小化重构距离与最大化投影方差等价</p>
+</blockquote>
+<p>这里我们通过最大化投影方差的方法来求解。 我们知道，对于一个中心化矩阵 <span class="math inline">\(\boldsymbol{X}\)</span>（即 <span class="math inline">\(E(\boldsymbol{X}) = \boldsymbol{0}\)</span>），其协方差矩阵 <span class="math display">\[
+\begin{aligned}
+\Sigma (\boldsymbol{X}) &amp;= E \left[ (\boldsymbol{X} - E(\boldsymbol{X})) (\boldsymbol{X} - E(\boldsymbol{X}))^T \right] \\
+&amp;= \begin{pmatrix}
+\textrm{Cov}(\boldsymbol{X}_1, \boldsymbol{X}_1) &amp; \textrm{Cov}(\boldsymbol{X}_1, \boldsymbol{X}_2) &amp;
+\cdots &amp;
+\textrm{Cov}(\boldsymbol{X}_1, \boldsymbol{X}_n) \\
+\textrm{Cov}(\boldsymbol{X}_2, \boldsymbol{X}_1) &amp; \textrm{Cov}(\boldsymbol{X}_2, \boldsymbol{X}_2) &amp;
+\cdots &amp;
+\textrm{Cov}(\boldsymbol{X}_2, \boldsymbol{X}_n) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\textrm{Cov}(\boldsymbol{X}_n, \boldsymbol{X}_1) &amp; \textrm{Cov}(\boldsymbol{X}_n, \boldsymbol{X}_2) &amp;
+\cdots &amp;
+\textrm{Cov}(\boldsymbol{X}_n, \boldsymbol{X}_n)
+\end{pmatrix} \\
+&amp;= \frac{1}{N} \boldsymbol{X} \boldsymbol{X}^T
+\end{aligned}
+\]</span> 若将投影矩阵 <span class="math inline">\(\boldsymbol{Q}\)</span> 按行划分为向量组，也即设 <span class="math display">\[
+\boldsymbol{Q} = \begin{pmatrix}
+\boldsymbol{q}_1 \\
+\boldsymbol{q}_2 \\
+\vdots \\
+\boldsymbol{q}_k
+\end{pmatrix}
+\]</span> ，则要使得投影方差和最大，也即求解 <span class="math display">\[
+\begin{aligned}
+\mathop{\arg\max}_{\boldsymbol{Q}: \boldsymbol{Q}\boldsymbol{Q}^T = \boldsymbol{I}} \sum_{i = 1}^k || \boldsymbol{q}_i \boldsymbol{X} ||_2^2 &amp;= \mathop{\arg\max}_{\boldsymbol{Q}: \boldsymbol{Q}\boldsymbol{Q}^T = \boldsymbol{I}} ||\boldsymbol{QX}||_F^2 \\
+&amp;=\mathop{\arg\max}_{\boldsymbol{Q}: \boldsymbol{Q}\boldsymbol{Q}^T = \boldsymbol{I}} \textrm{tr} \left( \boldsymbol{X}^T \boldsymbol{Q}^T \boldsymbol{Q} \boldsymbol {X} \right)
+\end{aligned}
+\]</span> 由此可得优化问题 <span class="math display">\[
+\begin{aligned}
+\min \quad &amp; - \textrm{tr} \left( \boldsymbol{X}^T \boldsymbol{Q}^T \boldsymbol{Q} \boldsymbol {X} \right) \\
+\textbf{s.t} \quad &amp; \boldsymbol{Q} \boldsymbol{Q}^T = \boldsymbol{I}_{k \times k}
+\end{aligned}
+\]</span> 利用拉格朗日乘子法，我们可得当目标函数取到最小值时，有 <span class="math display">\[
+\boldsymbol{Q} \boldsymbol{X} \boldsymbol{X}^T = \boldsymbol{Q} \boldsymbol{\lambda}
+\]</span> 也即 <span class="math inline">\(\boldsymbol{Q}\)</span> 中的第 <span class="math inline">\(i\)</span> 行为 <span class="math inline">\(\boldsymbol{X} \boldsymbol{X}^T\)</span> 的第 <span class="math inline">\(i\)</span> 个特征值 <span class="math inline">\(\lambda_i\)</span> 对应的特征向量。进一步的，将结果代回原式我们可以发现，由于 <span class="math inline">\(\boldsymbol{Q}\)</span> 为一个 <span class="math inline">\(k \times n\)</span> 的矩阵，因此若要使得目标函数取到最小值，<span class="math inline">\(\boldsymbol{Q}\)</span> 中的行向量应取前 <span class="math inline">\(k\)</span> 大的特征值所对应的特征向量。</p>
+<p>在图像压缩任务中，当将数据集映射到低维空间后，我们还需要将其重构回原来的图像空间以保证图像的可用性。对于使用正交变换的PCA方法，这一重构任务是容易的。由于 <span class="math inline">\(\boldsymbol{Q}\)</span> 为一正交矩阵，其逆矩阵 <span class="math inline">\(\boldsymbol{Q}^{-1} = \boldsymbol{Q}^T\)</span>。因此要重构压缩后的图像，进行我们只需要对降维数据进行逆变换，即左乘 <span class="math inline">\(\boldsymbol{Q}^T\)</span> 即可。</p>
+<p>由此，我们导出了使用朴素PCA方法进行图像压缩的一般过程。需要注意的是，要使用基于特征分解的PCA方法对图像进行分析和处理，我们需要将图像矩阵划分为向量组并进行中心化操作，这里我们采用按列划分的方法。算法的具体流程如下：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/naive_pca_alg.png" srcset="/img/loading.gif" lazyload class="" title="naive_pca_alg">
+<p>在选择了不同主成分个数时，使用朴素PCA算法进行图像压缩的效果结果如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/naive_pca_pic.png" srcset="/img/loading.gif" lazyload class="" title="naive_pca_pic">
+<p>可以看到，仅使用前10个主成分已经能还原出整体的图像轮廓，当 <span class="math inline">\(k=50\)</span> 时，图像的细节已基本得到恢复。</p>
+<h3 id="基于奇异值分解的pca">基于奇异值分解的PCA</h3>
+<p>可以看到，基于特征值分解的PCA算法中计算开销最大的部分为计算协方差矩阵 <span class="math inline">\(\boldsymbol{X} \boldsymbol{X}^T\)</span> 的特征值与特征向量。事实上，我们可以使用奇异值分解来避免这一高开销计算，一个 <span class="math inline">\(m \times n\)</span> 的矩阵 <span class="math inline">\(\boldsymbol{A}\)</span> 的奇异值分解是指将其分解为三个特殊矩阵乘积的形式 <span class="math inline">\(\boldsymbol{A} = \boldsymbol{U} \boldsymbol{\Sigma} \boldsymbol{V}^T\)</span>，其中 <span class="math inline">\(\boldsymbol{U}\)</span> 为 <span class="math inline">\(m\)</span> 阶正交矩阵，<span class="math inline">\(\boldsymbol{V}\)</span> 为 <span class="math inline">\(n\)</span> 阶正交矩阵，<span class="math inline">\(\Sigma\)</span> 是由降序排列的非负的对角线元素组成的 <span class="math inline">\(m \times n\)</span> 对角矩阵。</p>
+<p>对于任意实矩阵，我们都能找到它的奇异值分解。这是由于有如下定理保证：</p>
+<blockquote>
+<p><strong>Theorem:</strong> 若 <span class="math inline">\(\boldsymbol{A}\)</span> 为一 <span class="math inline">\(m \times n\)</span> 实矩阵，<span class="math inline">\(\boldsymbol{A} \in \mathbb{R}^{m \times n}\)</span>，则 <span class="math inline">\(\boldsymbol{A}\)</span> 的奇异值分解存在 <span class="math inline">\(\boldsymbol{A} = \boldsymbol{U} \boldsymbol{\Sigma} \boldsymbol{V}^T\)</span>其中 <span class="math inline">\(\boldsymbol{U}\)</span> 是 <span class="math inline">\(m\)</span> 阶正交矩阵，<span class="math inline">\(\boldsymbol{V}\)</span> 是 <span class="math inline">\(n\)</span> 阶正交矩阵，<span class="math inline">\(\boldsymbol{\Sigma}\)</span> 是 <span class="math inline">\(m \times n\)</span> 对角矩阵，其前 <span class="math inline">\(r\)</span> 个对角元素 <span class="math inline">\((\sigma_1, \cdots, \sigma_r)\)</span> 为正，且按降序排列，其余均为 <span class="math inline">\(0\)</span>。</p>
+<p><strong>Proof:</strong> 由于 <span class="math inline">\(\boldsymbol{A}^T \boldsymbol{A}\)</span> 为对称半正定矩阵，因此可以对其进行特征分解 <span class="math inline">\(\boldsymbol{A}^T \boldsymbol{A} = \boldsymbol{V} \boldsymbol{\Lambda}_n \boldsymbol{V}^T\)</span>，其中 <span class="math inline">\(V \in \mathbb{R}^{n \times n}\)</span> 是正交矩阵，<span class="math inline">\(\boldsymbol{\Lambda}_n\)</span> 是对称矩阵，并且对角线元素是 <span class="math inline">\(\boldsymbol{A}^T \boldsymbol{A}\)</span> 的特征值 <span class="math inline">\(\lambda_i \geq 0, i = 1, \cdots, n\)</span>，并且是按降序排列的。因为 <span class="math inline">\(\textrm{rank} (\boldsymbol{A}) = \textrm{rank}(\boldsymbol{A}^T \boldsymbol{A}) = r\)</span>，所以前 <span class="math inline">\(r\)</span> 个特征值是正的。</p>
+<p>注意到 <span class="math inline">\(\boldsymbol{A} \boldsymbol{A}^T\)</span> 和 <span class="math inline">\(\boldsymbol{A}^T \boldsymbol{A}\)</span> 有相同的非零特征值，因此他们的秩是相等的。我们定义 <span class="math display">\[
+\sigma_i = \sqrt{\lambda_i} &gt; 0, i = 1, \cdots, r
+\]</span> ，记 <span class="math inline">\(\boldsymbol{v}_1, \cdots,\boldsymbol{v}_r\)</span> 是 <span class="math inline">\(\boldsymbol{V}\)</span> 的前 <span class="math inline">\(r\)</span> 列，它们同时也是 <span class="math inline">\(\boldsymbol{A}^T \boldsymbol{A}\)</span> 前 <span class="math inline">\(r\)</span> 个特征值对应的特征向量。即有 <span class="math display">\[
+\boldsymbol{A}^T \boldsymbol{A} \boldsymbol{v}_i = \lambda_i \boldsymbol{v}_i, i = 1, \cdots, r
+\]</span> 。因此同时在两边左乘上 <span class="math inline">\(\boldsymbol{A}\)</span> 就有 <span class="math display">\[
+(\boldsymbol{A} \boldsymbol{A}^T) \boldsymbol{A} \boldsymbol{v}_i = \lambda_i \boldsymbol{A} \boldsymbol{v}_i,i = 1, \cdots, r
+\]</span> 。这就意味着 <span class="math inline">\(\boldsymbol{A} \boldsymbol{v}_i\)</span> 是 <span class="math inline">\(\boldsymbol{A} \boldsymbol{A}^T\)</span> 的特征向量，因为 <span class="math inline">\(\boldsymbol{v}_i^T \boldsymbol{A}^T \boldsymbol{A} \boldsymbol{v}_j = \lambda_j \boldsymbol{v}_i^T \boldsymbol{v}_j\)</span> 所以这些特征向量也是正交的。所以将他们标准化则有</p>
+<p><span class="math display">\[
+\boldsymbol{u}_i = \frac{\boldsymbol{A} \boldsymbol{v}_i}{\sqrt{\lambda_i}} = \frac{\boldsymbol{A} \boldsymbol{v}_i}{\sigma_i}, i = 1, \cdots, r
+\]</span> 这些 <span class="math inline">\(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_r\)</span> 是 <span class="math inline">\(r\)</span> 个 <span class="math inline">\(\boldsymbol{A} \boldsymbol{A}^T\)</span> 关于非零特征值 <span class="math inline">\(\lambda_1, \cdots, \lambda_r\)</span> 的特征向量。因此 <span class="math display">\[
+\boldsymbol{u}_i^T \boldsymbol{A} \boldsymbol{v}_j = \frac{1}{\sigma_i} \boldsymbol{v}_i^T \boldsymbol{A}^T \boldsymbol{A} \boldsymbol{v}_j = \frac{\lambda_j}{\sigma_i} \boldsymbol{v}_i^T \boldsymbol{v}_j = \left\{
+\begin{aligned}
+\sigma_i, &amp; i = j \\
+0, 其他
+\end{aligned}
+\right.
+\]</span> 以矩阵的方式重写即有</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+\boldsymbol{u}_1^T \\
+\vdots \\
+\boldsymbol{u}_r^T
+\end{pmatrix}
+\boldsymbol{A}
+(\boldsymbol{v}_1, \cdots, \boldsymbol{v}_r)
+= \textrm{diag} (\sigma_1, \cdots, \sigma_r) = \boldsymbol{\Sigma}_r
+\]</span></p>
+<p>注意到根据定义 <span class="math display">\[
+\boldsymbol{A}^T \boldsymbol{A} \boldsymbol{v}_i = 0, i = r + 1, \cdots, n
+\]</span> 即有 <span class="math display">\[
+\boldsymbol{A} \boldsymbol{v}_i = 0, i = r + 1, \cdots, n
+\]</span> 取相互正交的单位向量 <span class="math inline">\(\boldsymbol{u}_{r+1}, \cdots, \boldsymbol{u}_m\)</span> 均与 <span class="math inline">\(\boldsymbol{u}_1, \cdots, \boldsymbol{u}_r\)</span> 正交，即有 <span class="math display">\[
+\boldsymbol{u}_i^T \boldsymbol{A} \boldsymbol{v}_j = 0. i = 1, \cdots, m; j = r + 1, \cdots, n
+\]</span> 它们共同构成了 <span class="math inline">\(\mathbb{R}^m\)</span> 的一组标准正交基。因此，扩展前述奇异值分解式即有 <span class="math display">\[
+\begin{pmatrix}
+\boldsymbol{u}_1^T \\
+\vdots \\
+\boldsymbol{u}_m^T
+\end{pmatrix}
+\boldsymbol{A}
+(\boldsymbol{v}_1, \cdots, \boldsymbol{v}_n)
+= \begin{pmatrix}
+\boldsymbol{\Sigma}_r &amp; \boldsymbol{0}^T \\
+\boldsymbol{0} &amp; \boldsymbol{O}
+\end{pmatrix}
+= \boldsymbol{\Sigma}
+\]</span> 令 <span class="math inline">\(\boldsymbol{U} = (\boldsymbol{u}_1, \cdots, \boldsymbol{u}_m)\)</span>，<span class="math inline">\(\boldsymbol{V} = (\boldsymbol{v}_1, \cdots, \boldsymbol{v}_n)\)</span>，即有 <span class="math inline">\(\boldsymbol{A} = \boldsymbol{U} \boldsymbol{\Sigma} \boldsymbol{V}^T\)</span>。 由此可知，矩阵 <span class="math inline">\(\boldsymbol{A}\)</span> 必存在奇异值分解。</p>
+</blockquote>
+<p>根据矩阵的奇异值分解定理，对于中心化图像矩阵 <span class="math inline">\(\boldsymbol{X}\)</span>，我们有 <span class="math display">\[
+\begin{aligned}
+\boldsymbol{X}^T \boldsymbol{X} &amp;= \left( \boldsymbol{U} \boldsymbol{\Sigma} \boldsymbol{V}^T \right)^T \left( \boldsymbol{U} \boldsymbol{\Sigma} \boldsymbol{V}^T \right) \\
+&amp;= \boldsymbol{V} \boldsymbol{\Sigma} \boldsymbol{V}^T
+\end{aligned}
+\]</span> 也即 <span class="math inline">\(\boldsymbol{X}^T \boldsymbol{X} \boldsymbol{V} = \boldsymbol{V} \boldsymbol{\Sigma}\)</span>。由此我们得知协方差矩阵的第 <span class="math inline">\(i\)</span> 个特征向量也即右奇异值矩阵 <span class="math inline">\(\boldsymbol{V}\)</span> 的第 <span class="math inline">\(i\)</span> 列。</p>
+<p>基于奇异值分解的PCA图像压缩算法具体流程如下：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/svd_pca_alg.png" srcset="/img/loading.gif" lazyload class="" title="svd_pca_alg">
+<p>同样的，我们使用Python实现了上述算法。对于奇异值分解操作，我们使用Numpy模块中提供的<strong>svd()</strong>函数来完成。Numpy模块使用了LAPACK科学计算包来完成矩阵分解的相关操作。其中，SVD分解采用了<strong>Householder变换</strong>的方式来完成，这一操作的时间开销远低于一般的采用<strong>Gram-Schimdt正交化</strong>的求解方式，也远低于对协方差矩阵作特征值分解的时间开销。</p>
+<h3 id="dpca">2DPCA</h3>
+<p>由于常规的PCA方法是对向量组进行操作，因此当我们使用该方法对图像进行压缩时，需要先将其划分为列向量组再进行处理。由此得到的协方差矩阵规模十分巨大，需要极大的时间开销来完成计算。此外，由于图像压缩通常被作为其他图像处理任务的上游任务，如此操作会导致图像的特征信息出现大量的丢失。因此，之后的研究者提出了另一种简单的图像投影技术，称为<strong>二维主成分分析(2DPCA)</strong>，专门用于图像特征提取。与传统的PCA方法不同，2DPCA基于2D矩阵直接构建图像的协方差矩阵。与PCA的协方差矩阵相比，使用2DPCA的图像协方差矩阵的大小要小得多，这就意味着确定相应的特征向量所需的时间更少。此外，由于其更多的利用了图像的空间信息，对图像的特征也能够更好的保留。</p>
+<p>2DPCA的主要思想是直接利用一个 <span class="math inline">\(n \times k\)</span> 维矩阵对整张图像进行投影。这里我们先考虑投影矩阵为一维时的情况，再将其推广到 <span class="math inline">\(k\)</span> 维上去。</p>
+<p>若设图像矩阵为 <span class="math inline">\(\boldsymbol{A}\)</span>，<span class="math inline">\(\boldsymbol{X}\)</span> 为投影向量，<span class="math inline">\(\boldsymbol{Y} = \boldsymbol{AX}\)</span> 为投影后的特征。则 <span class="math inline">\(\boldsymbol{Y}\)</span> 的协方差矩阵 <span class="math inline">\(\boldsymbol{S}_x\)</span> 可以写为 <span class="math display">\[
+\begin{aligned}
+\boldsymbol{S}_x &amp;= E \left[(\boldsymbol{Y} - E[\boldsymbol{Y}])(\boldsymbol{Y} - E[\boldsymbol{Y}])^T \right] \\
+&amp;=E \left[(\boldsymbol{AX} - E[\boldsymbol{AX}])(\boldsymbol{AX} - E[\boldsymbol{AX}])^T \right] \\
+&amp;= E \left[((\boldsymbol{A} - E[\boldsymbol{A}]) \boldsymbol{X})((\boldsymbol{A} - E[\boldsymbol{A}]) \boldsymbol{X})^T \right]
+\end{aligned}
+\]</span> 与一般的PCA方法类似，我们定义判断投影好坏的评价指标为 <span class="math inline">\(J(\boldsymbol{X}) = \textrm{tr} (\boldsymbol{S}_x)\)</span>，则代入上面的式子就可以写为 <span class="math display">\[
+\begin{aligned}
+J(\boldsymbol{X}) &amp;= \textrm{tr} (\boldsymbol{S}_x) \\
+&amp;= \boldsymbol{X}^T E \left[ (\boldsymbol{A} - E[\boldsymbol{A}])^T (\boldsymbol{A} - E[\boldsymbol{A}]) \right] \boldsymbol{X}
+\end{aligned}
+\]</span> 。从上面的式子我们可以看出，2DPCA通常是同时作用于多张图像矩阵上的，这也是其协方差矩阵维度相对较小的原因。若设图像集合为 <span class="math inline">\(\boldsymbol{A}_1, \cdots, \boldsymbol{A}_M\)</span>，则 <span class="math display">\[
+\begin{aligned}
+\boldsymbol{G} &amp;\overset{def}{=} E \left[ (\boldsymbol{A} - E[\boldsymbol{A}])^T (\boldsymbol{A} - E[\boldsymbol{A}]) \right] \\
+&amp;= \frac{1}{M} \sum_{i = 1}^M \left( \boldsymbol{A}_i - \bar{\boldsymbol{A}} \right)^T \left( \boldsymbol{A}_i - \bar{\boldsymbol{A}} \right)
+\end{aligned}
+\]</span> 现在我们将投影矩阵推广为 <span class="math inline">\(k\)</span> 维，也即设投影矩阵为 <span class="math inline">\(\boldsymbol{X} = \{\boldsymbol{X}_1, \cdots, \boldsymbol{X}_d \}\)</span>，则优化问题为 <span class="math display">\[
+\begin{aligned}
+\min \quad &amp; - J(\boldsymbol{X}) \\
+\textbf{s.t} \quad &amp; \boldsymbol{X}_i^T \boldsymbol{X}_j = 0, i \neq j
+\end{aligned}
+\]</span> 由拉格朗日乘子法我们可以得知，要提取前 <span class="math inline">\(k\)</span> 个特征，投影矩阵的最优解即为 <span class="math inline">\(\boldsymbol{G}\)</span> 前 <span class="math inline">\(k\)</span> 大个特征值对应的特征向量所组成的矩阵。</p>
+<p>由此我们就得到了使用2DPCA进行图像压缩的一般算法：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/2d_pca_alg.png" srcset="/img/loading.gif" lazyload class="" title="2d_pca_alg">
+<p>在选择了不同主成分个数时，使用2DPCA算法进行图像压缩的效果结果如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/2d_pca_pic.png" srcset="/img/loading.gif" lazyload class="" title="2d_pca_pic">
+<h3 id="d-2dpca">2D-2DPCA</h3>
+<p>在上述介绍的2DPCA中，若我们用 <span class="math inline">\(\boldsymbol{A}^{(t)}\)</span> 来表示矩阵 <span class="math inline">\(\boldsymbol{A}\)</span> 的第 <span class="math inline">\(t\)</span> 行，则 <span class="math display">\[
+\begin{aligned}
+\boldsymbol{A}_i &amp;= \left( \left( \boldsymbol{A}_i^{(1)} \right)^T,  \cdots, \left( \boldsymbol{A}_i^{(n)} \right)^T \right)^T \\
+\bar{\boldsymbol{A}} &amp;= \left( \left( \bar{\boldsymbol{A}}^{(1)} \right)^T,  \cdots, \left( \bar{\boldsymbol{A}}^{(n)} \right)^T \right)^T
+\end{aligned}
+\]</span> ，于是协方差矩阵 <span class="math inline">\(\boldsymbol{G}\)</span> 就可以被写为 <span class="math display">\[
+\boldsymbol{G} = \frac{1}{M} \sum_{i = 1}^M \sum_{k = 1}^n \left( \boldsymbol{A}_i^{(k)} - \bar{\boldsymbol{A}}^{(k)}\right)^T \left( \boldsymbol{A}_i^{(k)} - \bar{\boldsymbol{A}}^{(k)}\right)
+\]</span> 。通过该式我们可以发现，<span class="math inline">\(\boldsymbol{G}\)</span> 可以通过图像集合中行向量的外积得到，这也就意味着2DPCA实际上仅按行提取了图像之间的联系。自然的，我们可以想到是否可以用类似的方法提取图像列之间的联系并将它们结合在一起，从而挖掘出图像更多的特征联系。这一想法也就形成了所谓的<strong>双方向二维主成分分析（2D-2DPCA）</strong>。</p>
+<p>我们设 <span class="math inline">\(\boldsymbol{Z} \in \mathbb{R}^{n \times k}\)</span> 为另一投影矩阵，其作用即为对图像矩阵 <span class="math inline">\(\boldsymbol{A}\)</span> 的列进行投影。于是与2DPCA的做法类似，我们设矩阵 <span class="math inline">\(\boldsymbol{A}\)</span> 投影得到的特征为 <span class="math display">\[
+\boldsymbol{B} = \boldsymbol{Z}^T \boldsymbol{A}
+\]</span> 。于是投影得到的协方差矩阵即为 <span class="math display">\[
+J(\boldsymbol{Z}) = \boldsymbol{Z}^T E \left[ (\boldsymbol{A} - E[\boldsymbol{A}]) (\boldsymbol{A} - E[\boldsymbol{A}])^T \right] \boldsymbol{Z}
+\]</span> 我们定义 <span class="math display">\[
+\begin{aligned}
+\boldsymbol{G}&#39; &amp;\overset{def}{=} E \left[ (\boldsymbol{A} - E[\boldsymbol{A}]) (\boldsymbol{A} - E[\boldsymbol{A}])^T \right] \\
+&amp;= \frac{1}{M} \sum_{i = 1}^M  \left( \boldsymbol{A}_i - \bar{\boldsymbol{A}} \right) \left( \boldsymbol{A}_i - \bar{\boldsymbol{A}} \right)^T \\
+&amp;= \frac{1}{M} \sum_{i = 1}^M \sum_{k = 1}^n \left( \boldsymbol{A}_i^{(k)} - \bar{\boldsymbol{A}}^{(k)}\right) \left( \boldsymbol{A}_i^{(k)} - \bar{\boldsymbol{A}}^{(k)}\right)^T
+\end{aligned}
+\]</span> 其中 <span class="math inline">\(\boldsymbol{A}^{(t)}\)</span> 为矩阵 <span class="math inline">\(\boldsymbol{A}\)</span> 的第 <span class="math inline">\(t\)</span> 列。</p>
+<p>与上面类似，我们最大化 <span class="math inline">\(J(\boldsymbol{Z})\)</span>，同样可以得到 <span class="math inline">\(\boldsymbol{Z}\)</span> 的最优解即为 <span class="math inline">\(\boldsymbol{G}\)</span> 的前 <span class="math inline">\(k\)</span> 大个特征值对应的特征向量所组成的矩阵。</p>
+<p>将行投影和列投影结合，我们就能得到图像集合中的任一图像 <span class="math inline">\(\boldsymbol{A}\)</span> 经过投影后的特征为 <span class="math display">\[
+\boldsymbol{C} = \boldsymbol{Z}^T \boldsymbol{A} \boldsymbol{Z}
+\]</span> ，其重构图像为 <span class="math display">\[
+\tilde{\boldsymbol{A}} = \boldsymbol{Z} \boldsymbol{C} \boldsymbol{X}^T
+\]</span> 。由此我们就得到了使用2D-2DPCA进行图像压缩的一般算法：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/2d_2d_pca_alg.png" srcset="/img/loading.gif" lazyload class="" title="2d_2d_pca_alg">
+<p>在选择了不同主成分个数时，使用2D-2DPCA算法进行图像压缩的效果结果如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/2d2d_pca_pic.png" srcset="/img/loading.gif" lazyload class="" title="2d2d_pca_pic">
+<h3 id="generalized-hebbian-algorithm">Generalized Hebbian Algorithm</h3>
+<p>可以看到，上面几种PCA方法均为基于矩阵分解的求解方法。近年来随着机器学习和神经网络模型的提出，研究者也提出了基于学习的方法来快速提取数据集的主成分。其中较为典型的即为基于Gram-Schmidt正交化方法的<strong>扩展Hebbian算法（Generalized Hebbian Algorithm）</strong>。GHA算法是一种无监督的学习算法，我们可以将其看作Oja方法的一种推广。</p>
+<p>首先我们构建一个单层全连接神经网络（Single-layer Feed Forward Neural Network），如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/gha_network.png" srcset="/img/loading.gif" lazyload class="" title="gha_network">
+<p>可以证明，通过GHA算法对该神经网络进行权重调整，则训练完成后，连接每个输出神经元的权重向量即为一个主成分向量。</p>
+<p>首先我们考虑输出层只有 <span class="math inline">\(1\)</span> 个神经元的情况。若设第 <span class="math inline">\(t\)</span> 次迭代的输入向量为 <span class="math inline">\(\boldsymbol{x}_t \in \mathbb{R}\)</span>，网络的权重向量为 <span class="math inline">\(\boldsymbol{w}_t \in \mathbb{R}^n\)</span>，输出 <span class="math inline">\(y_t = \boldsymbol{w}_t^T \boldsymbol{x}_t\)</span>，<span class="math inline">\(\eta\)</span> 为学习率。则根据Oja方法，权重更新公式为 <span class="math display">\[
+\boldsymbol{w}_{t + 1} = \boldsymbol{w}_{t} + \eta \boldsymbol{y}_{t} (\boldsymbol{x}_{t} - \boldsymbol{y}_{t} \boldsymbol{w}_{t})
+\]</span> 。现在我们将其推广到 <span class="math inline">\(k\)</span> 个输出时的情况，即求解前 <span class="math inline">\(k\)</span> 个主成分。设 <span class="math inline">\(\boldsymbol{W}_t \in \mathbb{R}^{k \times n}\)</span>，输出 <span class="math inline">\(\boldsymbol{y}_t = \boldsymbol{W}_t \boldsymbol{x}_t\)</span>，则 <span class="math display">\[
+\boldsymbol{W}_{t + 1} = \eta \left( \boldsymbol{y}_t \boldsymbol{x}_t^T - \textrm{LOWER}(\boldsymbol{y}_t \boldsymbol{y}_t^T) \boldsymbol{W}_t \right)
+\]</span> ，其中 <span class="math inline">\(\textrm{LOWER}(\boldsymbol{A})\)</span> 为取矩阵 <span class="math inline">\(\boldsymbol{A}\)</span> 的下三角操作（上三角部分置为 <span class="math inline">\(0\)</span>）。</p>
+<p>于是，使用GHA进行图像压缩的算法流程如下：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/gha_alg.png" srcset="/img/loading.gif" lazyload class="" title="gha_alg">
+<p>对于训练结果的评价指标，我们定义损失函数 <span class="math display">\[
+\mathcal{L}(\boldsymbol{W}, \boldsymbol{Q}) = \sum_{i = 1}^k ||\boldsymbol{w}_i - \boldsymbol{q}_i||^2 = ||\boldsymbol{W} - \boldsymbol{Q}||_F^2
+\]</span> 及向量夹角 <span class="math display">\[
+\mathcal{A}(\boldsymbol{w}_i, \boldsymbol{q}_i) = \arccos \left(  \frac{\boldsymbol{w}_i \cdot \boldsymbol{q}_i}{|| \boldsymbol{w}_i ||_2 \cdot ||\boldsymbol{q}_i||_2} \right)
+\]</span> 由于该算法的收敛速度较为不可控，因此这里我们仅使用网络提取前两个主成分。我们使用正态分布 <span class="math inline">\(\mathcal{N}(0, 0.5)\)</span> 随机初始化了权重矩阵，并设置学习率 <span class="math inline">\(\eta = 10^{-4}\)</span> 进行了两次模拟，每次对网络进行了 <span class="math inline">\(20000\)</span> 次训练迭代。两次迭代过程中Loss和向量夹角的变化情况如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/gha_pca_exp1.png" srcset="/img/loading.gif" lazyload class="" title="gha_pca_exp1">
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/gha_pca_exp2.png" srcset="/img/loading.gif" lazyload class="" title="gha_pca_exp2">
+<p>可以发现，随着权重矩阵初始值的不同，网络的收敛特征也会随之发生变化。</p>
+<p>使用神经网络算法进行模型训练时一个经典的问题即为学习率过大。事实上，在训练该模型的过程中，我们同样遇到了这一问题，并且固定的学习率很难保证适合整个损失超平面。为此，研究者提出了适用于GHA的自适应学习率优化方法。由于该方法实现过于复杂，在此仅作为了解。</p>
+<h3 id="kernel-pca">Kernel PCA</h3>
+<p>由PCA的推导过程我们可以看出，要对一个数据集使用PCA方法进行降维的一大前提即为数据集必须在当前维度下线性可分，而类似图像这样高度紧凑的数据集通常会出现线性不可分的问题。在这种情况下，我们通常会尝试使用一个映射 <span class="math inline">\(\phi: \mathbb{R}^n \to \mathbb{R}^d, d &gt; n\)</span> 将数据集映射到更高维度的特征空间，使得其在该空间下线性可分，该方法被称为<strong>核方法（Kernel Method）</strong>。利用核方法，我们可以对朴素的PCA方法进行改进，使其能够表达更多的原始特征，这就形成了所谓的<strong>核主成分分析（Kernel PCA）</strong>。</p>
+<p>若设图像矩阵为 <span class="math inline">\(\boldsymbol{X}\)</span>，非线性映射 <span class="math inline">\(\phi(\boldsymbol{X})\)</span> 对应的核函数 <span class="math inline">\(\boldsymbol{K} = \phi(\boldsymbol{X})^T \phi(\boldsymbol{X})\)</span>，特征空间为 <span class="math inline">\(\mathcal{F}\)</span>，则特征空间中的协方差矩阵就可以写为 <span class="math display">\[
+\boldsymbol{C}_{\mathcal{F}} = \frac{1}{N} \phi(\boldsymbol{X}) (\phi(\boldsymbol{X}))^T
+\]</span> 其特征值问题的方程 <span class="math inline">\(\boldsymbol{C}_{\mathcal{F}} \boldsymbol{v} = \lambda \boldsymbol{v}\)</span> 就可以写为 <span class="math display">\[
+\sum_{i = 1}^N \phi(\boldsymbol{x}_i) \phi(\boldsymbol{x}_i)^T \boldsymbol{v} = \lambda \boldsymbol{v}
+\]</span> 由此我们发现其每一个特征向量 <span class="math inline">\(\boldsymbol{v}_j\)</span> 都可以表示为 <span class="math inline">\(\phi(\boldsymbol{x}_i)\)</span> 的线性组合 <span class="math display">\[
+\boldsymbol{v} = \sum_{i = 1}^N a_i \phi(\boldsymbol{x}_i) = \phi (\boldsymbol{X}) \boldsymbol{a}
+\]</span> ，其中 <span class="math inline">\(\boldsymbol{a} = (a_1, \cdots, a_N)^T\)</span>。 引入核函数，化简即可得到 <span class="math display">\[
+\boldsymbol{K}(\boldsymbol{X}) \boldsymbol{a} = \lambda \boldsymbol{a}
+\]</span> ，也即经过特征空间所得的降维变换向量即为矩阵 <span class="math inline">\(\boldsymbol{K}\)</span> 的特征向量。</p>
+<p>使用Kernel PCA进行图像压缩时所涉及的变换如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/kernel_pca.png" srcset="/img/loading.gif" lazyload class="" title="kernel_pca">
+<p>通常来说，核函数要求矩阵为正定矩阵。在本文中，我们实现了以下几种核函数：</p>
+<ul>
+<li><strong>线性核（Linear Kernel）</strong></li>
+</ul>
+<p><span class="math display">\[
+\boldsymbol{K}(\boldsymbol{x}, \boldsymbol{y}) = \boldsymbol{x}^T \boldsymbol{y}
+\]</span></p>
+<ul>
+<li><strong>多项式核（Polynomial Kernel）</strong></li>
+</ul>
+<p><span class="math display">\[
+\boldsymbol{K}(\boldsymbol{x}, \boldsymbol{y}) = \left( \boldsymbol{x}^T \boldsymbol{y} + c \right)^d
+\]</span></p>
+<ul>
+<li><strong>高斯核（Gaussian Kernel/Radial Basis Function Kernel）</strong></li>
+</ul>
+<p><span class="math display">\[
+\boldsymbol{K}(\boldsymbol{x}, \boldsymbol{y}) = \exp \left( - \frac{|| \boldsymbol{x} - \boldsymbol{y} ||^2}{2 \sigma^2} \right) = \exp \left( - \gamma || \boldsymbol{x} - \boldsymbol{y} ||^2 \right)
+\]</span></p>
+<ul>
+<li><strong>指数核（Exponential Kernel）</strong></li>
+</ul>
+<p><span class="math display">\[
+\boldsymbol{K}(\boldsymbol{x}, \boldsymbol{y}) = \exp \left( - \frac{|| \boldsymbol{x} - \boldsymbol{y} ||}{2 \sigma^2} \right) = \exp \left( - \gamma || \boldsymbol{x} - \boldsymbol{y} || \right)
+\]</span></p>
+<ul>
+<li><strong>ANOVA核</strong></li>
+</ul>
+<p><span class="math display">\[
+\boldsymbol{K}(\boldsymbol{x}, \boldsymbol{y}) = \exp \left( -\sigma \left( \boldsymbol{x}^k - \boldsymbol{y}^k \right)^2 \right)^d
+\]</span></p>
+<ul>
+<li><strong>Sigmoid核</strong></li>
+</ul>
+<p><span class="math display">\[
+\boldsymbol{K}(\boldsymbol{x}, \boldsymbol{y}) = \tanh \left( a \boldsymbol{x}^T \boldsymbol{y} + r \right)
+\]</span></p>
+<p>对于部分核函数，我们还需要给定合适的超参数以达到最好的特征提前效果。以高斯核为例，我们采用网格搜索的方式来选取合适的超参数 <span class="math inline">\(\gamma\)</span>。图像的重构误差随 <span class="math inline">\(\gamma\)</span> 的变化如下图所示：（左一）</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/rbf_param.png" srcset="/img/loading.gif" lazyload class="" title="rbf_param">
+<p>可以看到，随着 <span class="math inline">\(\gamma\)</span> 值的增大，图像的重构误差逐渐减少。然而这并不意味着 <span class="math inline">\(\gamma\)</span> 值越大越好，这是由于当 <span class="math inline">\(\gamma\)</span> 值过大时，模型会出现<strong>过拟合（overfitting）</strong>的问题。具体来说，当 <span class="math inline">\(\gamma\)</span> 值过大时，核函数 <span class="math display">\[
+\boldsymbol{K}(\boldsymbol{x}, \boldsymbol{y}) \approx
+\left\{
+\begin{aligned}
+&amp;e^0 = 1 &amp;,\boldsymbol{x} = \boldsymbol{y} \\
+&amp;e^{-\infty} = 0 &amp;,\boldsymbol{x} \neq \boldsymbol{y}
+\end{aligned}
+\right.
+\]</span> ，此时核矩阵退化为 <span class="math inline">\(\boldsymbol{I}_n\)</span>，也即单位变换。这就导致了降维空间成为原空间的一个子空间，自然就失去了特征提取的功能。</p>
+<p>若设核矩阵 <span class="math inline">\(\boldsymbol{K}\)</span> 的前 <span class="math inline">\(k\)</span> 个特征值为 <span class="math inline">\(\lambda_1, \cdots, \lambda_k\)</span>，我们定义其方差（该指标衡量了特征值的分散程度）为 <span class="math display">\[
+Var(\lambda_1, \cdots, \lambda_k) = \frac{1}{k} \sum_{i = 1}^k \left(\lambda_i - \bar{\lambda} \right)^2
+\]</span> ，则核矩阵方差及核矩阵行列式的值如图所示（上图左二、左三）。易见当 <span class="math inline">\(\gamma \gg 10^{-3}\)</span> 时，核矩阵的方差趋近于 <span class="math inline">\(0\)</span>，其行列式趋近于 <span class="math inline">\(1\)</span>，这也印证了上述的理论论述，表明模型确实出现了过拟合。</p>
+<p>可以看到，由于核函数基本都为非线性函数，其逆变换通常难以求得。因此使用核方法对数据集进行降维的一个很大的问题在于对数据集进行重构，这对于图像压缩问题来说是十分不友好的。</p>
+<p>若设 <span class="math inline">\(\mathcal{H}_K\)</span> 为核 <span class="math inline">\(\boldsymbol{K}(\boldsymbol{x}, \boldsymbol{y})\)</span> 所生成的再生希尔伯特核空间，其对应的特征变换 <span class="math inline">\(\phi(\boldsymbol{x}): \mathbb{R}^n \to \mathcal{H}_k\)</span>，则图像重构问题即为给定 <span class="math inline">\(\mathcal{H}_K\)</span> 中的一点 <span class="math inline">\(\boldsymbol{\Psi}\)</span>，求输入空间中的一点 <span class="math inline">\(\boldsymbol{z} \in \mathbb{R}^n\)</span>，使得 <span class="math display">\[
+\boldsymbol{z} = \mathop{\arg\min}_{\boldsymbol{z}} || \boldsymbol{\Psi} - \phi (\boldsymbol{z}) ||^2
+\]</span> 事实上自Kernel PCA被提出以来，已经有大量的研究提出了一系列对KPCA降维后数据进行重构的方法，这些方法大多都是基于近似拟合的方法。其中，基于<strong>梯度下降（Gradient Descent）</strong>的方法和基于<strong>回归（Regression）</strong>的方法是两大较为有代表性的求解方法。由于这一过程实现过于复杂，我们直接使用了Scikit-Learn工具包中提供的<strong>inverse_transform()</strong>函数来完成。</p>
+<p>使用Kernel PCA进行图像压缩的算法流程如下：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/kpca_alg.png" srcset="/img/loading.gif" lazyload class="" title="kpca_alg">
+<p>以高斯核为例，在选择了不同主成分个数时，使用Kernel PCA算法进行图像压缩的效果结果如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/kernel_pca_pic.png" srcset="/img/loading.gif" lazyload class="" title="kernel_pca_pic">
+<p>可以发现，与朴素PCA方法不同，当选择的主成分个数为10时图像的主要特征仍然没有得到恢复，而当 <span class="math inline">\(k=50\)</span> 时，图像的质量得到了极大的改善。这也表明经过变换后的数据集在核空间下的特征分离方式与原空间下是不同的。</p>
+<h3 id="jpeg">JPEG</h3>
+<p>上面使用的几种图像压缩算法均为即为基于PCA的方法。事实上，在日常场景下，人们更常使用基于信号处理和特殊编码的方法来对图像进行压缩。其中较为典型的代表即为基于离散余弦变换的<strong>JPEG（JFIF）算法</strong>。</p>
+<p>JPEG图像压缩算法的具体流程如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/jpeg_pipeline.png" srcset="/img/loading.gif" lazyload class="" title="jpeg_pipeline">
+<p>压缩算法主要分为如下几个步骤：</p>
+<ul>
+<li><p><span class="math inline">\(RGB \to YC_bC_r\)</span> <strong>空间转换</strong></p></li>
+<li><p><strong>下采样</strong></p></li>
+<li><p><strong>图像分割</strong></p></li>
+<li><p><strong>离散余弦变换</strong></p></li>
+<li><p><strong>数据量化</strong></p></li>
+<li><p><strong>Huffman编码</strong></p></li>
+</ul>
+<p>使用JPEG算法进行图像压缩的效果结果如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/jpeg_pic.png" srcset="/img/loading.gif" lazyload class="" title="jpeg_pic">
+<p>可以看到，尽管JPEG为有损压缩算法，重构后的图片与原图几乎看不到可见的差异，这也从一定程度上解释了该算法流行的原因。</p>
+<p>事实上，近年来的许多压缩方法还会将JPEG算法及其变体JPEG2000与PCA方法相结合，从而进一步提高压缩率及重构的准确率。例如在高光谱成像领域，由于原始图像通常还会附带许多频谱信息，将这两种方法相结合可以极大的压缩存储图像所需的空间，从而减少数据传输的开销。</p>
+<h2 id="实验结果">实验结果</h2>
+<p>前文中我们提及了一系列图像压缩的方法，现在我们从<strong>压缩率</strong>、<strong>重构质量</strong>和压缩耗时三个维度来对上述提及的所有方法进行分析和比较。</p>
+<p>图像的压缩率被定义为 <span class="math display">\[
+\eta = 1 - \frac{\textrm{Size}(\tilde{\boldsymbol{X}}) + \textrm{Size}(\boldsymbol{Q})}{\textrm{Size}(\boldsymbol{X})}
+\]</span> ，其中 <span class="math inline">\(\textrm{Size}(\boldsymbol{A})\)</span> 为 <span class="math inline">\(\boldsymbol{A}\)</span> 的空间度量，<span class="math inline">\(\boldsymbol{X}\)</span> 为原始图像，<span class="math inline">\(\tilde{\boldsymbol{X}}\)</span> 为重构图像，<span class="math inline">\(\boldsymbol{Q}\)</span> 为重构变换矩阵。</p>
+<p>以 <span class="math inline">\(k = 50\)</span> 为例，本文中实现的不同算法的压缩率如下表所示：</p>
+<table>
+<thead>
+<tr class="header">
+<th>压缩算法</th>
+<th>单张图片压缩率</th>
+<th>100张图片压缩率</th>
+<th>300张图片压缩率</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PCA</td>
+<td><span class="math inline">\(60.94\%\)</span></td>
+<td><span class="math inline">\(60.94\%\)</span></td>
+<td><span class="math inline">\(60.94\%\)</span></td>
+</tr>
+<tr class="even">
+<td>2DPCA</td>
+<td><span class="math inline">\(60.94\%\)</span></td>
+<td><span class="math inline">\(80.27\%\)</span></td>
+<td><span class="math inline">\(80.40\%\)</span></td>
+</tr>
+<tr class="odd">
+<td>2D-2DPCA</td>
+<td><span class="math inline">\(41.41\%\)</span></td>
+<td><span class="math inline">\(80.08\%\)</span></td>
+<td><span class="math inline">\(80.34\%\)</span></td>
+</tr>
+<tr class="even">
+<td>Kernel PCA</td>
+<td><span class="math inline">\(60.94\%\)</span></td>
+<td><span class="math inline">\(60.94\%\)</span></td>
+<td><span class="math inline">\(60.94\%\)</span></td>
+</tr>
+<tr class="odd">
+<td>JPEG</td>
+<td><span class="math inline">\(84.54\%\)</span></td>
+<td><span class="math inline">\(86.09\%\)</span></td>
+<td><span class="math inline">\(87.22\%\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>可以发现，朴素PCA和Kernel PCA对单张图片计算主成分，因此其在单张图片和多张图片上的压缩率相同；而2DPCA和2D-2DPCA由于对整个数据集计算特征，因此随着数据集的增长，总体的图像压缩率逐渐增长。JPEG在所有算法中拥有最高的压缩率。</p>
+<p>对于重构质量，我们使用<strong>均方误差（Mean Square Error）</strong>和<strong>峰值信噪比（Peak Signal-to-Noise Ratio）</strong>来进行评估。其中，原始图像 <span class="math inline">\(\boldsymbol{X}\)</span> 和重构图像 <span class="math inline">\(\tilde{\boldsymbol{X}}\)</span> 间的均方误差被定义为 <span class="math display">\[
+\textrm{MSE}(\boldsymbol{X}, \tilde{\boldsymbol{X}}) = \frac{1}{N^2} \sum_{i = 1}^N \sum_{j = 1}^N (x_{ij} - \tilde{x}_{ij})^2
+\]</span> 其之间的峰值信噪比被定义为 <span class="math display">\[
+\textrm{PSNR}(\boldsymbol{X}, \tilde{\boldsymbol{X}}) = 10 \cdot \log_{10} \left( \frac{\textrm{MAX}_{\boldsymbol{X}}^2}{\textrm{MSE}(\boldsymbol{X}, \tilde{\boldsymbol{X}})}\right)
+\]</span> ，其中 <span class="math inline">\(\textrm{MAX}_{\boldsymbol{X}}\)</span> 为矩阵 <span class="math inline">\(\boldsymbol{X}\)</span> 每个元素可能的最大值（对于一张 <span class="math inline">\(8\)</span> 位图像即为 <span class="math inline">\(255\)</span>）。</p>
+<p>当 <span class="math inline">\(k\)</span> 为 <span class="math inline">\(50\)</span> 时，使用不同算法进行压缩重构后得到的MSE和PSNR值由下表给出：</p>
+<table>
+<thead>
+<tr class="header">
+<th>压缩算法</th>
+<th>MSE</th>
+<th>PSNR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PCA</td>
+<td><span class="math inline">\(47.8774\)</span></td>
+<td><span class="math inline">\(31.3295\)</span></td>
+</tr>
+<tr class="even">
+<td>2DPCA</td>
+<td><span class="math inline">\(76.1444\)</span></td>
+<td><span class="math inline">\(29.3144\)</span></td>
+</tr>
+<tr class="odd">
+<td>2D-2DPCA</td>
+<td><span class="math inline">\(90.1605\)</span></td>
+<td><span class="math inline">\(28.5806\)</span></td>
+</tr>
+<tr class="even">
+<td>Kernel PCA</td>
+<td><span class="math inline">\(11.1868\)</span></td>
+<td><span class="math inline">\(37.6437\)</span></td>
+</tr>
+<tr class="odd">
+<td>JPEG</td>
+<td><span class="math inline">\(53.2189\)</span></td>
+<td><span class="math inline">\(30.8701\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>更进一步的，当主成分选择数 <span class="math inline">\(k\)</span> 从 <span class="math inline">\(1\)</span> 上升到 <span class="math inline">\(200\)</span> 的过程中，不同算法的重构质量如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/reconstruct_quality.png" srcset="/img/loading.gif" lazyload class="" title="reconstruct_quality">
+<p>可以看到，在所有实现的方法中，Kernel PCA在两项指标中均获得了最好的结果。然而，由于其重构变换使用了近似的方法，这一过程并不稳定，因此其误差曲线出现了一定程度的波动。相比较而言，一般的PCA方法两项评价指标随主成分选择数增加的变化十分稳定。</p>
+<p>最后我们来考察不同压缩算法的压缩耗时。压缩耗时的计算公式被定义为 <span class="math display">\[
+\mathcal{T} = \mathcal{T}_{Compress} + \mathcal{T}_{Reconstruct}
+\]</span> 其中 <span class="math inline">\(\mathcal{T}_{Compress}\)</span> 为编码耗时，<span class="math inline">\(\mathcal{T}_{Reconstruct}\)</span> 重构耗时。</p>
+<p>不同算法随着待压缩的图片总量从单张到 <span class="math inline">\(100\)</span> 张所用的时间如下图所示：</p>
+<img src="/2021/11/29/machine-learning/dase-alg-exp-pca/time.png" srcset="/img/loading.gif" lazyload class="" title="time">
+<p>可以发现，基于特征分解的朴素PCA算法随着数据集的增长进行压缩所用的时间迅速的增大，这是由于其计算协方差矩阵的特征值和特征向量的巨额时间开销。基于奇异值分解的PCA算法由于使用了更为高效的Householder变换算法，其耗时相比特征值分解得到了显著的下降。在我们的实现中，Kernel PCA同样使用了SVD方法进行优化，但其时间开销仍然十分巨大，表明其主要耗时在图像重构上。2DPCA和2D-2DPCA由于对整个数据集进行统一变换，因此在多张图像数据集上拥有极高的压缩效率。</p>
+<h2 id="结论">结论</h2>
+<p>在本实验中，我们完整推导并实现了<strong>基于特征值分解的 PCA 算法</strong>、基于奇异值分解的 PCA 算法、<strong>基于 GHA 的 PCA 算法</strong>、<strong>2DPCA 算法</strong>、<strong>2D-2DPCA 算法</strong>、<strong>Kernel PCA 算法</strong>及 <strong>JPEG 算法</strong>，并将它们应用于图像压缩任务中。经过比较我们可以发现，在不同的度量标准下， 不同的算法均有着相应的优势和劣势。一般的 PCA 算法具有较好的稳定性和可解释性，2DPCA 和 2D-2DPCA 算法拥有较高的压缩效率，Kernel PCA 算法拥有较高的重构精度。这也表明这些 方法没有严格的好坏之分，在不同任务下需要根据实际情况选择合适的方法。</p>
+<h2 id="参考文献">参考文献</h2>
+<ol type="1">
+<li>Daniel Báscones, Carlos González, and Daniel Mozos. Hyperspectral image compression using vector quantization, pca and jpeg2000. Remote sensing, 10(6):907, 2018.</li>
+<li>Liang-Hwa Chen and Shyang Chang. An adaptive learning algorithm for principal component analysis. IEEE Transactions on Neural Networks, 6(5):1255–1263, 1995.</li>
+<li>COMP-652 and ECSE-608. Dimensionality reduction. pca. kernel pca. https://www.cs.mcgill.ca/~dprecup/courses/ML/Lectures/ml-lecture13.pdf, 2016.</li>
+<li>Alberto García-González, Antonio Huerta, Sergio Zlotnik, and Pedro Díez. A kernel principal component analysis (kpca) digest with a new backward mapping (pre-image reconstruction) strategy, 2021.</li>
+<li>Matt Gormley. Deriving principal component analysis (pca). https://www.cs.cmu. edu/~mgormley/courses/606-607-f18/slides606/lecture11-pca.pdf, October 2018.</li>
+<li>R.B. Lehoucq. The computation of elementary unitary matrices. Technical report, University of Tennessee, 1994.</li>
+<li>Graphics Mill. Working with jpeg. https://www.graphicsmill.com/docs/gm/ working-with-jpeg.htm.</li>
+<li>Sebastian Mika, Bernhard Schölkopf, Alex Smola, Klaus-Robert Müller, Matthias Scholz, and Gunnar Rätsch. Kernel pca and de-noising in feature spaces. In M. Kearns, S. Solla, and D. Cohn, editors, Advances in Neural Information Processing Systems, volume 11. MIT Press, 1999.</li>
+<li>Erkki Oja. Simplified neuron model as a principal component analyzer. Journal of mathematical biology, 15(3):267–273, 1982.</li>
+<li>Terence D. Sanger. Optimal unsupervised learning in a single-layer linear feedforward neural network, 1989.</li>
+<li>Bernhard Schölkopf, Alexander Smola, and Klaus-Robert Müller. Nonlinear component analysis as a kernel eigenvalue problem. Neural Computation, 10(5):1299–1319, 1998.</li>
+<li>Wikipedia contributors. Jpeg — Wikipedia, the free encyclopedia. https://en.wikipedia.org/w/index.php?title=JPEG&amp;oldid=1056557277, 2021. [Online; accessed 23-November-2021].</li>
+<li>Wikipedia contributors. Singular value decomposition — Wikipedia, the free encyclopedia. https://en.wikipedia.org/w/index.php?title=Singular_value_decomposition&amp;oldid=1055826758, 2021. [Online; accessed 24-November-2021].</li>
+<li>Chih-Wen Wang and Jyh-Horng Jeng. Image compression using pca with clustering. In 2012 International Symposium on Intelligent Signal Processing and Communications Systems, pages 458–462, 2012.</li>
+<li>Frank Wood. http://www.stat.columbia.edu/~fwood/Teaching/w4315/Fall2009/pca.pdf, December 2009.</li>
+<li>Jason Weston, Bernhard Schölkopf, and Gökhan Bakir. Learning to find pre-images. In S. Thrun, L. Saul, and B. Schölkopf, editors, Advances in Neural Information Processing Systems, volume 16. MIT Press, 2004.</li>
+<li>Jian Yang, D. Zhang, A.F. Frangi, and Jing yu Yang. Two-dimensional pca: a new approach to appearance-based face representation and recognition. IEEE Transactions on Pattern Analysis and Machine Intelligence, 26(1):131–137, 2004.</li>
+<li>Daoqiang Zhang and Zhi-Hua Zhou. (2d)2pca: Two-directional two-dimensional pca for eﬀicient face representation and recognition. Neurocomputing, 69(1):224–231, 2005. Neural Networks in Signal Processing.</li>
+<li>周志华. 机器学习. 清华大学出版社, 2016.</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">数据科学算法基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer-Science</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Machine-Learning/">Machine-Learning</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/24/machine-learning/dase-alg-exp-summary/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数据科学与工程算法基础 文本摘要实验</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/08/database/db-assignment-1/">
+                        <span class="hidden-mobile">寻宝游戏(MongoDB)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,516 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="GONGGONGJOHN">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="摘要 文本摘要是自然语言处理中一个十分重要的任务，一个好的摘要可以通过少量的文字很好地概括一段长文的核心内容，帮助读者快速理解文章的意思。当前，对于文本摘要任务，其方法大致可分为抽取式（Extractive）和生成式（Generative）两种，而其中前者由于拥有语句级的语法完整性，已经被广泛的应用于各种应用场景下。在抽取式文本摘要中，一种经典的方法是将其转化为最大集合覆盖问题，并采用子模函数（S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据科学与工程算法基础 文本摘要实验">
+<meta property="og:url" content="http://gonggongjohn.me/2021/12/24/machine-learning/dase-alg-exp-summary/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="摘要 文本摘要是自然语言处理中一个十分重要的任务，一个好的摘要可以通过少量的文字很好地概括一段长文的核心内容，帮助读者快速理解文章的意思。当前，对于文本摘要任务，其方法大致可分为抽取式（Extractive）和生成式（Generative）两种，而其中前者由于拥有语句级的语法完整性，已经被广泛的应用于各种应用场景下。在抽取式文本摘要中，一种经典的方法是将其转化为最大集合覆盖问题，并采用子模函数（S">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-24T03:00:00.000Z">
+<meta property="article:modified_time" content="2022-02-12T10:12:01.749Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="Machine-Learning">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>数据科学与工程算法基础 文本摘要实验 - GONGGONGJOHN&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GONGGONGJOHN&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="数据科学与工程算法基础 文本摘要实验">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-24 11:00" pubdate>
+        2021年12月24日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      32 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">数据科学与工程算法基础 文本摘要实验</h1>
+            
+            <div class="markdown-body">
+              <h2 id="摘要">摘要</h2>
+<p>文本摘要是自然语言处理中一个十分重要的任务，一个好的摘要可以通过少量的文字很好地概括一段长文的核心内容，帮助读者快速理解文章的意思。当前，对于文本摘要任务，其方法大致可分为抽取式（Extractive）和生成式（Generative）两种，而其中前者由于拥有语句级的语法完整性，已经被广泛的应用于各种应用场景下。在抽取式文本摘要中，一种经典的方法是将其转化为最大集合覆盖问题，并采用子模函数（Submodular Function）的方法进行求解。本文详细推导并实现了基于爬山算法的文本抽取方法，讨论了一系列优化及其变体算法，并用其对同一主题下的20段论文语料进行了抽取式文本摘要。随后，我们还将其与另一种经典的抽取式文本摘要方法TextRank进行了对比，比较了两者的适用场景和异同。</p>
+<p><strong>关键字：文本摘要，集合覆盖，子模函数，爬山算法，TextRank</strong></p>
+<p>Text summarization is an important task in natural language processing. A good summary can summarize the crucial content of a long article with a small amount of text and help readers quickly understand the meaning of the article. Currently, the methods for text summarization task can be roughly divided into two types: Extractive and Generative. The former has been widely used in various application scenarios due to its sentence-level grammatical integrity. A classic method in extractive text summarization is to convert it into a maximum coverage problem and use the submodular function method to solve it. In this paper, we derived and implemented the extractive text summarization method based on hill climbing algorithm in detail, discussed a series of optimization and its variant algorithms, and used it to extract text summaries from a corpus of 20 papers under the same topic. Moreover, we compared it with another classic extractive text summarization method —— TextRank, and compared the application scenarios and similarities and differences of the two.</p>
+<p><strong>Keywords: Text summarization, Set coverage, Submodular function, Hill-climbing algorithm, TextRank</strong></p>
+<h2 id="项目概述">项目概述</h2>
+<p>自动文本摘要是自然语言中一个十分重要的任务。这项任务要求我们从一个给定的文本语料（通常拥有较大的文本长度）中生成一段短文本，并使得其能够最大程度上表达原文本的含义。现阶段的文本摘要方法主要分为抽取式和生成式两类。其中，固定长度的抽取式文本摘要可以看作是一个<strong>最大K-子覆盖（Maximum K-Coverage Problem）</strong>，因此我们可以使用组合优化的方法来对其进行求解。本项目要求我们实现一种基于最大K-子覆盖问题的抽取式文本摘要算法，通过其一个从互联网上爬取的语料库中抽取100句话作为其文本摘要，并对摘要的性能进行分析。</p>
+<h2 id="问题描述">问题描述</h2>
+<p>使用最大集合子覆盖问题的语言对抽取式文本摘要问题的描述如下：</p>
+<p>给定一个语料库 <span class="math inline">\(D = \{s_1, s_2, \cdots, s_n \}\)</span>，其中 <span class="math inline">\(s_i(i \in \{1,2,\cdots, n\})\)</span> 为单个句子，我们设其概念单元为 <span class="math inline">\(C = \{c_1, c_2, \cdots, c_m\}\)</span>，其中 <span class="math inline">\(c_i (i \in \{1,2,\cdots, m\}\)</span> 为关键词。抽取式文本摘要的目标是寻找一个子集 <span class="math inline">\(S \subset D\)</span>（其中 <span class="math inline">\(|S| \leq K\)</span>），使其能够覆盖的概念单元 <span class="math inline">\(|C&#39;|(C&#39; \subset C)\)</span> 尽可能的多。若使用优化的语言，则该问题可以写为 <span class="math display">\[
+\begin{aligned}
+&amp;\textbf{maximize} &amp;|C&#39;| \\
+&amp;\textbf{s.t} &amp;|S| \leq K
+\end{aligned}
+\]</span> 事实上，我们可以通过<strong>指示器变量（Indicator Variable）</strong>更具体的刻画这一问题。若设 <span class="math inline">\(x_i(i \in \{1, \cdots, n\})\)</span> 为语句选择的指示器变量，<span class="math inline">\(a_{ij}(j \in \{1, \cdots, m\})\)</span> 为关键词选择的指示器变量，也即 <span class="math display">\[
+\begin{aligned}
+&amp;x_i = \left\{
+\begin{aligned}
+1, s_i \in S \\
+0, s_i \notin S
+\end{aligned}
+\right.
+, \quad
+&amp;a_{ij} = \left\{
+\begin{aligned}
+1, c_j \in s_i \\
+0, c_j \notin s_i
+\end{aligned}
+\right.
+\end{aligned}
+\]</span> 则原问题还可以写为 <span class="math display">\[
+\begin{aligned}
+&amp;\textbf{maximize} &amp;\left|\left\{j \Big| \sum_{i = 1}^n a_{ij} x_i \geq 1\right\}\right| \\
+&amp;\textbf{s.t} &amp; \sum_{i = 1}^n x_i \leq K, x_i \in \{0, 1\}
+\end{aligned}
+\]</span></p>
+<p>可以看出，这是一个<strong>带有背包限制的最大集合子覆盖问题（MCKP，Maximum Coverage Problem with Knapsack Constraint）</strong>。</p>
+<h2 id="数据集描述">数据集描述</h2>
+<p>为了比较文本摘要算法的性能和效果，我们需要一个相应的语料库。在本文中，我们使用了同一主题下的论文文本作为语料库，论文摘要作为单文档文本摘要的关键词集合，并将一篇同主题下的综述性论文作为多文档文本摘要的关键词集合。具体的，我们爬取了预印本网站<strong>Arxiv</strong>中<strong>计算机视觉和模式识别（Computer Vision and Pattern Recognition, cs.CV）</strong>主题下的20篇有关<strong>目标检测（Object Detection）</strong>的论文，并将其作为目标语料库。此外，我们使用了发表于期刊<strong>Computer Science Review</strong>上的一篇关于目标检测的综述性论文作为多文档文本摘要的目标关键词集。</p>
+<h2 id="方法">方法</h2>
+<h3 id="朴素枚举法">朴素枚举法</h3>
+<h3 id="贪心算法爬山算法">贪心算法（爬山算法）</h3>
+<h3 id="带权的贪心算法">带权的贪心算法</h3>
+<h3 id="stack-encoding">Stack Encoding</h3>
+<h3 id="textrank">TextRank</h3>
+<h2 id="实验结果">实验结果</h2>
+<p>最后，我们从摘要质量和摘要推理时间两个方面来对上面的方法进行分析。</p>
+<p>对于摘要质量，我们自然的可以想到使用关键词覆盖率作为其评价指标。沿用上面的记号，若我们将抽取出的概括文本 <span class="math inline">\(S\)</span> 看作词项的集合，则覆盖率被定义为 <span class="math display">\[
+Coverage = S \cap C
+\]</span> 。对于文本摘要任务，一个常用的评价指标被称为<strong>ROUGE-N（Recall-Oriented Understudy for Gisting Evaluation-N）</strong>，其定义为 <span class="math display">\[
+ROUGE-N = \frac{|N-Gram_{Extracted} \cap N-Gram_{Reference}|}{|N-Gram_{Reference}|}
+\]</span> ，也即抽取的摘要中匹配的N-Gram数除以标准摘要中的N-Gram总数。从定义中我们可以发现，ROUGE-N通常需要一个参考的摘要文本才能计算，而这里我们并没有这样的文本。不过，由于我们有目标关键字，而这可以视作一种1-Gram，因此我们仍然可以计算ROUGE-1的值。</p>
+<h2 id="结论">结论</h2>
+<p>在本实验中，我们首先从集合覆盖的角度分析了抽取式文本摘要问题，并将其转化了为了一个MCKP问题。由于该问题是一个NP-Hard问题，我们无法在可接受的时间内用朴素搜索算法求解出精确解。随后，我们实现了基于贪心算法的最大子覆盖算法，并用其实现了抽取式文本摘要。进一步的，我们对贪心算法实现了一系列的改进，包括考虑文本的权重，以及使用队列的方式进行聚合搜索。最后，我们实现了经典的TextRank算法，并将其与前面的算法进行了比较。</p>
+<p>我们可以很容易的发现，基于最大子覆盖的文本摘要算法能够更好的贴合目标关键字，但其语义连贯性明显不如TextRank算法。这就意味着当我们有一个好的关键词集合或面对多文档摘要场景时，我们可以使用基于最大子覆盖问题的文本摘要算法。而在实际应用场景或单文本的摘要场景下，我们更倾向于使用TextRank等基于语义的文本摘要算法。</p>
+<p>通过本实验，我们对抽取式文本摘要任务和子模函数、最大K-子覆盖问题有了更深入的了解。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">数据科学算法基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer-Science</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Machine-Learning/">Machine-Learning</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/29/machine-learning/dase-alg-exp-pca/">
+                        <span class="hidden-mobile">数据科学与工程算法基础 PCA实验</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
