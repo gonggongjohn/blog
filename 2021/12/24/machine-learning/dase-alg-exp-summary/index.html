@@ -23,12 +23,17 @@
 <meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
 <meta property="og:description" content="摘要 文本摘要是自然语言处理中一个十分重要的任务，一个好的摘要可以通过少量的文字很好地概括一段长文的核心内容，帮助读者快速理解文章的意思。当前，对于文本摘要任务，其方法大致可分为抽取式（Extractive）和生成式（Generative）两种，而其中前者由于拥有语句级的语法完整性，已经被广泛的应用于各种应用场景下。在抽取式文本摘要中，一种经典的方法是将其转化为最大集合覆盖问题，并采用子模函数（S">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://gonggongjohn.me/2021/12/24/machine-learning/dase-alg-exp-summary/overview_html_aspect.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/12/24/machine-learning/dase-alg-exp-summary/scrap_selected.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/12/24/machine-learning/dase-alg-exp-summary/pdfminer_success.png">
+<meta property="og:image" content="http://gonggongjohn.me/2021/12/24/machine-learning/dase-alg-exp-summary/pdfminer_fail.png">
 <meta property="article:published_time" content="2021-12-24T03:00:00.000Z">
-<meta property="article:modified_time" content="2022-02-12T10:12:01.749Z">
+<meta property="article:modified_time" content="2022-02-16T10:29:57.182Z">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta property="article:tag" content="Computer-Science">
 <meta property="article:tag" content="Machine-Learning">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://gonggongjohn.me/2021/12/24/machine-learning/dase-alg-exp-summary/overview_html_aspect.png">
   
   
   <title>数据科学与工程算法基础 文本摘要实验 - GONGGONGJOHN&#39;s Blog</title>
@@ -199,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.8k 字
+      5.2k 字
     </span>
   
 
@@ -208,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      32 分钟
+      44 分钟
     </span>
   
 
@@ -279,6 +284,25 @@
 <p>可以看出，这是一个<strong>带有背包限制的最大集合子覆盖问题（MCKP，Maximum Coverage Problem with Knapsack Constraint）</strong>。</p>
 <h2 id="数据集描述">数据集描述</h2>
 <p>为了比较文本摘要算法的性能和效果，我们需要一个相应的语料库。在本文中，我们使用了同一主题下的论文文本作为语料库，论文摘要作为单文档文本摘要的关键词集合，并将一篇同主题下的综述性论文作为多文档文本摘要的关键词集合。具体的，我们爬取了预印本网站<strong>Arxiv</strong>中<strong>计算机视觉和模式识别（Computer Vision and Pattern Recognition, cs.CV）</strong>主题下的20篇有关<strong>目标检测（Object Detection）</strong>的论文，并将其作为目标语料库。此外，我们使用了发表于期刊<strong>Computer Science Review</strong>上的一篇关于目标检测的综述性论文作为多文档文本摘要的目标关键词集。</p>
+<h3 id="数据集获取">数据集获取</h3>
+<p>我们首先来对论文数据进行爬取。论文爬取的过程分为两步，第一步我们搜索所有满足条件的候选论文的相关信息（标题、类别、论文编号等），第二步我们下载论文的实际数据（PDF源码等资源）。</p>
+<p>Arxiv提供了一个可以按主题查看最近一周论文的网页界面（https://arxiv.org/list/cs.CV/pastweek），因此我们首先对该网页进行分析。论文列表网页的HTML元素布局如下图所示：</p>
+<img src="/2021/12/24/machine-learning/dase-alg-exp-summary/overview_html_aspect.png" srcset="/img/loading.gif" lazyload class="" title="overview_html_aspect">
+<p>可以看到，对于一个论文信息显示块，其论文编号、论文标题、作者、主题分类被分别放置在标记为<strong>Abstract</strong>、<strong>list-title mathjax</strong>、<strong>list-authors</strong>和<strong>list-subjects</strong>的HTML元素块里。</p>
+<p>我们使用Python自带的<strong>requests</strong>模块对网站发起请求，拉取其页面的HTML字符串，并使用社区开发者提供的<strong>BeautifulSoup</strong>模块对HTML的DOM结构进行解析，取出上述的元素。随后，我们将标题中带有“Object”和“Detection”两个关键词（不区分大小写）的论文取出，作为我们候选语料库文档。筛选的部分结果如下图所示：</p>
+<img src="/2021/12/24/machine-learning/dase-alg-exp-summary/scrap_selected.png" srcset="/img/loading.gif" lazyload class="" title="scrap_selected">
+<p>得到了论文编号后，我们就可以对论文的各种元数据（MetaData）进行获取。我们可以通过解析https://arxiv.org/abs/{arXiv_ID}获得论文的摘要，通过{https://arxiv.org/pdf/{arXiv_ID}下载其PDF文档，通过https://arxiv.org/e-print/{arXiv_ID}下载其原始资源，在此不再赘述。</p>
+<p>事实上，Arxiv本身提供了一个可供程序访问的论文资源获取的API（实现完才发现QAQ）。我们只需要使用<strong>布尔查询表达式（Boolean Query Expression）</strong>即可获得相应的论文结果。社区开发者对其接口请求和数据格式进行了封装，因此在Python我们只需直接引入arxiv包即可发起查询并获得论文的<strong>标题</strong>、<strong>摘要</strong>、<strong>PDF文档</strong>及<strong>原始文档（Latex文本及图片等源文件）</strong>等资源。</p>
+<p>同样的，我们使用该API实现了自动爬取论文源数据的相关代码，并获得了最终的语料库。</p>
+<h3 id="文本预处理">文本预处理</h3>
+<h4 id="文本提取">文本提取</h4>
+<p>得到了原始的论文文档后，我们需要对文档集进行整理和清洗，抽取出语料库，并对文本进行预处理。</p>
+<p>我们首先尝试使用<strong>Pdfminer</strong>模块直接对论文的PDF文档进行分析，通过关键字的方式对文本进行抽取，结果如下图所示：</p>
+<img src="/2021/12/24/machine-learning/dase-alg-exp-summary/pdfminer_success.png" srcset="/img/loading.gif" lazyload class="" title="pdfminer_success">
+<img src="/2021/12/24/machine-learning/dase-alg-exp-summary/pdfminer_fail.png" srcset="/img/loading.gif" lazyload class="" title="pdfminer_fail">
+<p>。可以看到，由于PDF是以矢量图的方式对元素进行排布，其排布并不完全按照视觉上的排布顺序，因此该方法并不能准确的抽取出文档中的相应文本。</p>
+<p>事实上，我们可以通过对PDF文档进行<strong>版面分析（Layout Analysis）</strong>的方式提取论文的原始文本，但这一做法就导致不确定因素更多，使问题变得更为复杂，因此我们不做考虑。</p>
+<p>幸运的是，Arxiv提供了论文源文件的下载地址，这也就意味着我们可以直接获取到论文的Latex源代码。因此，我们只需要直接从Latex文档中对纯文本进行抽取即可。Latex是一种标准化的排版工具，我们可以通过声明式的代码语言在一个Latex文档中插入各种元素。由于我们只需要对其中的纯文本进行分析，因此这些元素在当前的任务下是多余的。这时，我们就需要使用正则表达式对其进行替换。例如，对于<strong>\cite{}</strong>，我们就可以使用正则表达式 <span class="math inline">\(cite\)</span><span class="math inline">\(\{(.*?)\)</span>$}将其匹配出来（Figure ）。</p>
 <h2 id="方法">方法</h2>
 <h3 id="朴素枚举法">朴素枚举法</h3>
 <h3 id="贪心算法爬山算法">贪心算法（爬山算法）</h3>

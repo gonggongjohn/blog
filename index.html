@@ -525,55 +525,6 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/06/08/os/os-exp-memory/" target="_self">
-          操作系统实验 内存管理
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/06/08/os/os-exp-memory/" target="_self">
-          
-          目的 修改Minix3.1.2a的内存分配机制，使得当调用brk系统调用时，系统重新给进程分配一块更大的空间并将数据复制至新空间中。 内容与设计思想  将Minix系统中的内存分配机制由First-Fit修改为Best-Fit。 修改brk系统调用行为，使得当被调用时系统重新开辟空间并分配给进程。  实验过程 Minix3.1.2a的内存管理策略 在较早的Minix3版本中，内存管理机制是十分固定
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-06-08 11:54" pubdate>
-              2021-06-08
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Computer-Science/">Computer-Science</a>
-            
-              <a href="/tags/Operating-System/">Operating-System</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
         <a href="/2021/06/02/dase-math/dase-math-assignment-4/" target="_self">
           数据科学与工程数学基础 作业4
         </a>
@@ -623,15 +574,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/06/01/os/os-exp-io/" target="_self">
-          操作系统实验 I/O子系统
+        <a href="/2021/04/21/math-prob-stat/prob-drv/" target="_self">
+          离散型随机变量整理
         </a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/06/01/os/os-exp-io/" target="_self">
+        <a href="/2021/04/21/math-prob-stat/prob-drv/" target="_self">
           
-          目的 在Minix3中创建一块可用的RAM盘，并比较其与DISK盘在各类存取方式下的速度。 内容与设计思想  在Minix3中安装一块 X MB大小的RAM盘（Minix中已有6块用户可用RAM盘，7块系统保留RAM盘），可以挂载并且存取文件操作。 测试RAM盘和DISK盘的文件读写速度，分析其读写速度差异原因。  实验过程 Minix3的存储管理策略 与其整体系统构架类似，Minix3的I/O构
+          二项分布 定义  Definition: 若一个离散型随机变量 \(X\) 的分布列满足 \[ P(X=k) = \binom{n}{k} p^k (1-p)^{1-k} \] 其中 \(n \in \mathbb{N}^+, k \in \{0,1,2,...,n\}, p \in [0,1]\)，则称随机变量 \(X\) 满足二项分布，记为 \(X \sim B(n, p)\)
         </a>
       </p>
 
@@ -639,8 +590,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-06-01 11:54" pubdate>
-              2021-06-01
+            <time datetime="2021-04-21 17:56" pubdate>
+              2021-04-21
             </time>
           </div>
         
@@ -648,7 +599,7 @@
           <div class="post-meta mr-3">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+              <a href="/categories/%E6%A6%82%E7%8E%87%E8%AE%BA/">概率论</a>
             
           </div>
         
@@ -656,9 +607,53 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
+              <a href="/tags/Mathematics/">Mathematics</a>
+            
+              <a href="/tags/Probability/">Probability</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/18/web/search-site/" target="_self">
+          新闻搜索网站构建记录
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/18/web/search-site/" target="_self">
+          
+          服务部署 请按照如下流程部署本项目：  在news_search目录下安装所需的依赖插件：（国内请使用淘宝源安装nodejieba）  12&gt; npm install request iconv-lite cheerio mysql jschardet moment&gt; npm install nodejieba --registry=https://registry.npm.taoba
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-18 18:26" pubdate>
+              2021-04-18
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
               <a href="/tags/Computer-Science/">Computer-Science</a>
             
-              <a href="/tags/Operating-System/">Operating-System</a>
+              <a href="/tags/Web/">Web</a>
+            
+              <a href="/tags/Frontend/">Frontend</a>
             
           </div>
         
