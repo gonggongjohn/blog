@@ -16,21 +16,40 @@
   <meta name="author" content="GONGGONGJOHN">
   <meta name="keywords" content="">
   
-    <meta name="description" content="A sophomore student major in Data Science.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="GONGGONGJOHN&#39;s Blog">
-<meta property="og:url" content="http://gonggongjohn.me/page/5/index.html">
+    <meta name="description" content="This page is temporarily forbidden for the course regulation.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统实验 I&#x2F;O子系统">
+<meta property="og:url" content="http://gonggongjohn.me/2021/06/01/os/os-exp-io/index.html">
 <meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
-<meta property="og:description" content="A sophomore student major in Data Science.">
+<meta property="og:description" content="This page is temporarily forbidden for the course regulation.">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-01T03:54:46.000Z">
+<meta property="article:modified_time" content="2022-03-06T14:55:24.143Z">
 <meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="Operating-System">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>GONGGONGJOHN&#39;s Blog</title>
+  <title>操作系统实验 I/O子系统 - GONGGONGJOHN&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -58,7 +77,7 @@
 
 
 <body>
-  <header style="height: 100vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -159,17 +178,47 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Be curious forever.">
+            <span class="h2" id="subtitle" title="操作系统实验 I/O子系统">
               
             </span>
 
             
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-06-01 11:54" pubdate>
+        2021年6月1日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      53 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      1 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
           </div>
 
-          
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
           
         </div>
       </div>
@@ -178,269 +227,97 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">操作系统实验 I/O子系统</h1>
+            
+            <div class="markdown-body">
+              <h2 id="this-page-is-temporarily-forbidden-for-the-course-regulation.">This page is temporarily forbidden for the course regulation.</h2>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/09/19/computer-system/gdb-guide/" target="_self">
-          GDB使用指南
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/09/19/computer-system/gdb-guide/" target="_self">
-          
-          GDB使用指南 GDB（GNU Project Debugger）是一款UNIX及类UNIX环境下的C/C++调试工具。 GDB官网：GDB: The GNU Project Debugger
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-09-19 12:24" pubdate>
-              2020-09-19
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Computer-Science/">Computer-Science</a>
-            
-              <a href="/tags/Language/">Language</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/09/18/algorithm/course-exp/algorithm-exp1/" target="_self">
-          插入排序、归并排序及冒泡排序
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/09/18/algorithm/course-exp/algorithm-exp1/" target="_self">
-          
-          内容与设计思想  设计一个数据生成器，输入参数包括 \[N, s, t, T\]；可随机生成一个大小为\[N\]、数值范围在 \[[s, t]\] 之间、类型为 \[T\] 的数据集合；\[T\] 包括三种类型（顺序递增、顺序递减、随机取值） 编程实现Merge sort算法和Insertion sort算法。 对于顺序递增类型的数据集合而言，在不同数据规模情况下（数据规模为\[10^2, 10^
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-09-18 11:45" pubdate>
-              2020-09-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Computer-Science/">Computer-Science</a>
-            
-              <a href="/tags/Algorithm/">Algorithm</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/08/26/math-analysis/real-number/" target="_self">
-          实数的严格定义
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/08/26/math-analysis/real-number/" target="_self">
-          
-          对于整数和有理数，我们可以很轻松的从直观上理解并将他们表示出来。对于整数 \(1,2,3,4,...\)，我们只需要通过写出各数位上的数字便可将他们精确的表出；对于有理数，我们也只需要写出构成分母和分子的两个整数便可以精确表示。
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-08-26 19:03" pubdate>
-              2020-08-26
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E5%88%86%E6%9E%90%E5%AD%A6/">分析学</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Mathematics/">Mathematics</a>
-            
-              <a href="/tags/Analysis/">Analysis</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/07/31/math-algebra/algebra-projection/" target="_self">
-          代数概念整理：映射
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/07/31/math-algebra/algebra-projection/" target="_self">
-          
-          定义  设 \(X,Y\) 为两个集合，\(f\) 为某种使得 \(X\) 中的每一个元素都对应于 \(Y\) 中某个元素的规则，则称 \(f\) 为 \(X\) 到 \(Y\) 的一个映射，记为 \(f:X \to Y\) ， \(X\) 称为 \(f\) 的定义域， \(Y\) 称为 \(f\) 的陪域 设 \(f:X \to Y\) 为一映射，则 \(X\) 中的元素 \(a\) 在 \(f
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-07-31 15:00" pubdate>
-              2020-07-31
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E4%BB%A3%E6%95%B0%E5%AD%A6/">代数学</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Mathematics/">Mathematics</a>
-            
-              <a href="/tags/Algebra/">Algebra</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2020/07/30/math-algebra/algebra-set/" target="_self">
-          代数概念整理：集合
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2020/07/30/math-algebra/algebra-set/" target="_self">
-          
-          定义  若 \(a\) 为 \(S\) 中的一个元素，则称 \(a\) 包含于 \(S\) ，记为 \(a \in S\) ；若 \(a\) 不为 \(S\) 中的任一元素，则称 \(a\) 不包含于 \(S\) ，记为 \(a \notin S\) 设 \(S,T\) 为两个集合，若 \(\forall a \in S\) ，成立 \(a \in T\) ，则称 \(S\) 是 \(T\) 的一
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2020-07-30 15:31" pubdate>
-              2020-07-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E4%BB%A3%E6%95%B0%E5%AD%A6/">代数学</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Mathematics/">Mathematics</a>
-            
-              <a href="/tags/Algebra/">Algebra</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-
-
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span>
-    </span>
-  </nav>
-
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer-Science</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Operating-System/">Operating-System</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/06/02/dase-math/dase-math-assignment-4/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数据科学与工程数学基础 作业4</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/27/os/os-exp-chrt/">
+                        <span class="hidden-mobile">操作系统实验 进程调度EDF</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -523,6 +400,19 @@
   
 
 
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
 
 
 
