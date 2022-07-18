@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://gonggongjohn.me/2021/12/24/machine-learning/dase-alg-exp-summary/pdfminer_success.png">
 <meta property="og:image" content="http://gonggongjohn.me/2021/12/24/machine-learning/dase-alg-exp-summary/pdfminer_fail.png">
 <meta property="article:published_time" content="2021-12-24T03:00:00.000Z">
-<meta property="article:modified_time" content="2022-02-16T10:29:57.182Z">
+<meta property="article:modified_time" content="2022-03-06T15:03:20.128Z">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta property="article:tag" content="Computer-Science">
 <meta property="article:tag" content="Machine-Learning">
@@ -302,7 +302,7 @@
 <img src="/2021/12/24/machine-learning/dase-alg-exp-summary/pdfminer_fail.png" srcset="/img/loading.gif" lazyload class="" title="pdfminer_fail">
 <p>。可以看到，由于PDF是以矢量图的方式对元素进行排布，其排布并不完全按照视觉上的排布顺序，因此该方法并不能准确的抽取出文档中的相应文本。</p>
 <p>事实上，我们可以通过对PDF文档进行<strong>版面分析（Layout Analysis）</strong>的方式提取论文的原始文本，但这一做法就导致不确定因素更多，使问题变得更为复杂，因此我们不做考虑。</p>
-<p>幸运的是，Arxiv提供了论文源文件的下载地址，这也就意味着我们可以直接获取到论文的Latex源代码。因此，我们只需要直接从Latex文档中对纯文本进行抽取即可。Latex是一种标准化的排版工具，我们可以通过声明式的代码语言在一个Latex文档中插入各种元素。由于我们只需要对其中的纯文本进行分析，因此这些元素在当前的任务下是多余的。这时，我们就需要使用正则表达式对其进行替换。例如，对于<strong>\cite{}</strong>，我们就可以使用正则表达式 <span class="math inline">\(cite\)</span><span class="math inline">\(\{(.*?)\)</span>$}将其匹配出来（Figure ）。</p>
+<p>幸运的是，Arxiv提供了论文源文件的下载地址，这也就意味着我们可以直接获取到论文的Latex源代码。因此，我们只需要直接从Latex文档中对纯文本进行抽取即可。Latex是一种标准化的排版工具，我们可以通过声明式的代码语言在一个Latex文档中插入各种元素。由于我们只需要对其中的纯文本进行分析，因此这些元素在当前的任务下是多余的。这时，我们就需要使用正则表达式对其进行替换。例如，对于<strong>\cite{}</strong>，我们就可以使用正则表达式 \\cite\{(.*?)\}将其匹配出来。</p>
 <h2 id="方法">方法</h2>
 <h3 id="朴素枚举法">朴素枚举法</h3>
 <h3 id="贪心算法爬山算法">贪心算法（爬山算法）</h3>
@@ -355,6 +355,12 @@ ROUGE-N = \frac{|N-Gram_{Extracted} \cap N-Gram_{Reference}|}{|N-Gram_{Reference
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/03/16/contemporary-ai/contemporary-ai-exp-1/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">当代人工智能项目一 文本分类</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

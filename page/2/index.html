@@ -194,6 +194,55 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/06/01/os/os-exp-io/" target="_self">
+          操作系统实验 I/O子系统
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/06/01/os/os-exp-io/" target="_self">
+          
+          目的 在Minix3中创建一块可用的RAM盘，并比较其与DISK盘在各类存取方式下的速度。 内容与设计思想  在Minix3中安装一块 X MB大小的RAM盘（Minix中已有6块用户可用RAM盘，7块系统保留RAM盘），可以挂载并且存取文件操作。 测试RAM盘和DISK盘的文件读写速度，分析其读写速度差异原因。  实验过程 Minix3的存储管理策略 与其整体系统构架类似，Minix3的I/O构
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-06-01 11:54" pubdate>
+              2021-06-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Computer-Science/">Computer-Science</a>
+            
+              <a href="/tags/Operating-System/">Operating-System</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/04/27/os/os-exp-chrt/" target="_self">
           操作系统实验 进程调度EDF
         </a>
@@ -202,7 +251,7 @@
       <p class="index-excerpt">
         <a href="/2021/04/27/os/os-exp-chrt/" target="_self">
           
-          This page is temporarily forbidden for the course regulation.
+          目的 修改MINIX3系统内核，增加一个系统调用chrt，并在其中实现EDF(Earlist-Deadline-First)进程调度算法。 内容与设计思想  提供设置进程执行期限的系统调度chrt(long deadline)，用于将调用该系统调用的进程设为实时进程，其执行的期限为：从调用处开始deadline秒。例如：  1234#include&lt;unistd.h&gt;  ...chrt
         </a>
       </p>
 
@@ -491,7 +540,7 @@
       <p class="index-excerpt">
         <a href="/2021/03/02/os/os-exp-shell/" target="_self">
           
-          This page is temporarily forbidden for the course regulation.
+          目的 在MINIX环境下通过系统调用实现一个基本的Shell。 内容与设计思想 Shell能解析的命令行如下:  带参数的程序运行功能。  1program arg1 arg2 ... argN  重定向功能，将文件作为程序的输入/输出。   “&gt;”表示覆盖写  1program arg1 arg2 ... argN &gt; output-file  “&gt;&gt;”表示追加写  1p
         </a>
       </p>
 
@@ -617,55 +666,6 @@
               <a href="/tags/Computer-Science/">Computer-Science</a>
             
               <a href="/tags/Computer-System/">Computer-System</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/08/algorithm/course-exp/algorithm-exp13/" target="_self">
-          求解最大团
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/08/algorithm/course-exp/algorithm-exp13/" target="_self">
-          
-          内容与设计思想 给定一个图，如下所示。请找出这个图的最大团。
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-08 11:45" pubdate>
-              2021-01-08
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Computer-Science/">Computer-Science</a>
-            
-              <a href="/tags/Algorithm/">Algorithm</a>
             
           </div>
         
