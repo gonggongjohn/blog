@@ -1,0 +1,552 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="GONGGONGJOHN">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="摘要 多模态学习是近几年来机器学习中的一个较为新兴的领域，不同模态的组合和应用场景延伸出了一系列多模态学习任务。其中，多模态情感分析作为一个经典的多模态任务，有着极为广泛的应用，也是现如今建立多模态模型的一项常用的基准评价任务。在本文中，我们从零开始设计并实现了一个基于Transformer构架的文本-图像双模态情感分析模型，并使用预训练和对比学习方法来提升其分类效果。通过与一系列经典及较新的单模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="当代人工智能 课程项目五 多模态情感分析实验报告">
+<meta property="og:url" content="http://gonggongjohn.me/2022/07/05/contemporary-ai/contemporary-ai-exp-5/index.html">
+<meta property="og:site_name" content="GONGGONGJOHN&#39;s Blog">
+<meta property="og:description" content="摘要 多模态学习是近几年来机器学习中的一个较为新兴的领域，不同模态的组合和应用场景延伸出了一系列多模态学习任务。其中，多模态情感分析作为一个经典的多模态任务，有着极为广泛的应用，也是现如今建立多模态模型的一项常用的基准评价任务。在本文中，我们从零开始设计并实现了一个基于Transformer构架的文本-图像双模态情感分析模型，并使用预训练和对比学习方法来提升其分类效果。通过与一系列经典及较新的单模">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://gonggongjohn.me/img/contai_project5.png">
+<meta property="article:published_time" content="2022-07-05T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-16T09:27:44.644Z">
+<meta property="article:author" content="GONGGONGJOHN">
+<meta property="article:tag" content="Computer-Science">
+<meta property="article:tag" content="Artificial-Intelligence">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://gonggongjohn.me/img/contai_project5.png">
+  
+  
+  <title>当代人工智能 课程项目五 多模态情感分析实验报告 - GONGGONGJOHN&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"gonggongjohn.me","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="GONGGONGJOHN's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>GONGGONGJOHN&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="当代人工智能 课程项目五 多模态情感分析实验报告">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-07-05 10:00" pubdate>
+        2022年7月5日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      54 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">当代人工智能 课程项目五 多模态情感分析实验报告</h1>
+            
+            <div class="markdown-body">
+              <h2 id="摘要">摘要</h2>
+<p>多模态学习是近几年来机器学习中的一个较为新兴的领域，不同模态的组合和应用场景延伸出了一系列多模态学习任务。其中，多模态情感分析作为一个经典的多模态任务，有着极为广泛的应用，也是现如今建立多模态模型的一项常用的基准评价任务。在本文中，我们从零开始设计并实现了一个基于Transformer构架的文本-图像双模态情感分析模型，并使用预训练和对比学习方法来提升其分类效果。通过与一系列经典及较新的单模态和多模态基准模型进行比较，我们得以较为全面的衡量所设计模型的精度和特点。最后，我们通过消融实验，探究了模型在单模态输入下的分类表现，以及预训练为模型来带来的精度提升幅度。</p>
+<p>本项目中涉及的所有核心代码均由本人亲自实现，代码中所有借鉴其他模型的地方，报告中已全部给出相关原文或地址。</p>
+<p><strong>关键字：多模态情绪识别，Transformer, XLMRoBERTa，Swin Transformer，预训练模型，对比学习</strong></p>
+<h2 id="项目介绍">项目介绍</h2>
+<h3 id="任务介绍">任务介绍</h3>
+<p>传统机器学习领域往往是针对单模态数据来进行处理和分析的，而真实世界中，一个事物的特征往往由多个模态共同组成，在许多场景下，我们需要共同考虑这些特征才能得到一个较好的表征。多模态学习正是在这样的背景下所提出的。传统的多模态学习模型往往由多个单模态模型及一系列融合技巧组成，而随着近年来预训练方法的提出，多模态预训练模型也正逐渐成为多模态理解模型的主流，尤其是在<strong>视觉-语言领域</strong>取得了显著的效果。</p>
+<p>在多模态任务中，<strong>多模态情感分析</strong>是一个经典且十分重要的任务。根据模态数据的不同组合，多模态情感分析能够广泛地用于不同的场景任务下，例如产品口碑分析、大众情绪倾向分析及心理健康预警等。由于图像和文本是真实世界中主流且较易处理的数据模态，因此这里我们近考虑这种双模态情况。<strong>图像-文本双模态情感分析</strong>任务的具体表述如下：对于一组<strong>匹配的图像文本对</strong> <span class="math inline">\((I, T) \in \mathcal{D}\)</span>，要求给出一个<strong>情感倾向分类结果</strong> <span class="math inline">\(c \in \mathcal{C}\)</span>，使得该情感是对应图像文本对所表现出的情感倾向。</p>
+<h3 id="数据集介绍">数据集介绍</h3>
+<p>本项目所使用的数据集为一个给定的数据集，该数据集中共包含了<strong>5129</strong>组匹配的图像-文本对。其中，训练集共有<strong>4000</strong>个样本，每个样本带有一个与之对应的情感分类标签，其具体分布如下表所示；测试集共有<strong>511</strong>个样本，测试集的情感标签需要我们使用模型推理得到。</p>
+<table>
+<thead>
+<tr class="header">
+<th>标签</th>
+<th>样本数（图像-文本对）</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>积极（Positive）</td>
+<td>2388</td>
+</tr>
+<tr class="even">
+<td>中性（Neutral）</td>
+<td>419</td>
+</tr>
+<tr class="odd">
+<td>消极（Negative）</td>
+<td>1193</td>
+</tr>
+<tr class="even">
+<td><strong>总计</strong></td>
+<td><strong>4000</strong></td>
+</tr>
+</tbody>
+</table>
+<p>在数据集中，一个带标签样本的结构如下图所示。由于数据集是从互联网的非结构化信息中抽取的，数据集中的同质样本规格并不统一，且文字样本中还存在着一些无关信息。可以看到，数据集中图像和文本对于情感倾向的判断均或多或少确实一些信息，需要结合两种模态的特征才能得到一个较为准确的情感倾向分类。</p>
+<img src="/2022/07/05/contemporary-ai/contemporary-ai-exp-5/dataset_visualize.png" srcset="/img/loading.gif" lazyload class="" title="dataset_visualize">
+<h2 id="基准模型">基准模型</h2>
+<h3 id="单模态模型">单模态模型</h3>
+<h4 id="bert">Bert</h4>
+<h4 id="xlmroberta">XLMRoBERTa</h4>
+<h4 id="resnet">ResNet</h4>
+<h4 id="swin-transformer">Swin Transformer</h4>
+<h3 id="双模态模型">双模态模型</h3>
+<h4 id="特征拼接">特征拼接</h4>
+<h4 id="加性模型">加性模型</h4>
+<h2 id="多模态情感分类模型ptamsc">多模态情感分类模型——PTAMSC</h2>
+<p>下面我们将引入一种改进的多模态情感分类模型，我们将其称为<strong>PTAMSC（Pure Transformer-flavored Augmented Multi-modal Sentiment Classifier）</strong>。我们将从模型构架、预训练过程与下游训练过程分别阐述该模型的相关细节。</p>
+<h3 id="模型构架">模型构架</h3>
+<p>从上面的基准模型中我们可以看出，单模态模型并不能够利用完整的输入信息，使得其情感分类效果存在上限；而使用简易的拼接或加性模型的双模态方法并不能将不同模态地表征数据合理地对其并结合在一起，使得分类效果反而出现了下降。受<strong>Transformer Encoder</strong>的启发，<strong>Cross Attention</strong>机制天然适用于对不同的表征进行融合和关注，这也自然地使得其能够较好地应用到多模态特征融合中。参考Zhen Li等人提出的<strong>CLMLF</strong>模型构架，本文的多模态情感分类模型基本构架如下图所示。</p>
+<img src="/2022/07/05/contemporary-ai/contemporary-ai-exp-5/ptamsc_structure.png" srcset="/img/loading.gif" lazyload class="" title="ptamsc_structure">
+<h3 id="预训练任务多模态情感预分类">预训练任务——多模态情感预分类</h3>
+<h3 id="下游推理">下游推理</h3>
+<h4 id="对比学习">对比学习</h4>
+<h4 id="损失函数">损失函数</h4>
+<h2 id="实验">实验</h2>
+<h3 id="数据集预处理">数据集预处理</h3>
+<h3 id="超参数调优">超参数调优</h3>
+<h3 id="训练过程">训练过程</h3>
+<h3 id="结果">结果</h3>
+<h2 id="消融试验">消融试验</h2>
+<h3 id="单模态输入">单模态输入</h3>
+<h3 id="预训练带来的提升">预训练带来的提升</h3>
+<h2 id="总结">总结</h2>
+<p>在本文中，我们对多模态情感分析任务进行了全面的探索和建模。在对不同模态的各种基准模型进行分析和借鉴后，我们从零开始设计并实现了一个基于全Transformer构架的多模态情感分类模型PTAMSC。通过引入预训练和对比学习方法，我们得以显著地提升模型对情感特征的学习和捕捉能力。在目标数据集上，PTAMSC的分类表现全面超过了几种经典的基准模型，且通过消融实验我们可以发现，模型中所使用的几种训练和处理技巧均发挥了作用。最后，我们使用训练完成的模型对目标测试集进行了情感标签推理，结果可见随附的<strong>test_predict.txt</strong>文件。</p>
+<h2 id="references">References</h2>
+<ol type="1">
+<li>Jay Alammar. The illustrated bert, elmo, and co. (how nlp cracked transfer learning). https://jalammar.github.io/illustrated-bert/, 2018.</li>
+<li>Dzmitry Bahdanau, Kyunghyun Cho, and Yoshua Bengio. Neural machine transla- tion by jointly learning to align and translate. CoRR, abs/1409.0473, 2015.</li>
+<li>Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guil- laume Wenzek, Francisco Guzmán, Edouard Grave, Myle Ott, Luke Zettlemoyer, and Veselin Stoyanov. Unsupervised cross-lingual representation learning at scale. In Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics, pages 8440–8451, Online, July 2020. Association for Computational Linguistics.</li>
+<li>Alexis CONNEAU and Guillaume Lample. Cross-lingual language model pretraining. In H. Wallach, H. Larochelle, A. Beygelzimer, F. d'Alché-Buc, E. Fox, and R. Garnett, editors, Advances in Neural Information Processing Systems, volume 32. Curran Associates, Inc., 2019.</li>
+<li>Feilong Chen, Duzhan Zhang, Minglun Han, Xiuyi Chen, Jing Shi, Shuang Xu, and Bo Xu. Vlp: A survey on vision-language pre-training. 02 2022.</li>
+<li>Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pretraining of deep bidirectional transformers for language understanding. In Proceed- ings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota, June 2019. Association for Computational Linguistics.</li>
+<li>Dan Hendrycks and Kevin Gimpel. Gaussian error linear units (gelus), 2016.</li>
+<li>Kaiming He, X. Zhang, Shaoqing Ren, and Jian Sun. Deep residual learning for image recognition. 2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), pages 770–778, 2016.</li>
+<li>Ilya Loshchilov and Frank Hutter. Fixing weight decay regularization in adam. ArXiv, abs/1711.05101, 2017.</li>
+<li>Ze Liu, Han Hu, Yutong Lin, Zhuliang Yao, Zhenda Xie, Yixuan Wei, Jia Ning, Yue Cao, Zheng Zhang, Li Dong, Furu Wei, and Baining Guo. Swin transformer v2: Scaling up capacity and resolution. In International Conference on Computer Vision and Pattern Recognition (CVPR), 2022.</li>
+<li>Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin, and Baining Guo. Swin transformer: Hierarchical vision transformer using shifted windows. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV), 2021.</li>
+<li>Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike Lewis, Luke Zettlemoyer, and Veselin Stoyanov. Roberta: A robustly optimized bert pretraining approach. ArXiv, abs/1907.11692, 2019.</li>
+<li>Zhen Li, Bing Xu, Conghui Zhu, and Tiejun Zhao. CLMLF:a contrastive learning and multi-layer fusion method for multimodal sentiment detection. In Findings of the Association for Computational Linguistics: NAACL 2022. Association for Com- putational Linguistics, 2022.</li>
+<li>Yan Ling, Jianfei Yu, and Rui Xia. Vision-language pre-training for multimodal aspect-based sentiment analysis. In Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 2149– 2159, Dublin, Ireland, May 2022. Association for Computational Linguistics.</li>
+<li>Teng Niu, Shiai Zhu, Lei Pang, and Abdulmotaleb El Saddik. Sentiment analysis on multi-view social data. In Qi Tian, Nicu Sebe, Guo-Jun Qi, Benoit Huet, Richang Hong, and Xueliang Liu, editors, MultiMedia Modeling, pages 15–27, Cham, 2016. Springer International Publishing.</li>
+<li>Aäron van den Oord, Yazhe Li, and Oriol Vinyals. Representation learning with contrastive predictive coding. CoRR, abs/1807.03748, 2018.</li>
+<li>Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Ł ukasz Kaiser, and Illia Polosukhin. Attention is all you need. In I. Guyon, U. Von Luxburg, S. Bengio, H. Wallach, R. Fergus, S. Vishwanathan, and R. Garnett, editors, Advances in Neural Information Processing Systems, volume 30. Curran Associates, Inc., 2017.</li>
+<li>Thomas Wolf, Lysandre Debut, Victor Sanh, Julien Chaumond, Clement Delangue, Anthony Moi, Pierric Cistac, Tim Rault, Rémi Louf, Morgan Funtowicz, Joe Davi- son, Sam Shleifer, Patrick von Platen, Clara Ma, Yacine Jernite, Julien Plu, Can- wen Xu, Teven Le Scao, Sylvain Gugger, Mariama Drame, Quentin Lhoest, and Alexander M. Rush. Transformers: State-of-the-art natural language processing. In Proceedings of the 2020 Conference on Empirical Methods in Natural Language Pro- cessing: System Demonstrations, pages 38–45, Online, October 2020. Association for Computational Linguistics.</li>
+<li>Chuhan Wu, Fangzhao Wu, Tao Qi, Yongfeng Huang, and Xing Xie. Fastformer: Additive attention can be all you need. CoRR, abs/2108.09084, 2021.</li>
+<li>Nan Xu and Wenji Mao. Multisentinet: A deep semantic network for multimodal sentiment analysis. In Proceedings of the 2017 ACM on Conference on Information and Knowledge Management, CIKM ’17, page 2399–2402, New York, NY, USA, 2017. Association for Computing Machinery.</li>
+<li>Aston Zhang, Zachary C. Lipton, Mu Li, and Alexander J. Smola. Dive into deep learning. arXiv preprint arXiv:2106.11342, 2021.</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%BD%93%E4%BB%A3%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">当代人工智能</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Science/">Computer-Science</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Artificial-Intelligence/">Artificial-Intelligence</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/30/contemporary-ai/contemporary-ai-exp-4/">
+                        <span class="hidden-mobile">当代人工智能 课程项目四 预训练模型的加载与使用（Transformers）实验报告</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
