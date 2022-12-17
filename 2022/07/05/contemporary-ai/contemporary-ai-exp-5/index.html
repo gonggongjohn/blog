@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://gonggongjohn.me/img/contai_project5.png">
 <meta property="article:published_time" content="2022-07-05T02:00:00.000Z">
-<meta property="article:modified_time" content="2022-12-16T09:27:44.644Z">
+<meta property="article:modified_time" content="2022-12-17T06:09:51.377Z">
 <meta property="article:author" content="GONGGONGJOHN">
 <meta property="article:tag" content="Computer-Science">
 <meta property="article:tag" content="Artificial-Intelligence">
@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.4k 字
+      11k 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      54 分钟
+      95 分钟
     </span>
   
 
@@ -294,18 +294,55 @@
 <h3 id="模型构架">模型构架</h3>
 <p>从上面的基准模型中我们可以看出，单模态模型并不能够利用完整的输入信息，使得其情感分类效果存在上限；而使用简易的拼接或加性模型的双模态方法并不能将不同模态地表征数据合理地对其并结合在一起，使得分类效果反而出现了下降。受<strong>Transformer Encoder</strong>的启发，<strong>Cross Attention</strong>机制天然适用于对不同的表征进行融合和关注，这也自然地使得其能够较好地应用到多模态特征融合中。参考Zhen Li等人提出的<strong>CLMLF</strong>模型构架，本文的多模态情感分类模型基本构架如下图所示。</p>
 <img src="/2022/07/05/contemporary-ai/contemporary-ai-exp-5/ptamsc_structure.png" srcset="/img/loading.gif" lazyload class="" title="ptamsc_structure">
+<p>首先，文本序列 <span class="math inline">\(\{s_1, s_2, \cdots, s_k \}\)</span> 和原始图像 <span class="math inline">\(I \in \mathbb{R}^{c \times w \times h}\)</span> 分别通过各自的特征提取骨架网络得到对应的特征表示 <span class="math inline">\(\{t1, t_2, \cdots, t_k \}\)</span> 和 <span class="math inline">\(\{i_1, i_2, \cdots, i_p \}\)</span>。随后，我们将其送入一个 <span class="math inline">\(L\)</span> 层的<strong>Transformer编码器</strong>，得到模态融合特征 <span class="math inline">\(\{m_1, m_2, \cdots, m_q \}\)</span>（其中 <span class="math inline">\(q = k + p\)</span>）。由于Transformer编码器得到的特征是分散在各个Token上的，因此我们再将其送入一个新的自注意力层得到整个序列的聚合特征表示 <span class="math inline">\(\{m_1&#39;, m_2&#39;, \cdots, m_q&#39; \}\)</span>。最后，我们将该特征表示连接到一个 <span class="math inline">\(q \to 3\)</span> 的线性层，即可得到最终的类别概率输出。</p>
+<p>对于本实验，我们统一使用<strong>xlm-roberta-base</strong>和<strong>swin-base</strong>作为骨干网络的模型构架，因此特征长度 <span class="math inline">\(k = 768, p = 1024\)</span>。为了能够使其统一输入模态融合编码器，我们在实际实现时在图像特征提取器上方额外增加了两层Transformer编码器，这一结构结合下面的对比学习任务从一定程度上也可以实现文字表征和图像表征的<strong>特征对齐</strong>。我们使用<strong>GELU</strong>作为层与层之间非线性变换的激活函数，并使用<strong>点积模型</strong>作为自注意力层的打分计算模型。</p>
 <h3 id="预训练任务多模态情感预分类">预训练任务——多模态情感预分类</h3>
+<p>由于上面设计的网络是一个全Transformer的结构，借鉴Bert等预训练模型的思想，我们同样可以考虑对该模型进行以提升其特征提取能力。通常来说，对模型的预训练可以通过或任务来完成，其中前者多用于视觉模型，后者多用于语义模型。然而，一般的图像-文本自监督预训练任务如等往往考虑的是图文之间内在特征的匹配程度，这与我们共同考虑获得一个外在情感打分的任务并不一致。由于情感分类本质上是一个监督学习任务，因此我们可以直接将这一任务也作为预训练时的任务，通过引入额外的数据集来让模型获得更好的初始特征提取能力，同时也彻底解决了预训练和下游任务不匹配的问题。Yan Ling等人的研究也表明了这一预训练任务本身就具有很强的有效性。</p>
+<p>我们使用数据集对模型进行了预训练。该数据集由Niu Teng等人于2016年提出，是一个经典的双模态情感分析数据集，其具体样本分布及数量如下表所示（Table ）。由于该数据集中的样本同样为图像+文本，且目标类别数同样为3，因此十分适合作为当前场景下的预训练数据集。</p>
+<p>我们以 <span class="math inline">\(9:1\)</span> 将数据集划分为了训练集和验证集。在预训练阶段，我们同时输入图像、文本和标签对模型进行监督训练，并使用作为模型的损失函数。对于超参数设置，我们将设为，特征提取骨架网络学习率设置为，其他部分学习率设置为，使用分别作为模型的参数优化器和学习率规划器，共训练代。随后，我们使用一张显卡作为硬件环境对模型进行了预训练，训练中的Loss和在验证集上的分类准确率如下图所示（Figure ）。可以看到，预训练后的模型在验证集上的分类精度F1值能达到约，且Loss随着预训练的过程推进逐步下降，表明该预训练任务及数据集是合适的，且模型在预训练过程中能够正确收敛。</p>
+<img src="/2022/07/05/contemporary-ai/contemporary-ai-exp-5/ptamsc_pretrain_summary.png" srcset="/img/loading.gif" lazyload class="" title="ptamsc_pretrain_summary">
 <h3 id="下游推理">下游推理</h3>
 <h4 id="对比学习">对比学习</h4>
+<p>接下来我们在目标数据集上对模型进行训练。由于深度神经网络本质上是一个多层非线性模型，若直接使用原始数据对其进行训练，则其输出特征的距离语义无法明确。为了让模型能够更好地区分不同情感倾向的样本特征，我们可以采用的方法来专门对模型的正负样本特征进行强化。对比学习是一种自监督的学习方法，其通过将样本划分为正负样本，并尝试找到一种空间表征，使得正样本或负样本间的距离尽可能小，同时又使得正样本和负样本之间的距离足够的大。对于当前任务来说，我们希望拥有相同情感标签的输出表征足够的近，而拥有相反情感标签的输出表征足够的远。因此，对于一个拥有情感标签的样本，我们将所有同批次中标签为的样本均视为正样本，而将同批次中标签为或的样本视为负样本；相反的，对于标签为“消极”的样本，我们则将同批次中标签同为“消极”的样本视为正样本，反之则视为负样本。</p>
+<p>我们采用CLMLF中基于标签的对比学习算法来从正负样本中获得对比学习损失。具体来说，对于一组数据中的两个同标签样本 <span class="math inline">\(x_i, x_j \in \mathcal{D}\)</span>，设其通过上述网络结构后的特征向量分别为 <span class="math inline">\(y_i, y_j\)</span>，则其损失函数被定义为</p>
+<p><span class="math display">\[
+l_{ij} = -\log \frac{\exp \left\{ y_i^T y_j / \tau \right\}}{\sum_{y_k \in \mathcal{D} \land k \neq i} \exp \left\{ y_i^T y_k / \tau \right\} }
+\]</span> 其中 <span class="math inline">\(\tau\)</span> 为。这一损失函数本质上即为对比学习中最常用的。从公式中我们可以看到，只有当两个正样本间的点积足够小，而所有正负样本对间的点积结果足够大，该损失的结果才会达到最小。</p>
+<p>对数据集中所有满足以上条件的样本对计算上述损失并进行加权平均，就得到了整个网络的，也即 <span class="math display">\[
+\mathcal{L}_{Contrastive} = \frac{1}{|Pair(\mathcal{D})|} \sum_{(i, j) \in Pair(\mathcal{D})} l_{ij}
+\]</span></p>
 <h4 id="损失函数">损失函数</h4>
+<p>由于当前任务是一个监督多分类问题，因此我们使用交叉熵作为损失函数的主干部分。为了提升模型的分类表现，我们将上面提到的对比学习损失通过加权和的方式融入最终的损失函数中。 于是，整个模型的损失函数即为</p>
+<p><span class="math display">\[
+\mathcal{L} = \lambda_1 \mathcal{L}_{Cross-Entropy} + \lambda_2 \mathcal{L}_{Contrastive}
+\]</span> 其中 <span class="math inline">\(\mathcal{L}_{Cross-Entropy}\)</span> 为交叉熵损失，<span class="math inline">\(\mathcal{L}_{Contrastive}\)</span> 为上述的对比学习损失，<span class="math inline">\(\lambda_1\)</span> 和 <span class="math inline">\(\lambda_2\)</span> 分别为两个子损失函数的权重。通过网格搜索，我们将其确定为 <span class="math inline">\(\boldsymbol{\lambda_1 = 0.55, \lambda_2 = 0.45}\)</span>。</p>
 <h2 id="实验">实验</h2>
 <h3 id="数据集预处理">数据集预处理</h3>
+<p>为了使得目标数据集能够适配模型的输入结构并取得较优的效果，我们需要首先对数据集的文字和图像部分分别进行预处理。</p>
+<p>通过读入数据集我们可以发现，原始数据集中文本数据所使用的存储编码并不一致，部分文件使用常规的及格式无法正确读取，如下图所示（Figure ）。</p>
+<img src="/2022/07/05/contemporary-ai/contemporary-ai-exp-5/dataset_encode_error_detail.png" srcset="/img/loading.gif" lazyload class="" title="dataset_encode_error_detail">
+<p>我们通过VSCode使用UTF-8编码打开读取错误的文件，发现其存在着大量特殊字符（Figure ）。经过一系列尝试，我们发现这些文件在使用编码时均能够正确显示。正确解码后，我们发现其均为日语（Figure ）。为了方便模型统一进行推理，我们将这些文件统一翻译为了英文，并使用UTF-8编码进行保存。</p>
+<img src="/2022/07/05/contemporary-ai/contemporary-ai-exp-5/dataset_errortext_utf8_decode.png" srcset="/img/loading.gif" lazyload class="" title="dataset_errortext_utf8_decode">
+<img src="/2022/07/05/contemporary-ai/contemporary-ai-exp-5/dataset_errortext_gbk_decode.png" srcset="/img/loading.gif" lazyload class="" title="dataset_errortext_gbk_decode">
+<p>接下来我们对数据集中的图像进行预处理。由于数据集是从非结构化数据中获得的，因此每张图像的大小并不一致。为了适配目标神经网络的输入格式，我们需要将其变换至统一的尺寸。由于ImageNet中图像的尺寸为 <span class="math inline">\(\boldsymbol{224 \times 224}\)</span>，本项目中所使用的视觉预训练模型也均为该数据集上训练的模型，因此这里我们也将目标图片调整至这一大小。具体的，我们先将图像等比缩放至最近邻2的倍数大小，随后通过中心裁剪的方式将其变换为目标尺寸。随后，为了让模型更快收敛，我们参考ResNet实现中的建议，将每张图像标准化为一个特定统计特征的张量。具体实现代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 图像变换</span><br>img_transformer = transforms.Compose(<br>    [<br>        transforms.Resize(img_aligned_scale(target_size)),<br>        transforms.CenterCrop(target_size),<br>        transforms.ToTensor(),<br>        transforms.Normalize(mean=[<span class="hljs-number">0.485</span>, <span class="hljs-number">0.456</span>, <span class="hljs-number">0.406</span>], std=[<span class="hljs-number">0.229</span>, <span class="hljs-number">0.224</span>, <span class="hljs-number">0.225</span>])<br>    ]<br>)<br><span class="hljs-comment"># 将图像等比放大至2的倍数</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">img_aligned_scale</span>(<span class="hljs-params">target_size</span>):</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">20</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-number">2</span> ** i &gt;= target_size:<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">2</span> ** i<br>    <span class="hljs-keyword">return</span> target_size<br></code></pre></td></tr></table></figure>
+<p>经过上述预处理后，我们使用Pytorch中提供的和接口，即可将其组合为模型训练所要求的数据格式。</p>
 <h3 id="超参数调优">超参数调优</h3>
+<p>特别的，我们使用的方法对两个、以及三个超参数的最优值进行了搜索，使用值作为结果评价指标，结果如下图所示（Figure ）。可以看到，随着微调学习率的增大，网络的训练结果先增大后剧烈降低，并在时分类表现达到最优；当恒定微调学习率时，网络的训练结果随着融合学习率的增大缓慢上升，并在学习率超过时出现了较大的波动；学习率预热步数对训练结果的影响较小，随着预热步数的增大，训练结果同样呈现先增大后见小的趋势，当时，网络取得了最优的分类表现。</p>
+<img src="/2022/07/05/contemporary-ai/contemporary-ai-exp-5/xlm_hypertune.png" srcset="/img/loading.gif" lazyload class="" title="xlm_hypertune">
+<p>根据上面的搜索结果，我们将三个超参数确定为。对于其他超参数，我们采用了作为本文所有模型的优化器，其三个核心超参数被分别设为。为了权衡模型的训练性能需求，我们将统一设置为，训练次数Epoch被设为。</p>
 <h3 id="训练过程">训练过程</h3>
+<p>我们首先使用上面提到的任务和配置对模型进行了预训练。以该结果作为模型的初始参数，我们继续使用目标数据集进行微调训练任务。对于数据集中的带标签部分，我们按照 <span class="math inline">\(8:2\)</span> 将其划分为了训练集和测试集，并使用上面的探索结果作为训练时的超参数设置。训练时的Loss及模型在验证集上的分类表现随迭代次数的变化情况如下图所示（Figure ）。可以看到，训练Loss在步及步附近均出现了明显的下降，其他区间均在一个特定范围中波动，总体上呈缓慢下降的趋势，表明模型优化成功。随着训练过程的推进，模型在验证集上的分类准确率最高达到了约，F1值最高达到约，这一结果均发生在约第个Epoch的训练中。</p>
+<img src="/2022/07/05/contemporary-ai/contemporary-ai-exp-5/ptamsc_train_summary.png" srcset="/img/loading.gif" lazyload class="" title="ptamsc_train_summary">
 <h3 id="结果">结果</h3>
+<p>我们实现并采用相同配置训练了上述所有提到的基准模型和主模型，并在验证集上使用各个模型对样本的情感类别标签进行了推理。对于分类效果，我们采用、、及作为评价指标。各个模型在验证集上的分类表现如下表所示（Table ）：</p>
+<p>可以看到，PTAMSC模型在验证集上的分类正确率达到了，F1值达到了，且在各个指标上均优于所有其他的单模态及多模态基准模型，表明了模型设计的合理性。此外，我们还能发现，对于单模态分类模型，强Baseline的表现均优于基础Baseline，其中XLMRoBERTa相比Bert提升了，Swin Transformer相比ResNet更是提升了。对于多模态模型而言，简单的拼接和加性多模态模型由于其特征无法对齐，分类效果反而出现了一定的下降。</p>
 <h2 id="消融试验">消融试验</h2>
+<p>接下来我们通过消融实验来探究多模态输入及训练过程中的预训练操作对模型分类表现带来的影响。</p>
 <h3 id="单模态输入">单模态输入</h3>
+<p>要研究多模态输入对分类结果的影响，我们将输入数据分别改为单文字和单图像输入，并使用训练完成的模型对输入数据进行推理，对比其分类精度。这里我们采用了两种方法实现这一操作：一种是直接取模型中对应模态的推理部分，也即模型分别退化为基准模型中的和分类模型；另一种是将其中一个模态的原始数据输入网络，另一模态的数据采用的方式进行替代并输入网络，类似于增加了一个输入掩码。单模态及多模态输入在验证集上的分类结果如下表所示（Figure ）。可以看到，相比退化的分类模型，在原始模型上通过遮盖文字的方式进行单模态输入带来了的正确率提升，而通过遮盖图像的方式进行单模态输入正确率则反而下降了。结合了双模态输入的原始模型分类表现则显著地高于单模态输入的所有模型，这一结果也证明了所设计模型对双模态特征表征融合的有效性。</p>
 <h3 id="预训练带来的提升">预训练带来的提升</h3>
+<p>接下来我们继续探究预训练是否给模型带来了分类精度的提升。在同样的训练配置下，我们分别采用和的方式重新对模型进行训练，并在验证集上进行分类验证，结果如下表所示（Table ）。可以看到，经过预训练的模型在验证集上带来了的正确率提升。继续分析后三个指标我们可以发现，预训练主要提升了模型分类的，也即模型对于每个类别的更高。</p>
 <h2 id="总结">总结</h2>
 <p>在本文中，我们对多模态情感分析任务进行了全面的探索和建模。在对不同模态的各种基准模型进行分析和借鉴后，我们从零开始设计并实现了一个基于全Transformer构架的多模态情感分类模型PTAMSC。通过引入预训练和对比学习方法，我们得以显著地提升模型对情感特征的学习和捕捉能力。在目标数据集上，PTAMSC的分类表现全面超过了几种经典的基准模型，且通过消融实验我们可以发现，模型中所使用的几种训练和处理技巧均发挥了作用。最后，我们使用训练完成的模型对目标测试集进行了情感标签推理，结果可见随附的<strong>test_predict.txt</strong>文件。</p>
 <h2 id="references">References</h2>
@@ -533,20 +570,5 @@
 <script  src="/js/boot.js" ></script>
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
